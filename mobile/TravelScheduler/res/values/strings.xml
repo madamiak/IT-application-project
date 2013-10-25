@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Travel Scheduler</string>
+    <string name="tab_my_trips">My Travels</string>
+    <string name="tab_ranking">Ranking</string>
+    <string name="tab_location">Location</string>
+    <string name="trip_separator">" - "</string>
+    <string name="splash_screen_content_description">Travel Scheduler</string>
+    <string name="my_trips_actions_refresh">Refresh</string>
+
+</resources>
