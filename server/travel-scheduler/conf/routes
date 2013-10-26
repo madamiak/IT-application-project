@@ -6,5 +6,17 @@
 GET     /                           controllers.Application.index()
 GET     /map                        controllers.MapController.index()
 
+# User RESTful API
+POST   /user/authenticate          controllers.Application.authenticate(login, password)
+PUT    /user/register              controllers.Application.register(userData : String)
+GET    /user/:id/preferences       controllers.PreferencesController.getById(id : String)
+
+# Trip RESTful API
+GET    /places/destinations/:name  controllers.TripController.getPlaceByPhrase(name : String)
+GET    /places/destination/:id     controllers.TripController.getPlaceById(id : String)
+GET    /places/destination/:id/images controllers.TripController.getPlaceImageById(id : String)
+GET    /places/pois                controllers.TripController.getPois()
+GET    /places/poi/:id             controllers.TripController.getPoiById(id : String)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
