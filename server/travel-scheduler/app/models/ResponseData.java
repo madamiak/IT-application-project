@@ -1,4 +1,4 @@
-package models.authentication;
+package models;
 
 public class ResponseData
 {

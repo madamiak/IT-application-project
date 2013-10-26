@@ -1,4 +1,4 @@
-package models.authentication;
+package models;
 
 import com.fasterxml.jackson.databind.JsonNode;
 

@@ -1,8 +1,7 @@
 package controllers;
 
-import models.authentication.Response;
+import models.User;
 import play.mvc.*;
-import services.authentication.AuthenticationService;
 
 import views.html.*;
 
@@ -15,9 +14,7 @@ public class Application extends Controller
 	}
 	
 	public static Result authenticate(String login, String password) {
-		final AuthenticationService authenticationService = new AuthenticationService();
-		final Response response = authenticationService.authenticate(login, password);
-		return ok(response.toJson());
+		return ok(User.authenticate(login, password).toJson());
 	}
 	
 	public static Result register(String userData) {
