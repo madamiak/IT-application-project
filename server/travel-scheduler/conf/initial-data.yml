@@ -1,0 +1,5 @@
+users:
+
+    - !!models.User
+        login: login
+        password: "P@SSW0RD"

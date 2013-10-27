@@ -21,4 +21,11 @@ public class Application extends Controller
 		return ok();
 	}
 
+	public static Result getAllUsers() {
+		return ok("size: " + User.find.all().size());
+	}
+	
+	public static Result getUserById(int id) {
+		return ok(User.find.where().eq("id", id).findUnique().toString());
+	}
 }
