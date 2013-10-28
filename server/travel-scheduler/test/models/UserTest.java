@@ -9,6 +9,8 @@ import models.User;
 
 import org.junit.Test;
 
+import com.avaje.ebean.Ebean;
+
 public class UserTest
 {
 	private static final String CORRECT_PASSWORD = "P@SSW0RD";
@@ -67,7 +69,7 @@ public class UserTest
 			}
 		});
 	}
-	
+
 	@Test
 	public void whenIncorrectCredentials_ShouldReturnUnauthorizedCode() throws Exception
 	{
@@ -80,7 +82,7 @@ public class UserTest
 			}
 		});
 	}
-	
+
 	@Test
 	public void whenIncorrectCredentials_ShouldReturnAuthorizingFailedMessage() throws Exception
 	{
@@ -93,7 +95,7 @@ public class UserTest
 			}
 		});
 	}
-	
+
 	@Test
 	public void whenIncorrectCredentials_ShouldReturnNumberOfTrialsLeft() throws Exception
 	{
@@ -103,6 +105,135 @@ public class UserTest
 			{
 				Response response = User.authenticate(INCORRECT_LOGIN, INCORRECT_PASSWORD);
 				assertEquals(3, response.data.trialsLeft);
+			}
+		});
+	}
+
+	@Test
+	public void shouldBeAbleToDeleteUser() throws Exception
+	{
+		running(fakeApplication(), new Runnable()
+		{
+			public void run()
+			{
+				Ebean.beginTransaction();
+				try
+				{
+					User user = new User();
+					user.login = CORRECT_LOGIN;
+					user.password = CORRECT_PASSWORD;
+					User.delete(user);
+					assertEquals(ResponseCode.UNAUTHORIZED, User.authenticate(CORRECT_LOGIN, CORRECT_PASSWORD).code);
+				} finally
+				{
+					Ebean.rollbackTransaction();
+				}
+			}
+		});
+	}
+
+	@Test
+	public void whenTryingToDeleteNotExistingUser_ShouldNotThrowAnyException() throws Exception
+	{
+		running(fakeApplication(), new Runnable()
+		{
+			public void run()
+			{
+				Ebean.beginTransaction();
+				try
+				{
+					User user = new User();
+					user.login = INCORRECT_LOGIN;
+					user.password = INCORRECT_PASSWORD;
+					User.delete(user);
+				} finally
+				{
+					Ebean.rollbackTransaction();
+				}
+			}
+		});
+	}
+
+	@Test
+	public void whenRegisteringWithCorrectData_ShouldReturnOKResponse() throws Exception
+	{
+		running(fakeApplication(), new Runnable()
+		{
+			public void run()
+			{
+				Ebean.beginTransaction();
+				try
+				{
+					User user = new User();
+					final Response response = User.register(user);
+					assertEquals(ResponseCode.OK, response.code);
+				} finally
+				{
+					Ebean.rollbackTransaction();
+				}
+			}
+		});
+	}
+
+	@Test
+	public void whenRegisteringWithCorrectData_ShouldReturnProperMessage() throws Exception
+	{
+		running(fakeApplication(), new Runnable()
+		{
+			public void run()
+			{
+				Ebean.beginTransaction();
+				try
+				{
+					User user = new User();
+					final Response response = User.register(user);
+					assertEquals("User has been created", response.message);
+				} finally
+				{
+					Ebean.rollbackTransaction();
+				}
+			}
+		});
+	}
+
+	@Test
+	public void whenRegisteringWithCorrectData_ShouldReturnUserId() throws Exception
+	{
+		running(fakeApplication(), new Runnable()
+		{
+			public void run()
+			{
+				Ebean.beginTransaction();
+				try
+				{
+					User user = new User();
+					final Response response = User.register(user);
+					assertEquals(2, response.data.userId);
+				} finally
+				{
+					Ebean.rollbackTransaction();
+				}
+			}
+		});
+	}
+
+	@Test
+	public void whenRegisteringWithCorrectData_ShouldPersistUserInDB() throws Exception
+	{
+		running(fakeApplication(), new Runnable()
+		{
+			public void run()
+			{
+				Ebean.beginTransaction();
+				try
+				{
+					User user = new User();
+					User.register(user);
+					assertEquals(2, User.find.all().size());
+				} finally
+				{
+					Ebean.rollbackTransaction();
+				}
 			}
 		});
 	}
