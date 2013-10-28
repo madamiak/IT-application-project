@@ -2,5 +2,5 @@ package models;
 
 public enum ResponseCode
 {
-	OK, UNAUTHORIZED
+	OK, UNAUTHORIZED, FAILED
 }

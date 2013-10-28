@@ -8,7 +8,7 @@ GET     /map                        controllers.MapController.index()
 
 # User RESTful API
 POST   /user/authenticate          controllers.Application.authenticate(login, password)
-PUT    /user/register              controllers.Application.register(userData : String)
+PUT    /user/register              controllers.Application.register()
 GET    /user/:id/preferences       controllers.PreferencesController.getById(id : String)
 
 # Trip RESTful API
