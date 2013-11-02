@@ -1,0 +1,33 @@
+
+
+<div ng-controller="MainController" class="container-fluid">
+
+	<div class="row-fluid">
+		<h1>Travel scheduler</h1>
+
+		<div class="span4">
+
+			<tabset>
+				<tab heading="Plan">
+					{{searchMessage}}
+					<div search-form></div>
+				</tab>
+
+				<tab heading="Explore" select="explore()">
+					Explore trips!
+				</tab>
+
+				<tab heading="Share" select="share()">
+					Share.
+				</tab>
+			</tabset>
+
+		</div>
+
+		<div class="span7">
+			content here
+		</div>
+
+	</div>
+</div>
+
