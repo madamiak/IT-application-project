@@ -8,7 +8,7 @@ public class Response
 {
 	public ResponseCode code;
 	public String message;
-	public ResponseData data;
+	public Object data;
 
 	public JsonNode toJson()
 	{

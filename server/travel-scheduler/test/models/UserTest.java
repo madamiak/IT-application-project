@@ -37,14 +37,14 @@ public class UserTest extends IntegrationBaseTest
 	public void whenCorrectCredentials_ShouldReturnUserId() throws Exception
 	{
 		Response response = User.authenticate(CORRECT_LOGIN, CORRECT_PASSWORD);
-		assertEquals(1, response.data.userId);
+		assertEquals(1, ((AuthenticationOKResponseData) response.data).userId);
 	}
 
 	@Test
 	public void whenCorrectCredentials_ShouldReturnLogin() throws Exception
 	{
 		Response response = User.authenticate(CORRECT_LOGIN, CORRECT_PASSWORD);
-		assertEquals(CORRECT_LOGIN, response.data.login);
+		assertEquals(CORRECT_LOGIN, ((AuthenticationOKResponseData) response.data).login);
 	}
 
 	@Test
@@ -65,7 +65,7 @@ public class UserTest extends IntegrationBaseTest
 	public void whenIncorrectCredentials_ShouldReturnNumberOfTrialsLeft() throws Exception
 	{
 		Response response = User.authenticate(INCORRECT_LOGIN, INCORRECT_PASSWORD);
-		assertEquals(3, response.data.trialsLeft);
+		assertEquals(3, ((FailedResponseData) response.data).trialsLeft);
 	}
 
 	@Test
@@ -139,7 +139,7 @@ public class UserTest extends IntegrationBaseTest
 		{
 			User user = new User();
 			final Response response = User.register(user);
-			assertEquals(2, response.data.userId);
+			assertEquals(2, ((RegistrationOKResponseData) response.data).userId);
 		} finally
 		{
 			Ebean.rollbackTransaction();
@@ -205,7 +205,7 @@ public class UserTest extends IntegrationBaseTest
 			user.login = CORRECT_LOGIN;
 			user.password = CORRECT_PASSWORD;
 			final Response response = User.register(user);
-			assertEquals(3, response.data.trialsLeft);
+			assertEquals(3, ((FailedResponseData) response.data).trialsLeft);
 		} finally
 		{
 			Ebean.rollbackTransaction();

@@ -30,5 +30,5 @@ public class Application extends Controller
 	public static Result getUserById(int id) {
 		return ok(User.find.where().eq("id", id).findUnique().toString());
 	}
-	
+
 }

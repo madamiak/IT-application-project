@@ -1,8 +1,7 @@
 package models;
 
-public class ResponseData
+public class AuthenticationOKResponseData
 {
 	public long userId;
 	public String login;
-	public int trialsLeft;
 }
