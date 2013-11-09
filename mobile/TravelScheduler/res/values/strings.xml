@@ -8,5 +8,8 @@
     <string name="trip_separator">" - "</string>
     <string name="splash_screen_content_description">Travel Scheduler</string>
     <string name="my_trips_actions_refresh">Refresh</string>
+    <string name="travel_item_rating_image_content_description">Rating Image</string>
+    <string name="travel_item_poi_information">POI</string>
+    <string name="travel_item_transport_type_content_description">transport type image</string>
 
 </resources>
