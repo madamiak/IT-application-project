@@ -16,6 +16,7 @@ public class User extends Model
 	private static final String AUTHORIZING_FAILED = "Authorizing failed";
 	private static final String USER_HAS_BEEN_CREATED = "User has been created";
 	private static final String USER_ALREADY_EXISTS = "User already exists";
+
 	public static final Finder<Long, User> find = new Finder<Long, User>(Long.class, User.class);
 
 	@Id
@@ -42,7 +43,8 @@ public class User extends Model
 	public static void delete(User user)
 	{
 		final User found = find.where().eq("login", user.login).findUnique();
-		if(found != null) {
+		if (found != null)
+		{
 			found.delete();
 		}
 	}
@@ -52,7 +54,7 @@ public class User extends Model
 	{
 		return String.format("[id: %s, login: %s, password: %s]", id, login, password);
 	}
-	
+
 	public JsonNode toJson()
 	{
 		return Json.toJson(this);
@@ -63,19 +65,18 @@ public class User extends Model
 		final Response response = new Response();
 		response.code = ResponseCode.OK;
 		response.message = USER_HAS_BEEN_CREATED;
-		response.data = new ResponseData();
-		response.data.userId = user.id;
-		response.data.login = user.login;
+		response.data = new RegistrationOKResponseData();
+		((RegistrationOKResponseData) response.data).userId = user.id;
 		return response;
 	}
-	
+
 	private static Response registrationFailed(User user)
 	{
 		final Response response = new Response();
 		response.code = ResponseCode.FAILED;
 		response.message = USER_ALREADY_EXISTS;
-		response.data = new ResponseData();
-		response.data.trialsLeft = 3;
+		response.data = new FailedResponseData();
+		((FailedResponseData) response.data).trialsLeft = 3;
 		return response;
 	}
 
@@ -84,9 +85,9 @@ public class User extends Model
 		final Response response = new Response();
 		response.code = ResponseCode.OK;
 		response.message = USER_AUTHENTICATED;
-		response.data = new ResponseData();
-		response.data.userId = user.id;
-		response.data.login = user.login;
+		response.data = new AuthenticationOKResponseData();
+		((AuthenticationOKResponseData) response.data).userId = user.id;
+		((AuthenticationOKResponseData) response.data).login = user.login;
 		return response;
 	}
 
@@ -95,8 +96,8 @@ public class User extends Model
 		final Response response = new Response();
 		response.code = ResponseCode.UNAUTHORIZED;
 		response.message = AUTHORIZING_FAILED;
-		response.data = new ResponseData();
-		response.data.trialsLeft = 3;
+		response.data = new FailedResponseData();
+		((FailedResponseData) response.data).trialsLeft = 3;
 		return response;
 	}
 }
