@@ -1,16 +1,16 @@
 package pl.travelscheduler.mobile.views;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import pl.travelscheduler.mobile.R;
 import pl.travelscheduler.mobile.adapters.TravelAdapter;
-import pl.travelscheduler.mobile.model.Point;
-import pl.travelscheduler.mobile.model.Rating;
-import pl.travelscheduler.mobile.model.TransportType;
+import pl.travelscheduler.mobile.helpers.ServicesHelper;
+import pl.travelscheduler.mobile.listeners.LocalTravelOnItemClickListener;
+import pl.travelscheduler.mobile.model.DataContainer;
+import pl.travelscheduler.mobile.model.DataContainer.SOURCE;
 import pl.travelscheduler.mobile.model.Travel;
+import pl.travelscheduler.mobile.model.UserContainer;
+import pl.travelscheduler.mobile.tasks.LoadOnlineTravelsTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -20,11 +20,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MyTripsFragment extends Fragment 
 {
-	public MyTripsFragment() {
+	private TextView txtVLocalLabel;
+	private ListView tripsList;
+	private TextView txtVOnlineLabel;
+	private ListView tripsOnlineList;
+	private TextView txtVNoLocalTrips;
+	
+	public MyTripsFragment() 
+	{
 	}
 
 	@Override
@@ -34,22 +42,68 @@ public class MyTripsFragment extends Fragment
 		setHasOptionsMenu(true);
 		View rootView = inflater.inflate(R.layout.fragment_my_trips, container,
 				false);
-		ListView tripsList = (ListView) rootView
+		txtVLocalLabel = (TextView) rootView.findViewById(R.id.my_trips_local_label);
+		tripsList = (ListView) rootView
 				.findViewById(R.id.my_trips_list);
-		List<Travel> travels = new ArrayList<Travel>();
-		Point wroclaw = new Point("Wroc³aw", 17.038333, 51.107778);
-		Point katowice = new Point("Katowice", 19.0, 50.25);
-		Point krakow = new Point("Kraków", 19.938333, 50.061389);
-		Point poznan = new Point("Poznañ", 16.934278, 52.4085);
-		Calendar firstStartingDate = new GregorianCalendar(2013, 11, 11, 12, 00);
-		Calendar secondStartingDate = new GregorianCalendar(2013, 10, 1, 17, 00);
-		travels.add(new Travel(wroclaw, krakow, new Point[] { katowice },
-				Rating.MEDIUM, firstStartingDate, TransportType.CAR, 280));
-		travels.add(new Travel(wroclaw, poznan, null, Rating.NONE,
-				secondStartingDate, TransportType.CAR, 180));
-		TravelAdapter tripAdapter = new TravelAdapter(getActivity(), travels);
-		tripsList.setAdapter(tripAdapter);
+		txtVOnlineLabel = (TextView) rootView.findViewById(R.id.my_trips_online_label);
+		tripsOnlineList = (ListView) rootView
+				.findViewById(R.id.my_trips_to_download);
+		txtVNoLocalTrips = (TextView) rootView.findViewById(R.id.my_trips_no_local_trips);
+		
+		displayLocalTravels();		
+		
+		displayOnlineTravels();
+		
 		return rootView;
+	}
+	
+	private void displayLocalTravels()
+	{
+		List<Travel> localTravels = DataContainer.getLocalTravels();
+		if(localTravels != null && localTravels.size() > 0)
+		{
+			tripsList.setVisibility(View.VISIBLE);
+			txtVNoLocalTrips.setVisibility(View.GONE);
+			TravelAdapter tripAdapter = new TravelAdapter(getActivity(), localTravels);
+			tripsList.setAdapter(tripAdapter);
+			tripsList.setOnItemClickListener(new LocalTravelOnItemClickListener(getActivity(), SOURCE.MY_TRAVELS));
+		}
+		else
+		{
+			txtVNoLocalTrips.setVisibility(View.VISIBLE);
+			tripsList.setVisibility(View.GONE);
+		}
+	}
+
+	private void displayOnlineTravels()
+	{
+		List<Travel> onlineTravels = DataContainer.getOnlineTravels();		
+		if(onlineTravels != null && onlineTravels.size() > 0)
+		{
+			showOnlineTravels(true);		
+			TravelAdapter onlineTripsAdapter = new TravelAdapter(getActivity(), onlineTravels);
+			tripsOnlineList.setAdapter(onlineTripsAdapter);
+		}
+		else
+		{
+			showOnlineTravels(false);
+		}
+	}
+	
+	private void showOnlineTravels(boolean show)
+	{
+		int visibility;
+		if(show)
+		{
+			visibility = View.VISIBLE;
+		}
+		else
+		{
+			visibility = View.GONE;
+		}
+		txtVLocalLabel.setVisibility(visibility);
+		txtVOnlineLabel.setVisibility(visibility);
+		tripsOnlineList.setVisibility(visibility);
 	}
 
 	@Override
@@ -65,8 +119,23 @@ public class MyTripsFragment extends Fragment
 		switch (item.getItemId()) 
 		{
 			case R.id.my_trips_action_refresh:
-				Toast.makeText(getActivity(), "Refreshing...", Toast.LENGTH_LONG)
-						.show();
+		        if(ServicesHelper.isInternetEnabled(getActivity()))
+		        {
+		        	if(UserContainer.isUserLoggedIn())
+		        	{
+		        		LoadOnlineTravelsTask task = new LoadOnlineTravelsTask(getActivity(), pl.travelscheduler.mobile.model.DataContainer.SOURCE.MY_TRAVELS);
+		        		task.execute((String)null);
+		        	}
+		        	else
+		        	{
+		        		Toast.makeText(getActivity(), "You have to log in first...", Toast.LENGTH_SHORT).show();
+		        	}
+		        }
+		        else
+		        {
+		        	Toast.makeText(getActivity(), "No Internet connection...", Toast.LENGTH_SHORT).show();
+		        }
+				displayOnlineTravels();
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);

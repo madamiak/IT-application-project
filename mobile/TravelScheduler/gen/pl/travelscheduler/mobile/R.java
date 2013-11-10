@@ -228,26 +228,35 @@ containing a value of this type.
     }
     public static final class id {
         public static final int hybrid=0x7f050004;
-        public static final int imgLogo=0x7f050008;
+        public static final int imgLogo=0x7f050010;
         public static final int map=0x7f050005;
-        public static final int my_trips_action_refresh=0x7f050014;
-        public static final int my_trips_list=0x7f050006;
+        public static final int my_trips_action_refresh=0x7f05001c;
+        public static final int my_trips_list=0x7f050008;
+        public static final int my_trips_local_label=0x7f050006;
+        public static final int my_trips_no_local_trips=0x7f050007;
+        public static final int my_trips_online_label=0x7f050009;
+        public static final int my_trips_to_download=0x7f05000a;
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
-        public static final int pager=0x7f050013;
-        public static final int ranking_list=0x7f050007;
+        public static final int pager=0x7f05001b;
+        public static final int ranking_action_refresh=0x7f05001d;
+        public static final int ranking_list=0x7f05000d;
+        public static final int ranking_local_label=0x7f05000b;
+        public static final int ranking_no_local_trips=0x7f05000c;
+        public static final int ranking_online_label=0x7f05000e;
+        public static final int ranking_to_download=0x7f05000f;
         public static final int satellite=0x7f050002;
         public static final int terrain=0x7f050003;
-        public static final int travelItemDistance=0x7f05000f;
-        public static final int travelItemFromToLayout=0x7f050009;
-        public static final int travelItemImgRating=0x7f050012;
-        public static final int travelItemImgTransportType=0x7f05000e;
-        public static final int travelItemInfoLayout=0x7f05000d;
-        public static final int travelItemPoiInfo=0x7f050011;
-        public static final int travelItemTime=0x7f050010;
-        public static final int travelItemTxtDestination=0x7f05000c;
-        public static final int travelItemTxtSeparator=0x7f05000b;
-        public static final int travelItemTxtSource=0x7f05000a;
+        public static final int travelItemDistance=0x7f050017;
+        public static final int travelItemFromToLayout=0x7f050011;
+        public static final int travelItemImgRating=0x7f05001a;
+        public static final int travelItemImgTransportType=0x7f050016;
+        public static final int travelItemInfoLayout=0x7f050015;
+        public static final int travelItemPoiInfo=0x7f050019;
+        public static final int travelItemTime=0x7f050018;
+        public static final int travelItemTxtDestination=0x7f050014;
+        public static final int travelItemTxtSeparator=0x7f050013;
+        public static final int travelItemTxtSource=0x7f050012;
     }
     public static final class layout {
         public static final int fragment_location=0x7f030000;
@@ -259,6 +268,7 @@ containing a value of this type.
     }
     public static final class menu {
         public static final int my_trips_actions=0x7f090000;
+        public static final int ranking_actions=0x7f090001;
     }
     public static final class string {
         public static final int app_name=0x7f060019;
@@ -353,6 +363,7 @@ containing a value of this type.
          */
         public static final int common_signin_button_text_long=0x7f060012;
         public static final int my_trips_actions_refresh=0x7f06001f;
+        public static final int ranking_actions_refresh=0x7f060026;
         public static final int splash_screen_content_description=0x7f06001e;
         public static final int tab_location=0x7f06001c;
         public static final int tab_my_trips=0x7f06001a;
@@ -361,6 +372,9 @@ containing a value of this type.
         public static final int travel_item_rating_image_content_description=0x7f060020;
         public static final int travel_item_transport_type_content_description=0x7f060022;
         public static final int trip_separator=0x7f06001d;
+        public static final int trips_list_local_label=0x7f060023;
+        public static final int trips_list_no_local_trips=0x7f060025;
+        public static final int trips_list_online_label=0x7f060024;
     }
     public static final class style {
         public static final int ActionBar_Solid_Tripadvisorstyle=0x7f080003;

@@ -11,5 +11,9 @@
     <string name="travel_item_rating_image_content_description">Rating Image</string>
     <string name="travel_item_poi_information">POI</string>
     <string name="travel_item_transport_type_content_description">transport type image</string>
+    <string name="trips_list_local_label">Downloaded</string>
+    <string name="trips_list_online_label">Online</string>
+    <string name="trips_list_no_local_trips">There are no downloaded travels&#x2026;</string>
+    <string name="ranking_actions_refresh">Refresh</string>
 
 </resources>

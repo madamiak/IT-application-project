@@ -26,6 +26,9 @@ public class ProgressDialog
 
     public void stop()
     {
-        progress.dismiss();
+    	if(progress.isShowing())
+    	{
+    		progress.cancel();
+    	}
     }
 }
