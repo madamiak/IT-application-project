@@ -5,5 +5,19 @@
         android:icon="@drawable/ic_action_refresh"
         android:title="@string/my_trips_actions_refresh"
         android:showAsAction="ifRoom"/>
+    
+
+    <item
+        android:id="@+id/my_trips_action_login"
+        android:icon="@drawable/ic_action_person"
+        android:title="@string/my_trips_actions_login"
+        android:showAsAction="ifRoom"/>
+    
+
+    <item
+        android:id="@+id/my_trips_action_logout"
+        android:icon="@drawable/ic_action_logout"
+        android:title="@string/my_trips_actions_logout"
+        android:showAsAction="ifRoom"/>
 
 </menu>

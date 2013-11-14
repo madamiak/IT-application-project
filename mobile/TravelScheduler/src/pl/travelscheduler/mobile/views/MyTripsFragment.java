@@ -4,12 +4,13 @@ import java.util.List;
 
 import pl.travelscheduler.mobile.R;
 import pl.travelscheduler.mobile.adapters.TravelAdapter;
+import pl.travelscheduler.mobile.dialogs.LoginDialog;
 import pl.travelscheduler.mobile.helpers.ServicesHelper;
+import pl.travelscheduler.mobile.helpers.SessionHelper;
 import pl.travelscheduler.mobile.listeners.LocalTravelOnItemClickListener;
 import pl.travelscheduler.mobile.model.DataContainer;
 import pl.travelscheduler.mobile.model.DataContainer.SOURCE;
 import pl.travelscheduler.mobile.model.Travel;
-import pl.travelscheduler.mobile.model.UserContainer;
 import pl.travelscheduler.mobile.tasks.LoadOnlineTravelsTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -109,8 +110,26 @@ public class MyTripsFragment extends Fragment
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) 
 	{
-		inflater.inflate(R.menu.my_trips_actions, menu);
 		super.onCreateOptionsMenu(menu, inflater);
+		
+		if(SessionHelper.isUserLoggedIn())
+		{
+			menu.add(Menu.NONE, R.id.my_trips_action_refresh, 0,
+					R.string.my_trips_actions_refresh)
+					.setIcon(R.drawable.ic_action_refresh)
+					.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+			menu.add(Menu.NONE, R.id.my_trips_action_logout, 1,
+					R.string.my_trips_actions_logout)
+					.setIcon(R.drawable.ic_action_logout)
+					.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		}
+		else
+		{
+			menu.add(Menu.NONE, R.id.my_trips_action_login, 1,
+					R.string.my_trips_actions_login)
+					.setIcon(R.drawable.ic_action_person)
+					.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		}
 	}
 
 	@Override
@@ -121,9 +140,9 @@ public class MyTripsFragment extends Fragment
 			case R.id.my_trips_action_refresh:
 		        if(ServicesHelper.isInternetEnabled(getActivity()))
 		        {
-		        	if(UserContainer.isUserLoggedIn())
+		        	if(SessionHelper.isUserLoggedIn())
 		        	{
-		        		LoadOnlineTravelsTask task = new LoadOnlineTravelsTask(getActivity(), pl.travelscheduler.mobile.model.DataContainer.SOURCE.MY_TRAVELS);
+		        		LoadOnlineTravelsTask task = new LoadOnlineTravelsTask(getActivity(), SOURCE.MY_TRAVELS);
 		        		task.execute((String)null);
 		        	}
 		        	else
@@ -136,6 +155,27 @@ public class MyTripsFragment extends Fragment
 		        	Toast.makeText(getActivity(), "No Internet connection...", Toast.LENGTH_SHORT).show();
 		        }
 				displayOnlineTravels();
+				return true;
+			case R.id.my_trips_action_login:
+		        if(ServicesHelper.isInternetEnabled(getActivity()))
+		        {
+		        	if(!SessionHelper.isUserLoggedIn())
+		        	{
+		        		LoginDialog dlg = new LoginDialog(getActivity());
+		        		dlg.show();
+		        	}
+		        }
+		        else
+		        {
+		        	Toast.makeText(getActivity(), "No Internet connection...", Toast.LENGTH_SHORT).show();
+		        }
+				displayOnlineTravels();
+				return true;
+			case R.id.my_trips_action_logout:
+		        SessionHelper.logOut();
+		        DataContainer.clearOnlineTravels();
+		        displayOnlineTravels();
+		        getActivity().invalidateOptionsMenu();
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Vibrator;
 
 public class ServicesHelper
 {
@@ -29,5 +30,11 @@ public class ServicesHelper
             return false;
         }
         return true;
+    }
+    
+    public static void vibrate(Activity activity, long milliseconds)
+    {
+    	Vibrator v = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
+    	v.vibrate(milliseconds);
     }
 }

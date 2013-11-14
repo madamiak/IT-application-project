@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Theme.Tripadvisorstyle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_action_person"
+        android:gravity="left|center_vertical"
+        android:padding="10dp"
+        android:text="@string/dialog_login_title"
+        android:textColor="@color/pressed_tripadvisorstyle"
+        android:textColorLink="@color/pressed_tripadvisorstyle"
+        android:textSize="19sp" >
+
+    </TextView>
+
+    <View
+        android:id="@+id/titleDivider"
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:background="@color/pressed_tripadvisorstyle" />
+
+    <LinearLayout
+        style="@style/Theme.Tripadvisorstyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/loginDialogUserNameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_login_username_label" />
+
+        <AutoCompleteTextView
+            android:id="@+id/loginDialogUserNameTxtV"
+            style="@style/Theme.Tripadvisorstyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:textColorLink="@color/pressed_tripadvisorstyle" >
+
+            <requestFocus />
+        </AutoCompleteTextView>
+
+        <TextView
+            android:id="@+id/loginDialogPasswordLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_login_password_label" />
+
+        <EditText
+            android:id="@+id/loginDialogPasswordTxtV"
+            style="@style/Theme.Tripadvisorstyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:textColorLink="@color/pressed_tripadvisorstyle" />
+    </LinearLayout>
+
+</LinearLayout>

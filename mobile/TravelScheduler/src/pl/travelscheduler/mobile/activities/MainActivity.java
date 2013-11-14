@@ -2,6 +2,7 @@ package pl.travelscheduler.mobile.activities;
 
 import pl.travelscheduler.mobile.R;
 import pl.travelscheduler.mobile.adapters.SectionsPagerAdapter;
+import pl.travelscheduler.mobile.helpers.SessionHelper;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -98,5 +99,15 @@ public class MainActivity extends FragmentActivity implements
     public void onTabReselected(ActionBar.Tab tab,
             FragmentTransaction fragmentTransaction)
     {
+    }
+    
+    @Override
+    protected void onDestroy()
+    {
+    	if(!SessionHelper.isUserLoggedIn())
+    	{
+    		SessionHelper.clearLastLoginData(this);
+    	}
+    	super.onDestroy();
     }
 }

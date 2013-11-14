@@ -147,4 +147,12 @@ public class DataContainer
 	{
 		return rankingLocalTravels.get(index);
 	}
+
+	public static void clearOnlineTravels()
+	{
+		if(onlineTravels != null)
+		{
+			onlineTravels.clear();
+		}
+	}
 }
