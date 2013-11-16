@@ -186,6 +186,8 @@ int string tab_ranking 0x7f06001b
 int string travel_item_poi_information 0x7f060023
 int string travel_item_rating_image_content_description 0x7f060022
 int string travel_item_transport_type_content_description 0x7f060024
+int string trip_local_context_item_delete 0x7f06002d
+int string trip_online_context_item_download 0x7f06002e
 int string trip_separator 0x7f06001d
 int string trips_list_local_label 0x7f060025
 int string trips_list_no_local_trips 0x7f060027

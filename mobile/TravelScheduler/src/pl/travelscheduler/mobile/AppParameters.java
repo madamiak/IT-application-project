@@ -9,7 +9,7 @@ public class AppParameters
 	public static String FILE_LAST_LOGIN = "last_login.tsc";
 	public static String FILE_USERNAMES = "user_names.tsc";
 	
-	public static String FOLER_TRAVELS = "ts_travels";
+	public static String FOLDER_TRAVELS = "ts_travels";
 	public static String FILE_MY_TRAVELS = "my_travels.tst";
 	public static String FILE_RANKING = "ranking.tst";
 }

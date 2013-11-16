@@ -21,5 +21,7 @@
     <string name="dialog_login_password_label">Password</string>
     <string name="dialog_login_title">Your Account</string>
     <string name="dialog_login_icon_content_description">Your Account Icon</string>
+    <string name="trip_local_context_item_delete">Delete</string>
+    <string name="trip_online_context_item_download">Download</string>
 
 </resources>

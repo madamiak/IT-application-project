@@ -19,8 +19,8 @@ public class SplashScreenActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen);
         
-        DataContainer.LoadTravels();
-        DataContainer.LoadRankingTravels();
+        DataContainer.LoadTravels(this);
+        DataContainer.LoadRankingTravels(this);
         if(ServicesHelper.isInternetEnabled(this))
         {            
             SessionHelper.firstLogIn(this);

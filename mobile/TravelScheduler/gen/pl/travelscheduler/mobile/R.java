@@ -388,6 +388,8 @@ containing a value of this type.
         public static final int travel_item_poi_information=0x7f060023;
         public static final int travel_item_rating_image_content_description=0x7f060022;
         public static final int travel_item_transport_type_content_description=0x7f060024;
+        public static final int trip_local_context_item_delete=0x7f06002d;
+        public static final int trip_online_context_item_download=0x7f06002e;
         public static final int trip_separator=0x7f06001d;
         public static final int trips_list_local_label=0x7f060025;
         public static final int trips_list_no_local_trips=0x7f060027;

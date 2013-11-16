@@ -30,22 +30,22 @@ public class FilesHelper
 			} 
 			catch (FileNotFoundException e) 
 			{
-				Toast.makeText(currentActivity, "Config loading error: file not found", Toast.LENGTH_SHORT).show();
+				Toast.makeText(currentActivity, "Loading error: file not found", Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
 			} 
 			catch (StreamCorruptedException e) 
 			{
-				Toast.makeText(currentActivity, "Config loading error: stream corrupted", Toast.LENGTH_SHORT).show();
+				Toast.makeText(currentActivity, "Loading error: stream corrupted", Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
 			} 
 			catch (IOException e) 
 			{
-				Toast.makeText(currentActivity, "Config loading error: I/O error", Toast.LENGTH_SHORT).show();
+				Toast.makeText(currentActivity, "Loading error: I/O error", Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
 			} 
 			catch (ClassNotFoundException e) 
 			{
-				Toast.makeText(currentActivity, "Config loading error: class not found", Toast.LENGTH_SHORT).show();
+				Toast.makeText(currentActivity, "Loading error: class not found", Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
 			}
 		}

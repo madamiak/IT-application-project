@@ -14,12 +14,15 @@ import pl.travelscheduler.mobile.model.Travel;
 import pl.travelscheduler.mobile.tasks.LoadOnlineTravelsTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +34,9 @@ public class MyTripsFragment extends Fragment
 	private TextView txtVOnlineLabel;
 	private ListView tripsOnlineList;
 	private TextView txtVNoLocalTrips;
+	
+	private final int DELETE_ITEM = 100;
+	private final int DOWNLOAD_ITEM = 200;
 	
 	public MyTripsFragment() 
 	{
@@ -51,11 +57,57 @@ public class MyTripsFragment extends Fragment
 				.findViewById(R.id.my_trips_to_download);
 		txtVNoLocalTrips = (TextView) rootView.findViewById(R.id.my_trips_no_local_trips);
 		
+		registerForContextMenu(tripsList);
+		registerForContextMenu(tripsOnlineList);
+		
 		displayLocalTravels();		
 		
 		displayOnlineTravels();
 		
 		return rootView;
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
+	{
+		if(v == tripsList)
+		{
+			AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+			Travel selectedTravel = DataContainer.getLocalTravel(info.position);
+		    menu.setHeaderTitle(selectedTravel.getName());
+		    menu.add(Menu.NONE, DELETE_ITEM, 0, R.string.trip_local_context_item_delete);
+		}
+		if(v == tripsOnlineList)
+		{
+			AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+			Travel selectedTravel = DataContainer.getOnlineTravel(info.position);
+			menu.setHeaderTitle(selectedTravel.getName());
+		    menu.add(Menu.NONE, DOWNLOAD_ITEM, 0, R.string.trip_online_context_item_download);
+		}
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item)
+	{
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
+				.getMenuInfo();
+		int menuItemIndex = item.getItemId();
+		if(menuItemIndex == DELETE_ITEM)
+		{
+			Travel selectedTravel = DataContainer.getLocalTravel(info.position);
+			DataContainer.removeTravel(selectedTravel, getActivity());
+			displayLocalTravels();
+			return true;
+		}
+		else if(menuItemIndex == DOWNLOAD_ITEM)
+		{
+			Travel selectedTravel = DataContainer.getOnlineTravel(info.position);
+			DataContainer.addTravelToLocal(selectedTravel, getActivity());
+			displayLocalTravels();
+			displayOnlineTravels();
+			return true;
+		}
+		return false;
 	}
 	
 	private void displayLocalTravels()
