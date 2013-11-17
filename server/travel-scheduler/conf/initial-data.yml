@@ -3,3 +3,48 @@ users:
     - !!models.User
         login: login
         password: "P@SSW0RD"
+
+
+destinations:
+
+    - !!models.Destination
+        id: 101
+        value: "Warszawa"
+
+    - !!models.Destination
+        id: 102
+        value: "Krakow"
+
+    - !!models.Destination
+        id: 103
+        value: "Lodz"
+
+    - !!models.Destination
+        id: 104
+        value: "Wroclaw"
+
+    - !!models.Destination
+        id: 105
+        value: "Poznan"
+
+    - !!models.Destination
+        id: 106
+        value: "Gdansk"
+        
+
+    - !!models.Destination
+        id: 107
+        value: "Szczecin"
+
+    - !!models.Destination
+        id: 108
+        value: "Bydgoszcz"
+
+    - !!models.Destination
+        id: 109
+        value: "Lublin"
+        
+
+    - !!models.Destination
+        id: 110
+        value: "Katowice"
