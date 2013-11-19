@@ -1,17 +1,29 @@
 	 <div ng-controller="SearchController">
 
-	 <form ng-submit="getTrip()">
-	 <ul class="unstyled">
-  <li ng-repeat="point in middlePoints">
-    <input type="text" ng-change="updateAutosugestion(point.name)" ng-model="point.name" placeholder="{{point.placeholder}}" typeahead="place for place in places | filter:$viewValue | limitTo:8" value="{{point.name}}">  <button type="button" class="btn btn-danger" ng-click="removeDirection(point.id)">&times;</button>
-  </li>
-</ul>
-      <button type="button" class="btn btn-success" ng-click="addDirection()">+</button> <input class="btn btn-primary" type="submit" value="search!"/>
 
+    <form ng-submit="getTrip()">
+
+      <ul class="unstyled">
+        <li ng-repeat="point in middlePoints">
+            <div class="controls">
+              <div class="input-prepend">
+                <span class="add-on"><i class="icon-map-marker"/></span>
+                <input type="text" ng-change="updateAutosugestion(point.place)" ng-model="point.place" placeholder="{{point.placeholder}}" typeahead="place as place.value for place in places | limitTo:8" typeahead-loading="isLoading" value="{{point.place}}" required> 
+            </div>
+          </div>
+        </li>
+      </ul>
+      <div ng:show="!!isLoading">loading...</div>
+    
+      <button type="button" class="btn btn-mini btn-success" ng-class="{disabled: !directionCanBeAdded()}" ng-click="addDirection()" popover="{{getAddDirectionMessage()}}" popover-trigger="mouseenter" popover-placement="bottom"><i class="icon-plus icon-white"/></button>
+
+      <button type="button" class="btn btn-mini btn-danger" ng-class="{disabled: !directionCanBeRemoved()}"ng-click="removeDirection()" popover="{{getRemoveDirectionMessage()}}" popover-trigger="mouseenter" popover-placement="bottom"><i class="icon-remove icon-white"/></button>
+
+      <button class="btn btn-primary" type="submit"><i class="icon-search icon-white"/> search</button>
     </form>
 
     <div id="searchSummary">
-    {{searchText}}
+      {{searchText}}
     </div>
 
-    </div>
+  </div>
