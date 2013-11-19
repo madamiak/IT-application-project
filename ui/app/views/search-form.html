@@ -2,15 +2,11 @@
 
 	 <form ng-submit="getTrip()">
 	 <ul class="unstyled">
-		<li><input type="text" ng-model="from" 
-               placeholder="Start..." typeahead="place for place in places | filter:$viewValue | limitTo:8"/>
-        </li>
-	 
-      <li><input type="text" ng-model="to"
-               placeholder="End..." typeahead="place for place in places | filter:$viewValue | limitTo:8"/>
-       </li>
+  <li ng-repeat="point in middlePoints">
+    <input type="text" ng-change="updateAutosugestion(point.name)" ng-model="point.name" placeholder="{{point.placeholder}}" typeahead="place for place in places | filter:$viewValue | limitTo:8" value="{{point.name}}">  <button type="button" class="btn btn-danger" ng-click="removeDirection(point.id)">&times;</button>
+  </li>
 </ul>
-      <button class="btn">Add direction...</button> <input class="btn-primary" type="submit" value="search!">
+      <button type="button" class="btn btn-success" ng-click="addDirection()">+</button> <input class="btn btn-primary" type="submit" value="search!"/>
 
     </form>
 
