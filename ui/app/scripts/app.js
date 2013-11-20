@@ -4,7 +4,8 @@ angular.module('uiApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'google-maps'
 ])
   .config(function ($routeProvider) {
     $routeProvider

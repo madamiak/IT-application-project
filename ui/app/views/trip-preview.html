@@ -1,0 +1,15 @@
+<div ng-controller="TripPreviewController" id="trip-preview">
+ 	<div  ng-show="mapIsVisible">
+ 	
+ 		<h3>Your trip</h3>
+ 	
+ 		<div id="test-map" class="google-maps" style="height:400px;">
+ 		</div>
+ 		
+ 	
+ 		<h4>Trip overview</h4>
+ 		<div ng-repeat="point in points">
+ 		Point: {{point.place.value}}
+ 		</div>	
+ 	</div>
+</div>

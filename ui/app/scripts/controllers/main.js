@@ -6,11 +6,7 @@ angular.module('uiApp').controller('MainController', function ($scope) {
 		
 		$scope.explore = function($scope) {}
 
-		$scope.$on('showMap', function(event,points) {
-			console.log("event happened.");
-			console.log(points);
 		
-		});
 	
 });
 
@@ -21,3 +17,9 @@ angular.module('uiApp').directive('searchForm', function() {
 	};
 });
 
+angular.module('uiApp').directive('tripPreview', function() {
+	return {
+		templateUrl: 'views/trip-preview.html',
+		controller: 'TripPreviewController'
+	};
+});
