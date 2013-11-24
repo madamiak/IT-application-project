@@ -5,46 +5,74 @@ users:
         password: "P@SSW0RD"
 
 
-destinations:
+points:
 
-    - !!models.Destination
-        id: 101
-        value: "Warszawa"
+    - !!models.Point
+        idpoints: 1
+        point_name: Warszawa
+        point_longitude: 1
+        point_langitude: 1
+        point_type: 1
 
-    - !!models.Destination
-        id: 102
-        value: "Krakow"
+    - !!models.Point
+        idpoints: 2
+        point_name: Krakow
+        point_longitude: 2
+        point_langitude: 2
+        point_type: 1
 
-    - !!models.Destination
-        id: 103
-        value: "Lodz"
+    - !!models.Point
+        idpoints: 3
+        point_name: Lodz
+        point_longitude: 3
+        point_langitude: 3
+        point_type: 1
 
-    - !!models.Destination
-        id: 104
-        value: "Wroclaw"
+    - !!models.Point
+        idpoints: 4
+        point_name: Wroclaw
+        point_longitude: 4
+        point_langitude: 4
+        point_type: 1
 
-    - !!models.Destination
-        id: 105
-        value: "Poznan"
+    - !!models.Point
+        idpoints: 5
+        point_name: Poznan
+        point_longitude: 5
+        point_langitude: 5
+        point_type: 1
 
-    - !!models.Destination
-        id: 106
-        value: "Gdansk"
-        
+    - !!models.Point
+        idpoints: 6
+        point_name: Gdansk
+        point_longitude: 6
+        point_langitude: 6
+        point_type: 1
 
-    - !!models.Destination
-        id: 107
-        value: "Szczecin"
+    - !!models.Point
+        idpoints: 7
+        point_name: Szczecin
+        point_longitude: 7
+        point_langitude: 7
+        point_type: 1
 
-    - !!models.Destination
-        id: 108
-        value: "Bydgoszcz"
+    - !!models.Point
+        idpoints: 8
+        point_name: Bydgoszcz
+        point_longitude: 8
+        point_langitude: 8
+        point_type: 1
 
-    - !!models.Destination
-        id: 109
-        value: "Lublin"
-        
+    - !!models.Point
+        idpoints: 9
+        point_name: Lublin
+        point_longitude: 9
+        point_langitude: 9
+        point_type: 1
 
-    - !!models.Destination
-        id: 110
-        value: "Katowice"
+    - !!models.Point
+        idpoints: 10
+        point_name: Katowice
+        point_longitude: 10
+        point_langitude: 10
+        point_type: 1

@@ -3,10 +3,13 @@
 
 # --- !Ups
 
-create table destination (
-  id                        bigint not null,
-  value                     varchar(255),
-  constraint pk_destination primary key (id))
+create table point (
+  idpoints                  integer not null,
+  point_name                varchar(255),
+  point_longitude           float,
+  point_langitude           float,
+  point_type                integer,
+  constraint pk_point primary key (idpoints))
 ;
 
 create table user (
@@ -16,7 +19,7 @@ create table user (
   constraint pk_user primary key (id))
 ;
 
-create sequence destination_seq;
+create sequence point_seq;
 
 create sequence user_seq;
 
@@ -27,13 +30,13 @@ create sequence user_seq;
 
 SET REFERENTIAL_INTEGRITY FALSE;
 
-drop table if exists destination;
+drop table if exists point;
 
 drop table if exists user;
 
 SET REFERENTIAL_INTEGRITY TRUE;
 
-drop sequence if exists destination_seq;
+drop sequence if exists point_seq;
 
 drop sequence if exists user_seq;
 
