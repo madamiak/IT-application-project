@@ -13,7 +13,7 @@ response().setHeader("Access-Control-Allow-Origin", "*");
 	}
 	
 	public static Result getPlaceById(String id) {
-		return ok();
+		return ok(Point.getById(Integer.parseInt(id)));
 	}
 	
 	public static Result getPlaceImageById(String id) {

@@ -43,6 +43,20 @@ public class Point extends Model
 		return json;
 	}
 
+	public static JsonNode getById(int id)
+	{
+		Point p=find.where().eq("idpoints", id).findUnique();
+		
+		DestinationDTO dto = new DestinationDTO();
+		dto.id=p.idpoints;
+		dto.value=p.point_name;
+		dto.details="";
+		dto.longn=p.point_longitude;
+		dto.latt=p.point_langitude;
+		JsonNode json = Json.toJson(dto);
+		return json;
+	}
+
 	public static Response add(Point point)
 	{
 		if (find.where().eq("point_name", point.point_name).findUnique() == null)
