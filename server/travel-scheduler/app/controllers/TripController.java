@@ -9,11 +9,11 @@ public class TripController extends Controller
 response().setHeader("Access-Control-Allow-Origin", "*");
   response().setHeader("Access-Control-Allow-Methods", "POST");
   response().setHeader("Access-Control-Allow-Headers", "accept, origin, Content-type, x-json, x-prototype-version, x-requested-with");  		
-		return ok(Point.getByName(name));
+		return ok(Point.getDestinationsByName(name));
 	}
 	
 	public static Result getPlaceById(String id) {
-		return ok(Point.getById(Integer.parseInt(id)));
+		return ok(Point.getDestinationById(Integer.parseInt(id)));
 	}
 	
 	public static Result getPlaceImageById(String id) {

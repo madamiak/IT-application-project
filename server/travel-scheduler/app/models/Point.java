@@ -42,7 +42,7 @@ public class Point extends Model
 	@JoinColumn(name="point_type")
 	public PointType type;
 
-	public static JsonNode getByName(String name)
+	public static JsonNode getDestinationsByName(String name)
 	{
 		List<Point> points=find.where().icontains("point_name", name).findList();
 		
@@ -58,7 +58,7 @@ public class Point extends Model
 		return json;
 	}
 
-	public static JsonNode getById(int id)
+	public static JsonNode getDestinationById(int id)
 	{
 		Point p=find.where().eq("idpoints", id).findUnique();
 		
