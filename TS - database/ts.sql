@@ -1232,6 +1232,8 @@ INSERT INTO `point_type` (`idpoint_type`, `type_category`) VALUES
 (1, 'Hotel');
 INSERT INTO `point_type` (`idpoint_type`, `type_category`) VALUES
 (2, 'Destination');
+INSERT INTO `point_type` (`idpoint_type`, `type_category`) VALUES
+(3, 'POI');
 
 -- --------------------------------------------------------
 
