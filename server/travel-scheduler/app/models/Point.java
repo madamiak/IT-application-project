@@ -42,9 +42,10 @@ public class Point extends Model
 	@JoinColumn(name="point_type")
 	public PointType type;
 
-	public static JsonNode getByName(String name)
+	public static JsonNode getDestinationByName(String name)
 	{
-		List<Point> points=find.where().icontains("point_name", name).findList();
+		PointType pt = PointType.getByName("Destination");
+		List<Point> points=find.where().icontains("point_name", name).eq("point_type", pt.id).findList();
 		
 		DestinationsDTO dto = new DestinationsDTO();
 		dto.destinations = new ArrayList<Destination>();
