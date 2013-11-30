@@ -23,11 +23,11 @@ public class TripController extends Controller {
 	}
 
 	public static Result getPois() {
-		return ok();
+		return ok(Point.getPOIs());
 	}
 
 	public static Result getPoiById(String id) {
-		return ok();
+		return ok(Point.getPOIById(Integer.parseInt(id)));
 	}
 
 }

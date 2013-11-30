@@ -10,9 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import models.destination.Destination;
-import models.destination.DestinationDTO;
-import models.destination.DestinationsDTO;
+import models.dto.DestinationDTO;
+import models.dto.DestinationsDTO;
+import models.dto.POIDTO;
+import models.dto.POIsDTO;
 import models.user.Response;
 import models.user.ResponseCode;
 import play.db.ebean.Model;
@@ -42,7 +43,7 @@ public class Point extends Model
 	@JoinColumn(name="point_type")
 	public PointType type;
 
-	public static JsonNode getDestinationsByName(String name)
+	public static JsonNode getDestinationByName(String name)
 	{
 		PointType pt = PointType.getByName("Destination");
 		List<Point> points=find.where().icontains("point_name", name).eq("point_type", pt.id).findList();
@@ -59,6 +60,22 @@ public class Point extends Model
 		return json;
 	}
 
+	public static JsonNode getPOIs()
+	{
+		PointType pt = PointType.getByName("POI");
+		List<Point> points=find.where().eq("point_type", pt.id).findList();
+		
+		POIsDTO dto = new POIsDTO();
+		dto.pois = new ArrayList<POI>();
+		for(int i=0; i<points.size(); i++){
+			POI dest = new POI();
+			dest.id=points.get(i).id;
+			dto.pois.add(dest);
+		}
+		JsonNode json = Json.toJson(dto);
+		return json;
+	}
+
 	public static JsonNode getDestinationById(int id)
 	{
 		Point p=find.where().eq("idpoints", id).findUnique();
@@ -67,6 +84,20 @@ public class Point extends Model
 		dto.id=p.id;
 		dto.value=p.name;
 		dto.details="";
+		dto.longn=p.longitude;
+		dto.latt=p.langitude;
+		JsonNode json = Json.toJson(dto);
+		return json;
+	}
+
+	public static JsonNode getPOIById(int id)
+	{
+		Point p=find.where().eq("idpoints", id).findUnique();
+		
+		POIDTO dto = new POIDTO();
+		dto.id=p.id;
+		dto.value=p.name;
+		dto.description="";
 		dto.longn=p.longitude;
 		dto.latt=p.langitude;
 		JsonNode json = Json.toJson(dto);
