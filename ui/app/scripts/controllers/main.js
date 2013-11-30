@@ -3,10 +3,12 @@
 
 angular.module('uiApp').controller('MainController', function ($scope) {
 		$scope.searchMessage='Type your destinations!';
-		$scope.explore = function($scope) {
-			alert("loading explore page...");
-		}
-	});
+		
+		$scope.explore = function($scope) {}
+
+		
+	
+});
 
 angular.module('uiApp').directive('searchForm', function() {
 	return {
@@ -15,3 +17,9 @@ angular.module('uiApp').directive('searchForm', function() {
 	};
 });
 
+angular.module('uiApp').directive('tripPreview', function() {
+	return {
+		templateUrl: 'views/trip-preview.html',
+		controller: 'TripPreviewController'
+	};
+});

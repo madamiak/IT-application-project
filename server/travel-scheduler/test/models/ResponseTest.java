@@ -1,6 +1,7 @@
 package models;
 
 import static org.junit.Assert.*;
+import models.user.Response;
 
 import org.junit.Test;
 

@@ -3,25 +3,32 @@
 
 # --- !Ups
 
+create table point (
+  idpoints                  integer auto_increment not null,
+  point_name                varchar(255),
+  point_longitude           float,
+  point_langitude           float,
+  point_type                integer,
+  constraint pk_point primary key (idpoints))
+;
+
 create table user (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   login                     varchar(255),
   password                  varchar(255),
   constraint pk_user primary key (id))
 ;
-
-create sequence user_seq;
 
 
 
 
 # --- !Downs
 
-SET REFERENTIAL_INTEGRITY FALSE;
+SET FOREIGN_KEY_CHECKS=0;
 
-drop table if exists user;
+drop table point;
 
-SET REFERENTIAL_INTEGRITY TRUE;
+drop table user;
 
-drop sequence if exists user_seq;
+SET FOREIGN_KEY_CHECKS=1;
 

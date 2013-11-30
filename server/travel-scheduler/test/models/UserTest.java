@@ -1,10 +1,12 @@
 package models;
 
 import static org.junit.Assert.*;
-
-import models.Response;
-import models.ResponseCode;
 import models.User;
+import models.user.AuthenticationOKResponseData;
+import models.user.FailedResponseData;
+import models.user.RegistrationOKResponseData;
+import models.user.Response;
+import models.user.ResponseCode;
 
 import org.junit.Test;
 

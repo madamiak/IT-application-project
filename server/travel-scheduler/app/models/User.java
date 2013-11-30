@@ -1,7 +1,17 @@
 package models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import models.user.AuthenticationOKResponseData;
+import models.user.FailedResponseData;
+import models.user.RegistrationOKResponseData;
+import models.user.Response;
+import models.user.ResponseCode;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -20,9 +30,21 @@ public class User extends Model
 	public static final Finder<Long, User> find = new Finder<Long, User>(Long.class, User.class);
 
 	@Id
+	@Column(name="id_user")
 	public long id;
+	@Column(name="user_email")
 	public String login;
+	@Column(name="user_password")
 	public String password;
+	@Column(name="user_name")
+	public String name;
+	@Column(name="user_surname")
+	public String surname;
+	@Column(name="user_email")
+	public String email;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="user_group")
+	public Group group;
 
 	public static Response register(User user)
 	{
@@ -32,6 +54,14 @@ public class User extends Model
 			return registrationOk(user);
 		}
 		return registrationFailed(user);
+	}
+	
+	public static long getUsersGroupNameByUserId1(long id) {
+		return find.where().eq("id", id).findUnique().group.id;
+	}
+	
+	public static long getUsersGroupNameByUserId2(long id) {
+		return find.where().eq("id_user", id).findUnique().group.id;
 	}
 
 	public static Response authenticate(String login, String passwordHash)
