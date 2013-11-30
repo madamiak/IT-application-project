@@ -5,7 +5,10 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import models.destination.Destination;
 import models.destination.DestinationDTO;
@@ -35,8 +38,9 @@ public class Point extends Model
 	public float longitude;
 	@Column(name="point_langitude")
 	public float langitude;
-	@Column(name="point_type")
-	public int type;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="point_type")
+	public PointType type;
 
 	public static JsonNode getByName(String name)
 	{
