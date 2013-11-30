@@ -73,7 +73,7 @@ public class Point extends Model
 			dto.pois.add(dest);
 		}
 		JsonNode json = Json.toJson(dto);
-		return json;
+		return json;		
 	}
 
 	public static JsonNode getDestinationById(int id)
