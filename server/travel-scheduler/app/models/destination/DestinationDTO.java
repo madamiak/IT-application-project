@@ -1,4 +1,4 @@
-package models;
+package models.destination;
 
 public class DestinationDTO {
 	public int id;

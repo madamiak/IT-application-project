@@ -10,6 +10,9 @@ GET     /map                        controllers.MapController.index()
 POST   /user/authenticate          controllers.Application.authenticate(login, password)
 PUT    /user/register              controllers.Application.register()
 GET    /user/:id/preferences       controllers.PreferencesController.getById(id : String)
+GET    /user/:id/group1            controllers.Application.group1(id : Int)
+GET    /user/:id/group2            controllers.Application.group2(id : Int)
+GET    /points/discarded           controllers.Application.allDiscardedPoints()
 
 # Trip RESTful API
 GET    /places/destinations/:name  controllers.TripController.getPlaceByPhrase(name : String)

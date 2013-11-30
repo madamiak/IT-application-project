@@ -1,4 +1,4 @@
-package models;
+package models.destination;
 
 import java.util.List;
 

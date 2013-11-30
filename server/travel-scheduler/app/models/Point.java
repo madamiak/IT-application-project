@@ -3,9 +3,15 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import models.destination.Destination;
+import models.destination.DestinationDTO;
+import models.destination.DestinationsDTO;
+import models.user.Response;
+import models.user.ResponseCode;
 import play.db.ebean.Model;
 import play.libs.Json;
 
@@ -21,11 +27,16 @@ public class Point extends Model
 	public static final Finder<Long, Point> find = new Finder<Long, Point>(Long.class, Point.class);
 
 	@Id
-	public int idpoints;
-	public String point_name;
-	public float point_longitude;
-	public float point_langitude;
-	public int point_type;
+	@Column(name="idpoints")
+	public int id;
+	@Column(name="point_name")
+	public String name;
+	@Column(name="point_longitude")
+	public float longitude;
+	@Column(name="point_langitude")
+	public float langitude;
+	@Column(name="point_type")
+	public int type;
 
 	public static JsonNode getByName(String name)
 	{
@@ -35,8 +46,8 @@ public class Point extends Model
 		dto.destinations = new ArrayList<Destination>();
 		for(int i=0; i<points.size(); i++){
 			Destination dest = new Destination();
-			dest.id=points.get(i).idpoints;
-			dest.value=points.get(i).point_name;
+			dest.id=points.get(i).id;
+			dest.value=points.get(i).name;
 			dto.destinations.add(dest);
 		}
 		JsonNode json = Json.toJson(dto);
@@ -48,18 +59,18 @@ public class Point extends Model
 		Point p=find.where().eq("idpoints", id).findUnique();
 		
 		DestinationDTO dto = new DestinationDTO();
-		dto.id=p.idpoints;
-		dto.value=p.point_name;
+		dto.id=p.id;
+		dto.value=p.name;
 		dto.details="";
-		dto.longn=p.point_longitude;
-		dto.latt=p.point_langitude;
+		dto.longn=p.longitude;
+		dto.latt=p.langitude;
 		JsonNode json = Json.toJson(dto);
 		return json;
 	}
 
 	public static Response add(Point point)
 	{
-		if (find.where().eq("point_name", point.point_name).findUnique() == null)
+		if (find.where().eq("point_name", point.name).findUnique() == null)
 		{
 			point.save();
 			return addOk(point);
@@ -69,7 +80,7 @@ public class Point extends Model
 
 	public static void delete(Point destination)
 	{
-		final Point found = find.where().eq("idpoints", destination.idpoints).findUnique();
+		final Point found = find.where().eq("idpoints", destination.id).findUnique();
 		if (found != null)
 		{
 			found.delete();
@@ -79,7 +90,7 @@ public class Point extends Model
 	@Override
 	public String toString()
 	{
-		return String.format("[idpoints: %s, point_name: %s, point_longitude: %s, point_langitude: %s, point_type: %s]", idpoints, point_name, point_longitude, point_langitude, point_type);
+		return String.format("[idpoints: %s, point_name: %s, point_longitude: %s, point_langitude: %s, point_type: %s]", id, name, longitude, langitude, type);
 	}
 
 	public JsonNode toJson()

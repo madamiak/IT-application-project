@@ -1,4 +1,4 @@
-package models;
+package models.destination;
 
 public class Destination {
 	public int id;
