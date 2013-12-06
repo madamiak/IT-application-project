@@ -5,6 +5,7 @@ import play.mvc.*;
 
 public class TripController extends Controller {
 	public static Result getPlaceByPhrase(String name) {
+		
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		response().setHeader("Access-Control-Allow-Methods", "POST");
 		response()
@@ -15,6 +16,12 @@ public class TripController extends Controller {
 	}
 
 	public static Result getPlaceById(String id) {
+		response().setHeader("Access-Control-Allow-Origin", "*");
+		response().setHeader("Access-Control-Allow-Methods", "POST");
+		response()
+				.setHeader("Access-Control-Allow-Headers",
+						"accept, origin, Content-type, x-json, x-prototype-version, x-requested-with");
+		
 		return ok(Point.getDestinationById(Integer.parseInt(id)));
 	}
 

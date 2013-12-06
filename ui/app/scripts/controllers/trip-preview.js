@@ -3,52 +3,52 @@
 angular.module('uiApp').controller('TripPreviewController', function ($scope) {
 	
 	$scope.mapIsVisible = false;
-	$scope.points=[];
+	$scope.detailedPoints=[];
 	$scope.map=null;
+	$scope.markers=[];
 
-	angular.extend($scope, {
-		center: {
-			latitude: 0, // initial map center latitude
-			longitude: 0, // initial map center longitude
-		},
-		markers: [], // an array of markers,
-		zoom: 2 // the zoom level
-	});	
+	var mapOptions = {
+          center: new google.maps.LatLng(50.,20.),
+          zoom: 4
+       };
 
-	$scope.mapShownEvent = function(event,points) {
+
+	$scope.mapShownEvent = function(event,detailedPoints) {
 		var scope = angular.element($("#trip-preview")).scope();
 		scope.mapIsVisible=true;
-		scope.points=points;
-		console.log(points);
-		 var mapOptions = {
-          center: new google.maps.LatLng(-34.397, 150.644),
-          zoom: 8
-        };
+
+		scope.detailedPoints=detailedPoints;
+
         scope.map = new google.maps.Map($("#test-map")[0],
             mapOptions);
        
-	
-      var marker1 = new google.maps.Marker({
-    	position:new google.maps.LatLng(-34.397, 150.644),
-   		 map: scope.map,
-    	title:scope.points[0].place.value
-		});
-          var marker2 = new google.maps.Marker({
-    	position:new google.maps.LatLng(-32.397, 149.644),
-   		 map: scope.map,
-    	title:scope.points[1].place.value
-		});
+       // draw points
 
-          var routePoints=[new google.maps.LatLng(-34.397, 150.644),new google.maps.LatLng(-32.397, 149.644)];
-			var routeOnMap=new google.maps.Polyline({
-				path: routePoints,
-				geodesic:true,
-				strkoeColor: '#FF1100',
-				strokeOpacity: 1.0,
-				strokeWeight: 3
-
+        for(var i=0;i<scope.detailedPoints.length;i++) {
+        	new google.maps.Marker({
+    			position:new google.maps.LatLng(parseFloat(scope.detailedPoints[i].latt), parseFloat(scope.detailedPoints[i].longn)),
+   		 		map: scope.map,
+    			title:scope.detailedPoints[i].value
 			});
+	
+        }
+        // draw lines between points
+
+           for(var i=0;i<scope.detailedPoints.length-1;i++) {
+        		var routePoints=[new google.maps.LatLng(parseFloat(scope.detailedPoints[i].latt),  parseFloat(scope.detailedPoints[i].longn)),new google.maps.LatLng(parseFloat(scope.detailedPoints[i+1].latt),  parseFloat(scope.detailedPoints[i+1].longn))];
+				
+				var routeOnMap=new google.maps.Polyline({
+					path: routePoints,
+					geodesic:true,
+					strkoeColor: '#FF1100',
+					strokeOpacity: 0.5,
+					strokeWeight: 3
+
+				});
 			routeOnMap.setMap(scope.map);
+			
+        }
+
 	};
 
 	$scope.$on('showMap', $scope.mapShownEvent);

@@ -8,8 +8,19 @@
  		
  	
  		<h4>Trip overview</h4>
- 		<div ng-repeat="point in points">
- 		Point: {{point.place.value}}
- 		</div>	
+ 		<table class="table table-hover table-bordered table-striped">
+	 		<thead>
+		 		<tr>
+		 			<th>ID</th><th>Name</th><th>Details</th>
+		 		</tr>
+	 		</thead>
+	 		<tbody>
+	 			<tr ng-repeat="point in detailedPoints">
+	 				<td>{{point.id}}</td>
+					<td>{{point.value}}</td>
+	 				<td>{{point.details}}</td>
+	 			</tr>
+	 		</tbody>
+ 		</table>
  	</div>
 </div>

@@ -9,19 +9,42 @@ angular.module('uiApp').controller('SearchController', function ($scope,$http) {
 	
 
 	$scope.places=[];
+	$scope.detailedListToShow=[];
 
+	var emit = function() {
+		$scope.$emit('showMap',$scope.detailedListToShow);
+	};
+
+	var getDetailedInfo = function(id,array,last,callback) {
+		$http({method: 'GET', url: $scope.endpoint+'/places/destination/'+id}).success(function(data, status, headers, config) {
+				array.push(data);
+				if(last) {
+					callback();
+				}
+			}).
+			error(function(data, status, headers, config) {
+				console.log("There was an error connecting to the endpoint. is the backend server running on port :9000?");
+			});
+	};
 
 	$scope.getTrip = function() {
-		$scope.searchText = 'Calculating the trip going throught places ';
+		$scope.searchText = 'Calculating the trip going through places ';
 
-		for(var each in $scope.middlePoints) {
-			var item = $scope.middlePoints[each].place;
+		$scope.detailedListToShow=[];
+		for(var i=0;i<$scope.middlePoints.length;i++) 
+		{
+			var item = $scope.middlePoints[i].place;
 			$scope.searchText+='-> '+item.value+' ('+ item.id+') ';
+			var last = i==$scope.middlePoints.length-1;
+			getDetailedInfo(item.id,$scope.detailedListToShow,last,emit);
 		}
-		// perform a call to the service here
+
+
+		// perform a call to retrieve points data
 
 		//invoke action on outer controller
-		$scope.$emit('showMap',$scope.middlePoints);
+		//$scope.$emit('showMap',$scope.middlePoints);
+		//emit();
 	};
 
 	$scope.addDirection = function() {
@@ -47,15 +70,16 @@ angular.module('uiApp').controller('SearchController', function ($scope,$http) {
 	};
 
 	// FIXME move to the properties file
-	$scope.endpoint='http://localhost:9000/places/destinations/';
-
+	$scope.endpoint='http://localhost:9000';
+	
+	
 	$scope.updateAutosugestion = function(searchedPhrase) {
 
 		if(searchedPhrase != undefined && searchedPhrase.length<2);
 		else
 		{
 		
-			$http({method: 'GET', url: $scope.endpoint+searchedPhrase}).success(function(data, status, headers, config) {
+			$http({method: 'GET', url: $scope.endpoint+'/places/destinations/'+searchedPhrase}).success(function(data, status, headers, config) {
 				$scope.places=[];
 				for (var each in data.destinations) {
 					$scope.places.push(data.destinations[each]);
