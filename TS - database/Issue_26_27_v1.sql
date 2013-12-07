@@ -26,17 +26,17 @@ DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
 
 CREATE  TABLE IF NOT EXISTS `ts`.`point_image` (
-  `point_idpoints` INT(11) NOT NULL ,
-  `image_idimage` INT(11) NOT NULL ,
-  INDEX `fk_point_image_point1_idx` (`point_idpoints` ASC) ,
-  INDEX `fk_point_image_image1_idx` (`image_idimage` ASC) ,
+  `idpoint` INT(11) NOT NULL ,
+  `idimage` INT(11) NOT NULL ,
+  INDEX `fk_point_image_point1_idx` (`idpoint` ASC) ,
+  INDEX `fk_point_image_image1_idx` (`idimage` ASC) ,
   CONSTRAINT `fk_point_image_point1`
-    FOREIGN KEY (`point_idpoints` )
+    FOREIGN KEY (`idpoint` )
     REFERENCES `ts`.`point` (`idpoints` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_point_image_image1`
-    FOREIGN KEY (`image_idimage` )
+    FOREIGN KEY (`idimage` )
     REFERENCES `ts`.`image` (`idimage` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
