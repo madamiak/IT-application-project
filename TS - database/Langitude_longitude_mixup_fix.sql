@@ -1,0 +1,1 @@
+ALTER TABLE `ts`.`point` CHANGE COLUMN `point_longitude` `point_langitude` FLOAT(10,6) NOT NULL  , CHANGE COLUMN `point_langitude` `point_longitude` FLOAT(10,6) NOT NULL  ;
