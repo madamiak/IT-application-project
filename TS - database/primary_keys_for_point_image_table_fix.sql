@@ -1,0 +1,1 @@
+ALTER TABLE ts.point_image ADD PRIMARY KEY (`point_idpoints`,`image_idimage`);
