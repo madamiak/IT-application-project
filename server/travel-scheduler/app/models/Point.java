@@ -42,7 +42,7 @@ public class Point extends Model {
 	@Column(name = "point_longitude")
 	public float longitude;
 	@Column(name = "point_langitude")
-	public float langitude;
+	public float latitude;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "point_type")
 	public PointType type;
@@ -93,7 +93,7 @@ public class Point extends Model {
 		dto.value = p.name;
 		dto.details = "";
 		dto.longn = p.longitude;
-		dto.latt = p.langitude;
+		dto.latt = p.latitude;
 		JsonNode json = Json.toJson(dto);
 		return json;
 	}
@@ -106,7 +106,7 @@ public class Point extends Model {
 		dto.value = p.name;
 		dto.description = "";
 		dto.longn = p.longitude;
-		dto.latt = p.langitude;
+		dto.latt = p.latitude;
 		JsonNode json = Json.toJson(dto);
 		return json;
 	}
@@ -131,7 +131,7 @@ public class Point extends Model {
 	public String toString() {
 		return String
 				.format("[idpoints: %s, point_name: %s, point_longitude: %s, point_langitude: %s, point_type: %s]",
-						id, name, longitude, langitude, type);
+						id, name, longitude, latitude, type);
 	}
 
 	public JsonNode toJson() {
