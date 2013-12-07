@@ -22,5 +22,10 @@ OPTIONS    /places/destination/:id     controllers.TripController.getPlaceById(i
 GET    /places/destination/:id/images controllers.TripController.getPlaceImageById(id : String)
 GET    /places/pois                controllers.TripController.getPois()
 GET    /places/poi/:id             controllers.TripController.getPoiById(id : String)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+# To test
+GET     /point/:id                   controllers.Application.getPointById(id : Int)
+GET     /image/:id                   controllers.Application.getImageById(id : Int) 

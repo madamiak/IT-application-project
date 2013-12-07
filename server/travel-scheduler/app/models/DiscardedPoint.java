@@ -13,16 +13,17 @@ import play.db.ebean.Model;
 public class DiscardedPoint extends Model {
 
 	private static final long serialVersionUID = 1L;
-	public static final Finder<Long, DiscardedPoint> find = new Finder<Long, DiscardedPoint>(Long.class, DiscardedPoint.class);
+	public static final Finder<Long, DiscardedPoint> find = new Finder<Long, DiscardedPoint>(
+			Long.class, DiscardedPoint.class);
 
 	@Id
-	@Column(name="iddiscarded_point")
+	@Column(name = "iddiscarded_point")
 	public long id;
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="user_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_ID")
 	public User user;
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="point_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "point_ID")
 	public Point point;
-	
+
 }

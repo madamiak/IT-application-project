@@ -1,5 +1,7 @@
 package controllers;
 
+import models.Image;
+import models.Point;
 import models.User;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -29,6 +31,14 @@ public class Application extends Controller
 	
 	public static Result getUserById(int id) {
 		return ok(User.find.where().eq("id", id).findUnique().toString());
+	}
+	
+	public static Result getPointById(int id) {
+		return ok(Point.getById(id));
+	}
+	
+	public static Result getImageById(int id) {
+		return ok(Image.getById(id));
 	}
 
 }
