@@ -151,5 +151,10 @@ public class Point extends Model {
 		response.message = DESTINATION_ALREADY_EXISTS;
 		return response;
 	}
+	
+	public static void sortByStraightLine(List<PointData> pointList){
+		PointOrderManipulator.sortByStraightLine(pointList);
+	}
+	
 
 }
