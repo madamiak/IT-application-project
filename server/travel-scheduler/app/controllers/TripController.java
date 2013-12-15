@@ -1,6 +1,14 @@
 package controllers;
 
+import java.util.Arrays;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import models.Point;
+import models.Route;
+import models.dto.RouteDTO;
+import play.libs.Json;
 import play.mvc.*;
 
 public class TripController extends Controller {
@@ -35,6 +43,16 @@ public class TripController extends Controller {
 
 	public static Result getPoiById(String id) {
 		return ok(Point.getPOIById(Integer.parseInt(id)));
+	}
+	
+	public static Result getScheduledTrip(String ids) throws JSONException {
+		JSONArray idArray = new JSONArray(Json.parse(ids).findValue("ids").toString());
+		long[] pointIds = new long[idArray.length()];
+		for (int i = 0; i < idArray.length(); i++) {
+			pointIds[i] = Long.parseLong(idArray.getJSONObject(i).get("id").toString());
+		}
+		RouteDTO scheduledTrip = Route.schedule(pointIds);
+		return ok(scheduledTrip.asJson());
 	}
 
 }

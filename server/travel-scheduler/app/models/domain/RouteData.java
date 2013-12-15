@@ -1,11 +1,16 @@
 package models.domain;
 
-import java.util.List;
+import play.libs.Json;
 
 public class RouteData {
 
 	public DurationData duration;
 	public DistanceData distance;
-	public List<String> polylines;
+	public String polyline;
+	
+	@Override
+	public String toString() {
+		return Json.toJson(this).toString();
+	}
 
 }

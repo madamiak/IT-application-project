@@ -20,7 +20,7 @@ public class RouteFinderTest {
 		assertEquals(13509, route.duration.value);
 		assertEquals("292 km", route.distance.text);
 		assertEquals(292232, route.distance.value);
-		assertEquals(13, route.polylines.size());
+		assertNotNull(route.polyline);
 	}
 
 }
