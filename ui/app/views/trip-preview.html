@@ -6,8 +6,11 @@
  		<div id="test-map" class="google-maps" style="height:400px;">
  		</div>
  		
- 	
- 		<h4>Trip overview</h4>
+ 
+ 		<div class="page-header">
+  			<h2>Distance <small>{{routeData.summary.distance.text}}</small></h2>
+  			<h2>Duration <small>{{routeData.summary.duration.text}}</small></h2>
+		</div>
  		<table class="table table-hover table-bordered table-striped">
 	 		<thead>
 		 		<tr>
@@ -15,9 +18,9 @@
 		 		</tr>
 	 		</thead>
 	 		<tbody>
-	 			<tr ng-repeat="point in detailedPoints">
+	 			<tr ng-repeat="point in routeData.points">
 	 				<td>{{point.id}}</td>
-					<td>{{point.value}}</td>
+					<td>{{point.name}}</td>
 	 				<td>{{point.details}}</td>
 	 			</tr>
 	 		</tbody>

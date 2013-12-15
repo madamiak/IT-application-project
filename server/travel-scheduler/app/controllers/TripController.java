@@ -46,6 +46,11 @@ public class TripController extends Controller {
 	}
 	
 	public static Result getScheduledTrip(String ids) throws JSONException {
+			response().setHeader("Access-Control-Allow-Origin", "*");
+		response().setHeader("Access-Control-Allow-Methods", "GET");
+		response()
+				.setHeader("Access-Control-Allow-Headers",
+						"accept, origin, Content-type, x-json, x-prototype-version, x-requested-with");
 		JSONArray idArray = new JSONArray(Json.parse(ids).findValue("ids").toString());
 		long[] pointIds = new long[idArray.length()];
 		for (int i = 0; i < idArray.length(); i++) {

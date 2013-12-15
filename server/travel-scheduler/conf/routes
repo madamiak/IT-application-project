@@ -23,6 +23,6 @@ GET    /places/destination/:id/images controllers.TripController.getPlaceImageBy
 GET    /places/pois                controllers.TripController.getPois()
 GET    /places/poi/:id             controllers.TripController.getPoiById(id : String)
 GET    /schedule                   controllers.TripController.getScheduledTrip(ids : String)
-
+OPTIONS    /schedule   	controllers.TripController.getScheduledTrip(ids : String)
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

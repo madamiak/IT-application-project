@@ -57,7 +57,8 @@ public class Point extends Model {
 	}
 
 	public static JsonNode getDestinationsByName(String name) {
-		List<Point> points = find.where().icontains("point_name", name)
+		PointType destinationPoint = PointType.getByName("Destination");
+		List<Point> points = find.where().eq("point_type",destinationPoint.id).icontains("point_name", name)
 				.findList();
 
 		DestinationsDTO dto = new DestinationsDTO();
