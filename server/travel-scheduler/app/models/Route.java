@@ -50,8 +50,8 @@ public class Route extends Model {
 		routeDTO.summary = new SummaryData();
 		routeDTO.summary.distance = new DistanceData();
 		routeDTO.summary.duration = new DurationData();
-		routeDTO.points = new ArrayList<>();
-		routeDTO.routes = new ArrayList<>();
+		routeDTO.points = new ArrayList<RoutePointData>();
+		routeDTO.routes = new ArrayList<RouteData>();
 
 		JsonNode originPointAsJson = Point.getById(pointIds[0]);
 		String origin = originPointAsJson.findValuesAsText("name").get(0);

@@ -50,7 +50,7 @@ public class Point extends Model {
 	public PointType type;
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "point_image")
-	public Set<Image> images = new HashSet<>();
+	public Set<Image> images = new HashSet<Image>();
 
 	public static JsonNode getById(long id) {
 		return Json.toJson(find.where().eq("id", id).findUnique());
