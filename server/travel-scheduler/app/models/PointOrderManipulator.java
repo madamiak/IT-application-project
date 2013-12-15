@@ -3,6 +3,8 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.domain.PointData;
+
 public class PointOrderManipulator {
 	
 	public static void sortByStraightLine(List<PointData> pointList){

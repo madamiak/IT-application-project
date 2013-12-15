@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import models.domain.PointData;
 import models.dto.DestinationDTO;
 import models.dto.DestinationsDTO;
 import models.dto.POIDTO;
