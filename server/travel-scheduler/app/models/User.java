@@ -44,7 +44,7 @@ public class User extends Model
 	public String email;
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_group")
-	public Group group;
+	public Groups group;
 
 	public static Response register(User user)
 	{
