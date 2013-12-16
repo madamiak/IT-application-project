@@ -2,8 +2,7 @@
 
 
 angular.module('uiApp').controller('MainController', function ($scope) {
-		$scope.searchMessage='Type your destinations!';
-		
+
 		$scope.explore = function($scope) {}
 
 		

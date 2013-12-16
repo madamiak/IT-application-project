@@ -1,7 +1,7 @@
 	 <div ng-controller="SearchController">
 
 
-    <form ng-submit="getTrip()">
+    <form ng-submit="getTrip()" id="search-form">
 
       <ul class="unstyled">
         <li ng-repeat="point in middlePoints">
@@ -17,18 +17,18 @@
     
       <button type="button" class="btn btn-mini btn-success" ng-class="{disabled: !directionCanBeAdded()}" ng-click="addDirection()" popover="{{getAddDirectionMessage()}}" popover-trigger="mouseenter" popover-placement="bottom"><i class="icon-plus icon-white"/></button>
 
-      <button type="button" class="btn btn-mini btn-danger" ng-class="{disabled: !directionCanBeRemoved()}" ng-click="removeDirection()" popover="{{getRemoveDirectionMessage()}}" popover-trigger="mouseenter" popover-placement="bottom"><i class="icon-remove icon-white"/></button>
+      <button type="button" id="button-small-remove" class="btn btn-mini btn-danger" ng-class="{disabled: !directionCanBeRemoved()}" ng-click="removeDirection()" popover="{{getRemoveDirectionMessage()}}" popover-trigger="mouseenter" popover-placement="bottom"><i class="icon-remove icon-white"/></button>
 
-      <button class="btn btn-primary" type="submit"><i class="icon-search icon-white"/> search</button>
+      <button class="btn btn-primary" id="schedule-trip-submit" type="submit"><i class="icon-search icon-white"/> search</button>
     </form>
 
-    <div id="searchSummary">
+    <div id="search-summary">
       {{searchText}}
     </div>
 
-    <div id="loadingRoute" ng-class="{hide: !showLoading()}">
+    <div id="loading-route" ng-class="{hide: !showLoading()}">
       The route is being calculated...
-     <div class="span4"><progress percent="100" class="progress-striped active"> The route is being calculated...</progress></div>
+     <div><progress percent="100" class="progress-striped active"> The route is being calculated...</progress></div>
     </div>
 
   </div>

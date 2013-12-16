@@ -1,33 +1,28 @@
+<div ng-controller="MainController" id="main-container">
 
 
-<div ng-controller="MainController" class="container-fluid">
-
-	<div class="row-fluid">
-		<h1>Travel scheduler</h1>
-
-		<div class="span3">
-
+		<div id="sidebar">
+			<h1 id="travel-scheduler-top">Travel scheduler</h1>
 			<tabset>
-				<tab heading="Plan">
+				<tab heading="Plan" class="tab-plan">
 					<p class="lead">{{searchMessage}}</p>
 					<div search-form></div>
 				</tab>
 
-				<tab heading="Explore" select="explore()">
+				<tab heading="Explore"  class="tab-explore" select="explore()">
 					Explore trips!
 				</tab>
 
-				<tab heading="Share" select="share()">
+				<tab heading="Share"  class="tab-share" select="share()">
 					Share.
 				</tab>
 			</tabset>
 
 		</div>
 
-		<div class="span7">
+		<div id="content">
 			<div trip-preview></div>
 		</div>
 
-	</div>
 </div>
 
