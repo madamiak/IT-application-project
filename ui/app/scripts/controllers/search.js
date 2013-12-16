@@ -11,8 +11,10 @@ angular.module('uiApp').controller('SearchController', function ($scope,$http) {
 	$scope.places=[];
 	$scope.detailedListToShow=[];
 
+	$scope.isRouteCalculated=false;
+
 	$scope.getTrip = function() {
-		$scope.searchText = 'Calculating the trip going through places ';
+		$scope.isRouteCalculated=true;
 
 		$scope.detailedListToShow=[];
 		for(var i=0;i<$scope.middlePoints.length;i++) 
@@ -24,9 +26,13 @@ angular.module('uiApp').controller('SearchController', function ($scope,$http) {
 		console.log($scope.endpoint+'/schedule?ids='+JSON.stringify({ids:$scope.detailedListToShow}));
 		$http({method: 'GET', url: $scope.endpoint+'/schedule?ids='+JSON.stringify({ids:$scope.detailedListToShow})}).success(function(data, status, headers, config) {
 			$scope.$emit('showMap',data);
+			$scope.searchText = '';
+			$scope.isRouteCalculated=false;
 		}).
 		error(function(data, status, headers, config) {
 			console.log("There was an error connecting to the endpoint. is the backend server running on port :9000?");
+			$scope.searchText = 'The path could not be calculated.';
+			$scope.isRouteCalculated=false;
 		});
 
 		// get route scheduled from rest
@@ -92,5 +98,10 @@ angular.module('uiApp').controller('SearchController', function ($scope,$http) {
 
 	$scope.directionCanBeRemoved = function() {
 		return $scope.middlePoints.length>2;
+	};
+
+
+	$scope.showLoading = function() {
+		return $scope.isRouteCalculated;
 	};
 });

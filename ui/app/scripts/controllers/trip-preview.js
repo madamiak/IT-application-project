@@ -14,7 +14,12 @@ angular.module('uiApp').controller('TripPreviewController', function ($scope) {
        };
 
 
+    clearFields = function() {
+    	$scope.directions=[];
+    },
+
 	$scope.mapShownEvent = function(event,routeData) {
+		clearFields();
 		var scope = angular.element($("#trip-preview")).scope();
 		scope.mapIsVisible=true;
 
@@ -53,11 +58,17 @@ angular.module('uiApp').controller('TripPreviewController', function ($scope) {
 
         }      
        
-       // prepare directions
-       for(var i=0;i<scope.routeData.points-1;i++) {
-       		
-       }
+       // prepare directions information
 
+       for(var i=0;i<scope.routeData.points.length-1;i++) {
+       		scope.directions.push({
+       			"step": (i+1),
+       			"from": scope.routeData.points[i].name,
+       			"to": scope.routeData.points[i+1].name,
+       			"distance": scope.routeData.routes[i].distance.text,
+       			"duration": scope.routeData.routes[i].duration.text
+       		});
+       	}
 	};
 
 	$scope.$on('showMap', $scope.mapShownEvent);
