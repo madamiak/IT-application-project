@@ -1,0 +1,1 @@
+RENAME TABLE `ts`.`group` to `ts`.`groups`;

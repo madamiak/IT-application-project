@@ -11,33 +11,33 @@ angular.module('uiApp').controller('SearchController', function ($scope,$http) {
 	$scope.places=[];
 	$scope.detailedListToShow=[];
 
-	var emit = function() {
-		$scope.$emit('showMap',$scope.detailedListToShow);
-	};
-
-	var getDetailedInfo = function(id,array,last,callback) {
-		$http({method: 'GET', url: $scope.endpoint+'/places/destination/'+id}).success(function(data, status, headers, config) {
-				array.push(data);
-				if(last) {
-					callback();
-				}
-			}).
-			error(function(data, status, headers, config) {
-				console.log("There was an error connecting to the endpoint. is the backend server running on port :9000?");
-			});
-	};
+	$scope.isRouteCalculated=false;
 
 	$scope.getTrip = function() {
-		$scope.searchText = 'Calculating the trip going through places ';
+		$scope.isRouteCalculated=true;
 
 		$scope.detailedListToShow=[];
 		for(var i=0;i<$scope.middlePoints.length;i++) 
 		{
 			var item = $scope.middlePoints[i].place;
-			$scope.searchText+='-> '+item.value+' ('+ item.id+') ';
-			var last = i==$scope.middlePoints.length-1;
-			getDetailedInfo(item.id,$scope.detailedListToShow,last,emit);
+			$scope.detailedListToShow.push({id:item.id});
 		}
+
+		console.log($scope.endpoint+'/schedule?ids='+JSON.stringify({ids:$scope.detailedListToShow}));
+		$http({method: 'GET', url: $scope.endpoint+'/schedule?ids='+JSON.stringify({ids:$scope.detailedListToShow})}).success(function(data, status, headers, config) {
+			$scope.$emit('showMap',data);
+			$scope.searchText = '';
+			$scope.isRouteCalculated=false;
+		}).
+		error(function(data, status, headers, config) {
+			console.log("There was an error connecting to the endpoint. is the backend server running on port :9000?");
+			$scope.searchText = 'The path could not be calculated.';
+			$scope.isRouteCalculated=false;
+		});
+
+		// get route scheduled from rest
+		console.log($scope.detailedListToShow);
+		
 
 
 		// perform a call to retrieve points data
@@ -98,5 +98,10 @@ angular.module('uiApp').controller('SearchController', function ($scope,$http) {
 
 	$scope.directionCanBeRemoved = function() {
 		return $scope.middlePoints.length>2;
+	};
+
+
+	$scope.showLoading = function() {
+		return $scope.isRouteCalculated;
 	};
 });

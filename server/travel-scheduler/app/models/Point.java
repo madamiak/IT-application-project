@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import models.domain.PointData;
 import models.dto.DestinationDTO;
 import models.dto.DestinationsDTO;
 import models.dto.POIDTO;
@@ -22,6 +23,7 @@ import models.user.Response;
 import models.user.ResponseCode;
 import play.db.ebean.Model;
 import play.libs.Json;
+import services.PointOrderManipulator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -48,14 +50,15 @@ public class Point extends Model {
 	public PointType type;
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "point_image")
-	public Set<Image> images = new HashSet<>();
+	public Set<Image> images = new HashSet<Image>();
 
 	public static JsonNode getById(long id) {
 		return Json.toJson(find.where().eq("id", id).findUnique());
 	}
 
 	public static JsonNode getDestinationsByName(String name) {
-		List<Point> points = find.where().icontains("point_name", name)
+		PointType destinationPoint = PointType.getByName("Destination");
+		List<Point> points = find.where().eq("point_type",destinationPoint.id).icontains("point_name", name)
 				.findList();
 
 		DestinationsDTO dto = new DestinationsDTO();
@@ -151,5 +154,10 @@ public class Point extends Model {
 		response.message = DESTINATION_ALREADY_EXISTS;
 		return response;
 	}
+	
+	public static void sortByStraightLine(List<PointData> pointList){
+		PointOrderManipulator.sortByStraightLine(pointList);
+	}
+	
 
 }

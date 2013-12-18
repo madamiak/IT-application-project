@@ -25,7 +25,7 @@ public class Image extends Model {
 	public String url;
 	@JsonIgnore
 	@ManyToMany(mappedBy = "images")
-	public Set<Point> points = new HashSet<>();
+	public Set<Point> points = new HashSet<Point>();
 
 	public static final Finder<Long, Image> find = new Finder<Long, Image>(
 			Long.class, Image.class);

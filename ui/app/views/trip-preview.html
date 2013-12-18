@@ -1,24 +1,23 @@
 <div ng-controller="TripPreviewController" id="trip-preview">
- 	<div  ng-show="mapIsVisible">
- 	
- 		<h3>Your trip</h3>
+ 	<div ng-show="mapIsVisible">
  	
  		<div id="test-map" class="google-maps" style="height:400px;">
  		</div>
  		
- 	
- 		<h4>Trip overview</h4>
+ 
+  			<h2>Distance <small>{{routeData.summary.distance.text}}</small></h2>
+  			<h2>Duration <small>{{routeData.summary.duration.text}}</small></h2>
+		
  		<table class="table table-hover table-bordered table-striped">
 	 		<thead>
 		 		<tr>
-		 			<th>ID</th><th>Name</th><th>Details</th>
+		 			<th>Step</th><th>Instructions</th>
 		 		</tr>
 	 		</thead>
 	 		<tbody>
-	 			<tr ng-repeat="point in detailedPoints">
-	 				<td>{{point.id}}</td>
-					<td>{{point.value}}</td>
-	 				<td>{{point.details}}</td>
+	 			<tr ng-repeat="step in directions">
+	 				<td><span class="badge">{{step.step}}</span></td>
+					<td>Drive from <strong>{{step.from}}</strong> to <strong>{{step.to}}</strong> for <i class="icon-road"></i> {{step.distance}} (<i class="icon-time"></i> <small>{{step.duration}}</small>)</td>
 	 			</tr>
 	 		</tbody>
  		</table>

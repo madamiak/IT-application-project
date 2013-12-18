@@ -3,9 +3,10 @@
 angular.module('uiApp').controller('TripPreviewController', function ($scope) {
 	
 	$scope.mapIsVisible = false;
-	$scope.detailedPoints=[];
+	$scope.routeData=[];
 	$scope.map=null;
 	$scope.markers=[];
+	$scope.directions=[];
 
 	var mapOptions = {
           center: new google.maps.LatLng(50.,20.),
@@ -13,42 +14,61 @@ angular.module('uiApp').controller('TripPreviewController', function ($scope) {
        };
 
 
-	$scope.mapShownEvent = function(event,detailedPoints) {
+    clearFields = function() {
+    	$scope.directions=[];
+    },
+
+	$scope.mapShownEvent = function(event,routeData) {
+		clearFields();
 		var scope = angular.element($("#trip-preview")).scope();
 		scope.mapIsVisible=true;
 
-		scope.detailedPoints=detailedPoints;
-
+		scope.routeData=routeData;
+		console.log(routeData);
         scope.map = new google.maps.Map($("#test-map")[0],
             mapOptions);
        
        // draw points
 
-        for(var i=0;i<scope.detailedPoints.length;i++) {
+        for(var i=0;i<scope.routeData.points.length;i++) {
         	new google.maps.Marker({
-    			position:new google.maps.LatLng(parseFloat(scope.detailedPoints[i].latt), parseFloat(scope.detailedPoints[i].longn)),
+    			position:new google.maps.LatLng(parseFloat(scope.routeData.points[i].lat), parseFloat(scope.routeData.points[i].lng)),
    		 		map: scope.map,
-    			title:scope.detailedPoints[i].value
+    			title:scope.routeData.points[i].name
 			});
 	
         }
-        // draw lines between points
 
-           for(var i=0;i<scope.detailedPoints.length-1;i++) {
-        		var routePoints=[new google.maps.LatLng(parseFloat(scope.detailedPoints[i].latt),  parseFloat(scope.detailedPoints[i].longn)),new google.maps.LatLng(parseFloat(scope.detailedPoints[i+1].latt),  parseFloat(scope.detailedPoints[i+1].longn))];
-				
-				var routeOnMap=new google.maps.Polyline({
-					path: routePoints,
-					geodesic:true,
-					strkoeColor: '#FF1100',
-					strokeOpacity: 0.5,
-					strokeWeight: 3
+        // draw routes
 
-				});
-			routeOnMap.setMap(scope.map);
-			
-        }
+         for(var i=0;i<scope.routeData.routes.length;i++) {
+         	var points=google.maps.geometry.encoding.decodePath(scope.routeData.routes[i].polyline);
+         	var lonlats=[];
+         	for(var j=0;j<points.length;j++) {
+         		lonlats.push(new google.maps.LatLng(points[j].lat(),points[j].lng()));
+         	}
+         	
+        	var polyline = new google.maps.Polyline({
+        		path: lonlats,
+        		strokeColor: "#0000FF",
+        		strokeOpacity: 0.3,
+        		strokeWeight: 3
+   			 });
+    		polyline.setMap(scope.map);
 
+        }      
+       
+       // prepare directions information
+
+       for(var i=0;i<scope.routeData.points.length-1;i++) {
+       		scope.directions.push({
+       			"step": (i+1),
+       			"from": scope.routeData.points[i].name,
+       			"to": scope.routeData.points[i+1].name,
+       			"distance": scope.routeData.routes[i].distance.text,
+       			"duration": scope.routeData.routes[i].duration.text
+       		});
+       	}
 	};
 
 	$scope.$on('showMap', $scope.mapShownEvent);
