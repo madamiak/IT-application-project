@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import models.domain.PointData;
 import models.dto.DestinationDTO;
@@ -25,6 +26,7 @@ import play.db.ebean.Model;
 import play.libs.Json;
 import services.PointOrderManipulator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 
 @Entity
@@ -51,9 +53,16 @@ public class Point extends Model {
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "point_image")
 	public Set<Image> images = new HashSet<Image>();
+	@JsonIgnore
+	@OneToMany(mappedBy = "point")
+	public List<PointList> pointList;
 
-	public static JsonNode getById(long id) {
-		return Json.toJson(find.where().eq("id", id).findUnique());
+	public static JsonNode getByIdAsJson(long id) {
+		return Json.toJson(getById(id));
+	}
+
+	public static Point getById(long id) {
+		return find.where().eq("id", id).findUnique();
 	}
 
 	public static JsonNode getDestinationsByName(String name) {
@@ -158,6 +167,5 @@ public class Point extends Model {
 	public static void sortByStraightLine(List<PointData> pointList){
 		PointOrderManipulator.sortByStraightLine(pointList);
 	}
-	
 
 }

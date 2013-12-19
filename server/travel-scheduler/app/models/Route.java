@@ -2,15 +2,16 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import com.fasterxml.jackson.databind.JsonNode;
+import javax.persistence.OneToMany;
 
 import models.domain.DistanceData;
 import models.domain.DurationData;
@@ -20,8 +21,12 @@ import models.domain.RoutePointData;
 import models.domain.SummaryData;
 import models.dto.RouteDTO;
 import play.db.ebean.Model;
+import play.libs.Json;
 import services.GoogleRouteFinder;
 import services.RouteFinder;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.JsonNode;
 
 @Entity
 public class Route extends Model {
@@ -36,10 +41,20 @@ public class Route extends Model {
 	@Column(name = "route_starting_time")
 	public Date startingTime;
 	@Column(name = "route_budget")
-	public int budget;
+	public float budget;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "route_transport_type")
 	public TransportType transportType;
+	@JsonIgnore
+	@OneToMany(mappedBy = "route", cascade=CascadeType.PERSIST)
+	public List<PointList> pointList;
+	@JsonIgnore
+	@OneToMany(mappedBy = "route")
+	public List<FavouriteRoute> favouriteRoutes;
+
+	public JsonNode asJson() {
+		return Json.toJson(this);
+	}
 
 	public static RouteDTO schedule(long[] pointIds) {
 		RouteFinder finder = new GoogleRouteFinder();
@@ -53,14 +68,14 @@ public class Route extends Model {
 		routeDTO.points = new ArrayList<RoutePointData>();
 		routeDTO.routes = new ArrayList<RouteData>();
 
-		JsonNode originPointAsJson = Point.getById(pointIds[0]);
+		JsonNode originPointAsJson = Point.getByIdAsJson(pointIds[0]);
 		String origin = originPointAsJson.findValuesAsText("name").get(0);
 
 		RoutePointData originRoutePoint = createRoutePopintData(originPointAsJson);
 		routeDTO.points.add(originRoutePoint);
 
 		for (int i = 1; i < pointIds.length; i++) {
-			JsonNode destinationPointAsJson = Point.getById(pointIds[i]);
+			JsonNode destinationPointAsJson = Point.getByIdAsJson(pointIds[i]);
 			String destination = destinationPointAsJson.findValuesAsText("name").get(0);
 			
 			RoutePointData destinationRoutePoint = createRoutePopintData(destinationPointAsJson);

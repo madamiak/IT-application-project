@@ -4,7 +4,7 @@ import play.mvc.*;
 
 public class PreferencesController extends Controller
 {
-	public static Result getById(String id) {
-		return ok();
+	public static Result getById(int id) {
+		return TODO;
 	}
 }
