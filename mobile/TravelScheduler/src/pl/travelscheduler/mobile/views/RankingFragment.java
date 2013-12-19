@@ -10,16 +10,16 @@ import pl.travelscheduler.mobile.model.DataContainer;
 import pl.travelscheduler.mobile.model.DataContainer.SOURCE;
 import pl.travelscheduler.mobile.model.Travel;
 import pl.travelscheduler.mobile.tasks.LoadOnlineTravelsTask;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -54,7 +54,7 @@ public class RankingFragment extends Fragment
 		tripsOnlineList = (ListView) rootView
 				.findViewById(R.id.ranking_to_download);
 		txtVNoLocalTrips = (TextView) rootView.findViewById(R.id.ranking_no_local_trips);
-		
+
 		registerForContextMenu(tripsList);
 		registerForContextMenu(tripsOnlineList);
 		
@@ -117,7 +117,7 @@ public class RankingFragment extends Fragment
 			txtVNoLocalTrips.setVisibility(View.GONE);
 			TravelAdapter tripAdapter = new TravelAdapter(getActivity(), localTravels);
 			tripsList.setAdapter(tripAdapter);
-			tripsList.setOnItemClickListener(new LocalTravelOnItemClickListener(getActivity(), SOURCE.MY_TRAVELS));
+			tripsList.setOnItemClickListener(new LocalTravelOnItemClickListener(getActivity(), SOURCE.RANKING));
 		}
 		else
 		{
@@ -134,6 +134,8 @@ public class RankingFragment extends Fragment
 			showOnlineTravels(true);		
 			TravelAdapter onlineTripsAdapter = new TravelAdapter(getActivity(), onlineTravels);
 			tripsOnlineList.setAdapter(onlineTripsAdapter);
+			tripsOnlineList.setOnItemClickListener(new LocalTravelOnItemClickListener(getActivity(), SOURCE.RANKING));
+			
 		}
 		else
 		{

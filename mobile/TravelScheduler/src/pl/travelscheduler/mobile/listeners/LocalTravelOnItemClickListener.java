@@ -1,9 +1,11 @@
 package pl.travelscheduler.mobile.listeners;
 
+import pl.travelscheduler.mobile.activities.DetailsActivity;
 import pl.travelscheduler.mobile.model.DataContainer;
 import pl.travelscheduler.mobile.model.DataContainer.SOURCE;
 import pl.travelscheduler.mobile.model.Travel;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -28,12 +30,17 @@ public class LocalTravelOnItemClickListener implements OnItemClickListener
 		{
 			clickedTravel = DataContainer.getLocalTravel(index);
 		}
-		else
+		else if (travelSource == SOURCE.RANKING)
 		{
-			clickedTravel = DataContainer.getRankingLocalTravel(index);
+			if (!DataContainer.getRankingLocalTravels().isEmpty())
+				clickedTravel = DataContainer.getRankingLocalTravel(index);
+			else
+				clickedTravel = DataContainer.getRankingOnlineTravel(index);
 		}
 		
-		//TODO: run details activity
+		Intent intent = new Intent(activity, DetailsActivity.class);
+		intent.putExtra("Route", clickedTravel);
+		activity.startActivity(intent);
 		
 		Toast.makeText(activity, "Selected travel: " + clickedTravel.getSource() +
 				" - " + clickedTravel.getDestination(), Toast.LENGTH_SHORT).show();

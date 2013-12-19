@@ -15,13 +15,13 @@ import pl.travelscheduler.mobile.tasks.LoadOnlineTravelsTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -183,7 +183,7 @@ public class MyTripsFragment extends Fragment
 					.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		}
 	}
-
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) 
 	{

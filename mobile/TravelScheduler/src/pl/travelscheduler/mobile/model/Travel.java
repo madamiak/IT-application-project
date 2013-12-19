@@ -2,32 +2,48 @@ package pl.travelscheduler.mobile.model;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class Travel implements Serializable
 {
 	private static final long serialVersionUID = 7833443817581881429L;
 	
+	public class SortBasedOnNumber implements Comparator
+	{
+		public int compare(Object o1, Object o2) 
+		{
+	
+		    Point dd1 = (Point)o1;
+		    Point dd2 = (Point)o2;
+		    return dd1.getNumber()-dd2.getNumber();
+		}
+
+	}
+	
 	private int id;
-	private Point source;
-	private Point destination;
-	private Point[] middlePoints;
+	private String name;
+	private List<Point> points;
 	private Rating rating;
 	private Calendar startingTime;
 	private TransportType transportType;
 	private double distance;
+	private double budget;
 
-	public Travel(int id, Point startingPoint, Point finishPont, Point[] middlePoints,
+	public Travel(int id, List<Point> pointList,
 			Rating rating, Calendar startingTime, TransportType transportType,
-			double distance) 
+			double distance, double budget, String name) 
 	{
 		this.id = id;
-		this.source = startingPoint;
-		this.destination = finishPont;
-		this.middlePoints = middlePoints;
+		this.points = pointList;
+		Collections.sort(this.points, new SortBasedOnNumber());
 		this.rating = rating;
 		this.startingTime = startingTime;
 		this.transportType = transportType;
 		this.distance = distance;
+		this.budget = budget;
+		this.name = name;
 	}
 	
 	@Override
@@ -49,44 +65,50 @@ public class Travel implements Serializable
 		return id;
 	}
 
-	public String getSource() 
+	public String getSource()
 	{
-		return source.getName();
+		Collections.sort(this.points, new SortBasedOnNumber());
+		return points.get(0).getName();
 	}
-
-	public String getDestination() 
+	
+	public String getDestination()
 	{
-		return destination.getName();
+		Collections.sort(this.points, new SortBasedOnNumber());
+		return points.get(points.size()-1).getName();
 	}
 
 	public double getSrcLon() 
 	{
-		return source.getLongitude();
+		Collections.sort(this.points, new SortBasedOnNumber());
+		return points.get(0).getLongitude();
 	}
 
 	public double getSrcLat() 
 	{
-		return source.getLatitude();
+		Collections.sort(this.points, new SortBasedOnNumber());
+		return  points.get(0).getLatitude();
 	}
 
 	public double getDstLon() 
 	{
-		return destination.getLongitude();
+		Collections.sort(this.points, new SortBasedOnNumber());
+		return points.get(points.size()-1).getLongitude();
 	}
 
 	public double getDstLat() 
 	{
-		return destination.getLatitude();
+		Collections.sort(this.points, new SortBasedOnNumber());
+		return points.get(points.size()-1).getLatitude();
 	}
 
 	public boolean hasPois() 
 	{
-		return middlePoints != null && middlePoints.length > 0;
+		return points.size()>2;
 	}
 	
-	public Point[] getMiddlePoints()
+	public List<Point> getPoints()
 	{
-		return middlePoints;
+		return points;
 	}
 	
 	public Rating getRating()
@@ -111,6 +133,10 @@ public class Travel implements Serializable
 
 	public String getName()
 	{
-		return getSource() + " - " + getDestination();
+		return name;
+	}
+
+	public double getBudget() {
+		return budget;
 	}
 }

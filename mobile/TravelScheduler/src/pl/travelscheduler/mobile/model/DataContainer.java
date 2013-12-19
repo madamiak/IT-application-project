@@ -5,11 +5,10 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import android.app.Activity;
-import android.support.v4.app.FragmentActivity;
-
 import pl.travelscheduler.mobile.AppParameters;
 import pl.travelscheduler.mobile.helpers.FilesHelper;
+import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
 
 public class DataContainer
 {
@@ -40,39 +39,52 @@ public class DataContainer
 		{
 			onlineTravels = new ArrayList<Travel>();
 		}
-		
-		Point wroclaw = new Point("Wroc³aw", 17.038333, 51.107778);
-		Point katowice = new Point("Katowice", 19.0, 50.25);
-		Point krakow = new Point("Kraków", 19.938333, 50.061389);
-		Point poznan = new Point("Poznañ", 16.934278, 52.4085);
+		List<String> imgList = new ArrayList<String>();
+		Point wroclaw = new Point("Wroc³aw", 17.038333, 51.107778, 1, PointType.CITY, imgList);
+		imgList = new ArrayList<String>();
+		Point katowice = new Point("Katowice", 19.0, 50.25, 2, PointType.CITY, imgList);
+		imgList = new ArrayList<String>();
+		Point krakow = new Point("Kraków", 19.938333, 50.061389, 3, PointType.CITY, imgList);
+		imgList = new ArrayList<String>();
+		Point poznan = new Point("Poznañ", 16.934278, 52.4085, 4, PointType.CITY, imgList);
 		
 		Calendar firstStartingDate = new GregorianCalendar(2013, 11, 11, 12, 00);
 		Calendar secondStartingDate = new GregorianCalendar(2013, 10, 1, 17, 00);
+		List<Point> pointList;
 		
-		Travel t1 = new Travel(1, wroclaw, krakow, new Point[] { katowice },
-				Rating.MEDIUM, firstStartingDate, TransportType.CAR, 280);
+		pointList = new ArrayList<Point>();
+		pointList.add(wroclaw);
+		pointList.add(katowice);
+		pointList.add(krakow);
+		Travel t1 = new Travel(1, pointList, Rating.MEDIUM, firstStartingDate, 
+				TransportType.CAR, 280, 666.55, "My first trip");
 		addOnlineTravel(t1);
-		Travel t2 = new Travel(2, wroclaw, poznan, null, Rating.NONE,
-				secondStartingDate, TransportType.CAR, 180);
+		pointList = new ArrayList<Point>();
+		wroclaw.setNumber(1);
+		poznan.setNumber(2);
+		pointList.add(wroclaw);
+		pointList.add(poznan);
+		Travel t2 = new Travel(2, pointList, Rating.NONE,
+				secondStartingDate, TransportType.CAR, 180, 333.12, "My second trip");
 		addOnlineTravel(t2);
-		Travel t3 = new Travel(3, krakow, poznan, null, Rating.LOW,
-				firstStartingDate, TransportType.CAR, 350);
+		pointList = new ArrayList<Point>();
+		krakow.setNumber(1);
+		poznan.setNumber(2);
+		pointList.add(krakow);
+		pointList.add(poznan);
+		Travel t3 = new Travel(3, pointList, Rating.LOW,
+				firstStartingDate, TransportType.CAR, 350, 333.12, "My second trip");
 		addOnlineTravel(t3);
-		Travel t4 = new Travel(4, wroclaw, krakow, new Point[] { katowice },
-				Rating.MEDIUM, firstStartingDate, TransportType.CAR, 280);
+		pointList = new ArrayList<Point>();
+		krakow.setNumber(1);
+		katowice.setNumber(2);
+		poznan.setNumber(3);
+		pointList.add(wroclaw);
+		pointList.add(katowice);
+		pointList.add(krakow);
+		Travel t4 = new Travel(4, pointList,
+				Rating.MEDIUM, firstStartingDate, TransportType.CAR, 280, 333.12, "Wro-Kato-Krk");
 		addOnlineTravel(t4);
-		Travel t5 = new Travel(5, wroclaw, poznan, null, Rating.NONE,
-				secondStartingDate, TransportType.CAR, 180);
-		addOnlineTravel(t5);
-		Travel t6 = new Travel(6, krakow, poznan, null, Rating.LOW,
-				firstStartingDate, TransportType.CAR, 350);
-		addOnlineTravel(t6);
-		Travel t7 = new Travel(7, wroclaw, poznan, null, Rating.NONE,
-				secondStartingDate, TransportType.CAR, 180);
-		addOnlineTravel(t7);
-		Travel t8 = new Travel(8, wroclaw, krakow, new Point[] { katowice },
-				Rating.MEDIUM, firstStartingDate, TransportType.CAR, 280);
-		addOnlineTravel(t8);
 	}
 	
 	public static void LoadRankingTravels(Activity activity)
@@ -92,29 +104,53 @@ public class DataContainer
 			rankingOnlineTravels = new ArrayList<Travel>();
 		}
 		
-		Point wroclaw = new Point("Wroc³aw", 17.038333, 51.107778);
-		Point katowice = new Point("Katowice", 19.0, 50.25);
-		Point krakow = new Point("Kraków", 19.938333, 50.061389);
-		Point poznan = new Point("Poznañ", 16.934278, 52.4085);
+		List<String> imgList = new ArrayList<String>();
+		Point wroclaw = new Point("Wroc³aw", 17.038333, 51.107778, 1, PointType.CITY, imgList);
+		imgList = new ArrayList<String>();
+		Point katowice = new Point("Katowice", 19.0, 50.25, 2, PointType.CITY, imgList);
+		imgList = new ArrayList<String>();
+		Point krakow = new Point("Kraków", 19.938333, 50.061389, 3, PointType.CITY, imgList);
+		imgList = new ArrayList<String>();
+		Point poznan = new Point("Poznañ", 16.934278, 52.4085, 4, PointType.CITY, imgList);
 		
 		Calendar firstStartingDate = new GregorianCalendar(2013, 11, 11, 12, 00);
 		Calendar secondStartingDate = new GregorianCalendar(2013, 10, 1, 17, 00);
 
-		Travel t9 = new Travel(9, wroclaw, krakow, new Point[] { katowice },
-				Rating.MEDIUM, firstStartingDate, TransportType.CAR, 280);
-		addRankingOnlineTravel(t9);
-		Travel t10 = new Travel(10, wroclaw, poznan, null, Rating.NONE,
-				secondStartingDate, TransportType.CAR, 180);
-		addRankingOnlineTravel(t10);
-		Travel t11 = new Travel(11, krakow, poznan, null, Rating.LOW,
-				firstStartingDate, TransportType.CAR, 350);
-		addRankingOnlineTravel(t11);		
-		Travel t12 = new Travel(12, wroclaw, poznan, null, Rating.NONE,
-				secondStartingDate, TransportType.CAR, 180);
-		addRankingOnlineTravel(t12);
-		Travel t13 = new Travel(13, wroclaw, krakow, new Point[] { katowice },
-				Rating.MEDIUM, firstStartingDate, TransportType.CAR, 280);
-		addRankingOnlineTravel(t13);
+		List<Point> pointList;
+		
+		pointList = new ArrayList<Point>();
+		pointList.add(wroclaw);
+		pointList.add(katowice);
+		pointList.add(krakow);
+		Travel t5 = new Travel(1, pointList, Rating.MEDIUM, firstStartingDate, 
+				TransportType.CAR, 280, 666.55, "My first trip");
+		addRankingOnlineTravel(t5);
+		pointList = new ArrayList<Point>();
+		wroclaw.setNumber(1);
+		poznan.setNumber(2);
+		pointList.add(wroclaw);
+		pointList.add(poznan);
+		Travel t2 = new Travel(2, pointList, Rating.NONE,
+				secondStartingDate, TransportType.CAR, 180, 333.12, "My second trip");
+		addRankingOnlineTravel(t2);
+		pointList = new ArrayList<Point>();
+		krakow.setNumber(1);
+		poznan.setNumber(2);
+		pointList.add(krakow);
+		pointList.add(poznan);
+		Travel t3 = new Travel(3, pointList, Rating.LOW,
+				firstStartingDate, TransportType.CAR, 350, 333.12, "My second trip");
+		addRankingOnlineTravel(t3);
+		pointList = new ArrayList<Point>();
+		krakow.setNumber(1);
+		katowice.setNumber(2);
+		poznan.setNumber(3);
+		pointList.add(wroclaw);
+		pointList.add(katowice);
+		pointList.add(krakow);
+		Travel t4 = new Travel(4, pointList,
+				Rating.MEDIUM, firstStartingDate, TransportType.CAR, 280, 333.12, "Wro-Kato-Krk");
+		addRankingOnlineTravel(t4);
 	}
 	
 	private static void addRankingOnlineTravel(Travel t)

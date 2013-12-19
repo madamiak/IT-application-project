@@ -2,17 +2,21 @@
 <resources>
 
     <string name="app_name">Travel Scheduler</string>
+    <string name="details">Route Details</string>
     <string name="tab_my_trips">My Travels</string>
     <string name="tab_ranking">Ranking</string>
     <string name="tab_location">Location</string>
+    <string name="tab_route">Route</string>
     <string name="trip_separator">" - "</string>
     <string name="splash_screen_content_description">Travel Scheduler</string>
     <string name="my_trips_actions_refresh">Refresh</string>
     <string name="my_trips_actions_login">Login</string>
     <string name="my_trips_actions_logout">Logout</string>
     <string name="travel_item_rating_image_content_description">Rating Image</string>
+    <string name="point_image_content_description">Point Image</string>
     <string name="travel_item_poi_information">POI</string>
     <string name="travel_item_transport_type_content_description">transport type image</string>
+    <string name="point_item_type_content_description">point type image</string>
     <string name="trips_list_local_label">Downloaded</string>
     <string name="trips_list_online_label">Online</string>
     <string name="trips_list_no_local_trips">There are no downloaded travels&#x2026;</string>
@@ -23,5 +27,7 @@
     <string name="dialog_login_icon_content_description">Your Account Icon</string>
     <string name="trip_local_context_item_delete">Delete</string>
     <string name="trip_online_context_item_download">Download</string>
-
+	<string name="route_header">Route</string>
+	<string name="route_no_route_alert">There is no route selected. \nPlease go back and select a route.</string>
+	<string name="poi_show_on_map">Show on map</string>
 </resources>
