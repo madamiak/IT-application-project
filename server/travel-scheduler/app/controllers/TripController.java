@@ -5,6 +5,7 @@ import org.json.JSONException;
 
 import models.Point;
 import models.Route;
+import models.dto.PrefferencesDTO;
 import models.dto.RouteDTO;
 import play.libs.Json;
 import play.mvc.*;
@@ -43,7 +44,7 @@ public class TripController extends Controller {
 		return ok(Point.getPOIById(Integer.parseInt(id)));
 	}
 
-	public static Result getScheduledTrip(String ids) throws JSONException {
+	public static Result getScheduledTrip(String ids, String prefs) throws JSONException {
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		response().setHeader("Access-Control-Allow-Methods", "GET");
 		response()
@@ -56,7 +57,7 @@ public class TripController extends Controller {
 			pointIds[i] = Long.parseLong(idArray.getJSONObject(i).get("id")
 					.toString());
 		}
-		RouteDTO scheduledTrip = Route.schedule(pointIds);
+		RouteDTO scheduledTrip = Route.schedule(pointIds, Json.fromJson(Json.parse(prefs), PrefferencesDTO.class));
 		return ok(scheduledTrip.asJson());
 	}
 

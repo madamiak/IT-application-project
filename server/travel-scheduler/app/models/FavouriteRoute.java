@@ -54,6 +54,11 @@ public class FavouriteRoute extends Model {
 		routesDTO.routes = new ArrayList<FavouriteRouteDTO>();
 		List<FavouriteRoute> routes = find.where().eq("user_ID", userId).findList();
 		for (FavouriteRoute fr : routes) {
+			FavouriteRouteDTO favouriteRouteDTO = new FavouriteRouteDTO();
+			favouriteRouteDTO.prefferences = new PrefferencesDTO();
+			favouriteRouteDTO.prefferences.budget = fr.route.budget;
+			favouriteRouteDTO.prefferences.startDate = new SimpleDateFormat("YYYY-MM-dd HH:mm").format(fr.route.startingTime);
+			favouriteRouteDTO.prefferences.kmPerDay = Integer.MAX_VALUE;
 			if(fr.route.pointList.size() == 0) {
 				continue;
 			}
@@ -61,8 +66,7 @@ public class FavouriteRoute extends Model {
 			for(PointList pointList : fr.route.pointList) {
 				pointIds[pointList.number] = pointList.point.id;
 			}
-			RouteDTO routeDTO = Route.schedule(pointIds);
-			FavouriteRouteDTO favouriteRouteDTO = new FavouriteRouteDTO();
+			RouteDTO routeDTO = Route.schedule(pointIds, favouriteRouteDTO.prefferences);
 			favouriteRouteDTO.points = routeDTO.points;
 			favouriteRouteDTO.routes = routeDTO.routes;
 			favouriteRouteDTO.summary = routeDTO.summary;

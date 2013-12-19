@@ -168,4 +168,25 @@ public class Point extends Model {
 		PointOrderManipulator.sortByStraightLine(pointList);
 	}
 
+	public static Point findNearestHotel(double[] newDestination) {
+		Point retVal = null;
+		double treshold = 0.0005;
+		List<Point> hotels = find.where().eq("point_type", 1).findList();
+		while((retVal = findWithinTreshold(newDestination, treshold, hotels)) == null && treshold < 1) {
+			treshold *= 3;
+		};
+		return retVal;
+	}
+
+	private static Point findWithinTreshold(double[] newDestination, double treshold, List<Point> hotels) {
+		for (Point point : hotels) {
+			System.out.println(newDestination[0] + "," + newDestination[1] + " " + treshold + " " + point.latitude + "," + point.longitude);
+			if(newDestination[0] + treshold > point.latitude && newDestination[0] - treshold < point.latitude 
+					&& newDestination[1] + treshold > point.longitude && newDestination[1] - treshold < point.longitude) {
+				return point;
+			}
+		}
+		return null;
+	}
+
 }
