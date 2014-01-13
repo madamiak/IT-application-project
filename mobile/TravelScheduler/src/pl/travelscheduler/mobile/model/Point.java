@@ -15,16 +15,23 @@ public class Point implements Serializable
 	private int number;
 	private PointType type;
 	private List<String> images;
+	private int id;
 	
 	
-	public Point(String pointName, double longitude, double latitude, int pointNumber,PointType pointType, List<String> pointImages)
+	public Point(int pointId, String pointName, double longitude, double latitude, int pointNumber, PointType pointType, List<String> pointImages)
 	{
+		id = pointId;
 		name = pointName;
 		lon = longitude;
 		lat = latitude;
 		number = pointNumber;
 		type = pointType;
 		images = pointImages;
+	}
+	
+	public int getId()
+	{
+		return id;
 	}
 
 	public String getName() {

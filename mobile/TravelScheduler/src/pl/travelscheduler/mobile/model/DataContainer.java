@@ -23,6 +23,18 @@ public class DataContainer
 	private static ArrayList<Travel> rankingLocalTravels;
 	private static ArrayList<Travel> rankingOnlineTravels;
 	
+	private static ArrayList<Point> pois;
+	
+	public static void LoadPois(Activity activity)
+	{
+		pois = (ArrayList<Point>) FilesHelper.loadObject(activity, AppParameters.FILE_POIS, 
+				AppParameters.FOLDER_POIS);
+		if(pois == null)
+		{
+			pois = new ArrayList<Point>();
+		}
+	}
+	
 	public static void LoadTravels(Activity activity)
 	{
 		localTravels = (ArrayList<Travel>) FilesHelper.loadObject(activity, AppParameters.FILE_MY_TRAVELS, 
@@ -40,13 +52,13 @@ public class DataContainer
 			onlineTravels = new ArrayList<Travel>();
 		}
 		List<String> imgList = new ArrayList<String>();
-		Point wroclaw = new Point("Wroc³aw", 17.038333, 51.107778, 1, PointType.CITY, imgList);
+		Point wroclaw = new Point(9001, "Wroc³aw", 17.038333, 51.107778, 1, PointType.CITY, imgList);
 		imgList = new ArrayList<String>();
-		Point katowice = new Point("Katowice", 19.0, 50.25, 2, PointType.CITY, imgList);
+		Point katowice = new Point(9002, "Katowice", 19.0, 50.25, 2, PointType.CITY, imgList);
 		imgList = new ArrayList<String>();
-		Point krakow = new Point("Kraków", 19.938333, 50.061389, 3, PointType.CITY, imgList);
+		Point krakow = new Point(9003, "Kraków", 19.938333, 50.061389, 3, PointType.CITY, imgList);
 		imgList = new ArrayList<String>();
-		Point poznan = new Point("Poznañ", 16.934278, 52.4085, 4, PointType.CITY, imgList);
+		Point poznan = new Point(9004, "Poznañ", 16.934278, 52.4085, 4, PointType.CITY, imgList);
 		
 		Calendar firstStartingDate = new GregorianCalendar(2013, 11, 11, 12, 00);
 		Calendar secondStartingDate = new GregorianCalendar(2013, 10, 1, 17, 00);
@@ -73,7 +85,7 @@ public class DataContainer
 		pointList.add(krakow);
 		pointList.add(poznan);
 		Travel t3 = new Travel(3, pointList, Rating.LOW,
-				firstStartingDate, TransportType.CAR, 350, 333.12, "My second trip");
+				firstStartingDate, TransportType.CAR, 350, 333.12, "My third trip");
 		addOnlineTravel(t3);
 		pointList = new ArrayList<Point>();
 		krakow.setNumber(1);
@@ -105,13 +117,13 @@ public class DataContainer
 		}
 		
 		List<String> imgList = new ArrayList<String>();
-		Point wroclaw = new Point("Wroc³aw", 17.038333, 51.107778, 1, PointType.CITY, imgList);
+		Point wroclaw = new Point(9101, "Wroc³aw", 17.038333, 51.107778, 1, PointType.CITY, imgList);
 		imgList = new ArrayList<String>();
-		Point katowice = new Point("Katowice", 19.0, 50.25, 2, PointType.CITY, imgList);
+		Point katowice = new Point(9102, "Katowice", 19.0, 50.25, 2, PointType.CITY, imgList);
 		imgList = new ArrayList<String>();
-		Point krakow = new Point("Kraków", 19.938333, 50.061389, 3, PointType.CITY, imgList);
+		Point krakow = new Point(9103, "Kraków", 19.938333, 50.061389, 3, PointType.CITY, imgList);
 		imgList = new ArrayList<String>();
-		Point poznan = new Point("Poznañ", 16.934278, 52.4085, 4, PointType.CITY, imgList);
+		Point poznan = new Point(9104, "Poznañ", 16.934278, 52.4085, 4, PointType.CITY, imgList);
 		
 		Calendar firstStartingDate = new GregorianCalendar(2013, 11, 11, 12, 00);
 		Calendar secondStartingDate = new GregorianCalendar(2013, 10, 1, 17, 00);
@@ -168,6 +180,48 @@ public class DataContainer
 			rankingLocalTravels.add(t);
 			saveRankingTravels(activity);
 		}
+	}
+	
+	public static boolean addPoi(Point p)
+	{
+		if(pois == null)
+		{
+			pois = new ArrayList<Point>();
+		}
+		if(!pois.contains(p))
+		{
+			pois.add(p);
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean containsPoiWithId(int id)
+	{
+		if(pois == null)
+		{
+			return false;
+		}
+		for(Point point : pois)
+		{
+			if(point.getId() == id)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static void savePois(Activity activity)
+	{
+		FilesHelper.saveObject(activity, pois, AppParameters.FILE_POIS, 
+				AppParameters.FOLDER_POIS);
+	}
+	
+	public static ArrayList<Point> getSavedPoints(Activity activity)
+	{
+		LoadPois(activity);
+		return pois;
 	}
 	
 	private static void addOnlineTravel(Travel t)

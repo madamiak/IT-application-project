@@ -33,9 +33,13 @@ public class LocalTravelOnItemClickListener implements OnItemClickListener
 		else if (travelSource == SOURCE.RANKING)
 		{
 			if (!DataContainer.getRankingLocalTravels().isEmpty())
+			{
 				clickedTravel = DataContainer.getRankingLocalTravel(index);
+			}
 			else
+			{
 				clickedTravel = DataContainer.getRankingOnlineTravel(index);
+			}
 		}
 		
 		Intent intent = new Intent(activity, DetailsActivity.class);

@@ -19,7 +19,7 @@ public class LoadOnlineTravelsTask extends AsyncTask<String, String, String>
 		{
 			messageToDisplay = "Loading Travels from the Internet...";
 		}
-		else
+		else if(travelsSource == SOURCE.RANKING)
 		{
 			messageToDisplay = "Loading Ranking from the Internet...";
 		}
@@ -39,7 +39,7 @@ public class LoadOnlineTravelsTask extends AsyncTask<String, String, String>
 		{
 			DataContainer.LoadOnlineTravels();
 		}
-		else
+		else if(travelsSource == SOURCE.RANKING)
 		{
 			DataContainer.LoadRankingOnlineTravels();
 		}
