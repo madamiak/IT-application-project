@@ -67,6 +67,6 @@ public class Application extends Controller {
 	}
 	
 	public static Result getAllTripsByUserId(int userId) {
-		return ok(Json.toJson(FavouriteRoute.getAllByUserId(userId)));
+		return ok(Json.toJson(FavouriteRoute.toDTO(FavouriteRoute.getAllByUserId(userId))));
 	}
 }

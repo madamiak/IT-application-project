@@ -124,4 +124,8 @@ public class User extends Model {
 		((FailedResponseData) response.data).trialsLeft = 3;
 		return response;
 	}
+	
+	public String toString1() {
+		return String.format("['id'->%d, 'name'->%s, 'surname'->%s, 'email'->%s, 'password'->%s, 'group'->%s]", this.id, this.name, this.surname, this.email, this.password, this.group.toString1());
+	}
 }

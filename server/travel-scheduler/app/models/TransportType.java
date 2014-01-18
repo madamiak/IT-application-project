@@ -35,4 +35,8 @@ public class TransportType extends Model {
 	public static TransportType getByName(String name) {
 		return find.where().eq("name", name).findUnique();
 	}
+
+	public String toString1() {
+		return String.format("['id'->%d, 'name'->%s]", this.id, this.name );
+	}
 }

@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 
 import play.libs.Json;
 
@@ -14,14 +15,21 @@ import com.fasterxml.jackson.databind.JsonNode;
 public class GoogleDirectionsAPI {
 	public static JsonNode getRoute(String origin, String destination) {
 		try {
-
+			if (origin.contains("("))
+				origin = origin.substring(0, origin.indexOf("(")-1);
+			if (destination.contains("("))
+				destination = destination.substring(0, origin.indexOf("(")-1);
 			StringBuilder result = new StringBuilder();
 			// get URL content
-			URL url = new URL(
-					"http://maps.googleapis.com/maps/api/directions/json?"
-							+"origin=" + origin 
-							+ "&destination=" + destination
-							+ "&sensor=false");
+			String query = "http://maps.googleapis.com/maps/api/directions/json?"
+					+ "origin="
+					+ origin
+					+ "&destination="
+					+ destination
+					+ "&sensor=false";
+			query = URLDecoder.decode(query, "UTF-8");
+			URL url = new URL(query);
+			System.out.println(url);
 			System.out.println("Executing query " + url.getQuery());
 			URLConnection conn = url.openConnection();
 

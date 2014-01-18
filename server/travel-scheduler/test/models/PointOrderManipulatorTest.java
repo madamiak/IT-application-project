@@ -7,10 +7,12 @@ import java.util.List;
 
 import models.domain.PointData;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class PointOrderManipulatorTest {
 
+	@Ignore
 	@Test
 	public void sortByStraightLineTest() {
 		List<PointData> pointList = new ArrayList<PointData>();

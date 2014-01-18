@@ -2,6 +2,7 @@ package models;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -49,34 +50,60 @@ public class FavouriteRoute extends Model {
 		return Json.toJson(this);
 	}
 
-	public static FavouriteRoutesDTO getAllByUserId(int userId) {
-		FavouriteRoutesDTO routesDTO = new FavouriteRoutesDTO();
-		routesDTO.routes = new ArrayList<FavouriteRouteDTO>();
-		List<FavouriteRoute> routes = find.where().eq("user_ID", userId).findList();
-		for (FavouriteRoute fr : routes) {
-			FavouriteRouteDTO favouriteRouteDTO = new FavouriteRouteDTO();
-			favouriteRouteDTO.prefferences = new PrefferencesDTO();
-			favouriteRouteDTO.prefferences.budget = fr.route.budget;
-			favouriteRouteDTO.prefferences.startDate = new SimpleDateFormat("YYYY-MM-dd HH:mm").format(fr.route.startingTime);
-			favouriteRouteDTO.prefferences.kmPerDay = Integer.MAX_VALUE;
-			if(fr.route.pointList.size() == 0) {
-				continue;
-			}
-			long[] pointIds = new long[fr.route.pointList.size()];
-			for(PointList pointList : fr.route.pointList) {
-				pointIds[pointList.number] = pointList.point.id;
-			}
-			RouteDTO routeDTO = Route.schedule(pointIds, favouriteRouteDTO.prefferences);
-			favouriteRouteDTO.points = routeDTO.points;
-			favouriteRouteDTO.routes = routeDTO.routes;
-			favouriteRouteDTO.summary = routeDTO.summary;
-			favouriteRouteDTO.prefferences = new PrefferencesDTO();
-			favouriteRouteDTO.prefferences.budget = fr.route.budget;
-			favouriteRouteDTO.prefferences.startDate = new SimpleDateFormat("YYYY-MM-dd HH:mm").format(fr.route.startingTime);
-			
-			routesDTO.routes.add(favouriteRouteDTO);
+	public static List<FavouriteRoute> getAllByUserId(long userId) {
+		return find.where().eq("user_ID", userId).findList();
+	}
+
+	public static FavouriteRoutesDTO toDTO(List<FavouriteRoute> trips) {
+		FavouriteRoutesDTO dto = new FavouriteRoutesDTO();
+		dto.routes = new ArrayList<>();
+		for (FavouriteRoute favouriteRoute : trips) {
+			dto.routes.add(favouriteRoute.toDTO());
 		}
-		return routesDTO;
-		
+		return dto;
+
+	}
+
+	public FavouriteRouteDTO toDTO() {
+		FavouriteRouteDTO dto = new FavouriteRouteDTO();
+		dto.prefferences = createPreferences();
+		RouteDTO trip = calculateRoute(dto.prefferences);
+		dto.points = trip.points;
+		dto.routes = trip.routes;
+		dto.summary = trip.summary;
+		return dto;
+
+	}
+
+	private RouteDTO calculateRoute(PrefferencesDTO prefferences) {
+		return Route.schedule(Arrays.asList(createSortedArray()), prefferences);
+	}
+
+	private Point[] createSortedArray() {
+		Point[] pointArray = new Point[this.route.pointList.size()];
+		try {
+			for (PointList pt : this.route.pointList) {
+				pointArray[pt.number] = pt.point;
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			for (PointList pt : this.route.pointList) {
+				pointArray[pt.number - 1] = pt.point;
+			}
+		}
+		return pointArray;
+	}
+
+	private PrefferencesDTO createPreferences() {
+		PrefferencesDTO preferences = new PrefferencesDTO();
+		preferences.budget = this.route.budget;
+		preferences.startDate = new SimpleDateFormat("YYYY-MM-dd HH:mm")
+				.format(this.route.startingTime);
+		preferences.kmPerDay = Integer.MAX_VALUE;
+		return preferences;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("['id'->%d, 'user'->%s, 'route->%s', 'rating'->%d]", this.id, this.user.toString1(), this.route.toString1(), this.rating);
 	}
 }

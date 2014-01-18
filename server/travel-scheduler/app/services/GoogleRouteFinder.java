@@ -40,7 +40,6 @@ public class GoogleRouteFinder implements RouteFinder {
 			JSONArray array = new JSONArray(routeJson.findValue("steps").toString());
 			for(int i = 0; i < array.length(); i++) {
 				int distance = array.getJSONObject(i).getJSONObject("distance").getInt("value");
-				System.out.println("distance " + distance);
 				if(distance + currentMeters > meters) {
 					newDestination[0] = array.getJSONObject(i).getJSONObject("end_location").getDouble("lat");
 					newDestination[1] = array.getJSONObject(i).getJSONObject("end_location").getDouble("lng");

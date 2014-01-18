@@ -33,6 +33,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 public class Route extends Model {
 
 	private static final long serialVersionUID = 1L;
+	public static final Finder<Long, Route> find = new Finder<Long, Route>(
+			Long.class, Route.class);
 
 	@Id
 	@Column(name = "id_route")
@@ -57,7 +59,7 @@ public class Route extends Model {
 		return Json.toJson(this);
 	}
 
-	public static RouteDTO schedule(long[] pointIds, PrefferencesDTO prefferences) {
+	public static RouteDTO schedule(List<Point> points, PrefferencesDTO prefferences) {
 		RouteFinder finder = new GoogleRouteFinder();
 		int summaryDistanceInMeters = 0;
 		int summaryDurationInSeconds = 0;
@@ -70,22 +72,22 @@ public class Route extends Model {
 		routeDTO.points = new ArrayList<RoutePointData>();
 		routeDTO.routes = new ArrayList<RouteData>();
 
-		JsonNode originPointAsJson = Point.getByIdAsJson(pointIds[0]);
-		String origin = originPointAsJson.findValuesAsText("name").get(0);
+		Point originPointAsJson = points.get(0);
+		String origin = originPointAsJson.name;
 
 		RoutePointData originRoutePoint = createRoutePointData(originPointAsJson);
 		routeDTO.points.add(originRoutePoint);
 
-		for (int i = 1; i < pointIds.length; i++) {
-			JsonNode destinationPointAsJson = Point.getByIdAsJson(pointIds[i]);
-			String destination = destinationPointAsJson.findValuesAsText("name").get(0);
+		for (int i = 1; i < points.size(); i++) {
+			Point destinationPointAsJson = points.get(i);
+			String destination = destinationPointAsJson.name;
 			
 			RouteData route = finder.getRoute(new PointsPairData(origin, destination));
 			
 			if(route.distance.value + summaryDistanceInMeters > prefferences.kmPerDay * 1000) {
 				Point waypoint = finder.getAlternativeWaypoint(new PointsPairData(origin, destination), prefferences.kmPerDay * 1000 - currentDistanceInMeters);
 				route = finder.getRoute(new PointsPairData(origin, waypoint.latitude+","+waypoint.longitude ));
-				routeDTO.points.add(createRoutePointData(Point.getByIdAsJson(waypoint.id)));
+				routeDTO.points.add(createRoutePointData(Point.getById(waypoint.id)));
 				routeDTO.routes.add(route);
 				route = finder.getRoute(new PointsPairData(waypoint.latitude+","+waypoint.longitude , destination ));
 			}
@@ -110,13 +112,13 @@ public class Route extends Model {
 		return routeDTO;
 	}
 
-	private static RoutePointData createRoutePointData(JsonNode point1) {
+	private static RoutePointData createRoutePointData(Point originPointAsJson) {
 		RoutePointData pointData1 = new RoutePointData();
-		pointData1.id = Long.parseLong(point1.findValuesAsText("id").get(0));
-		pointData1.type = point1.findValue("type").findValuesAsText("name").get(0);
-		pointData1.name = point1.findValuesAsText("name").get(0);
-		pointData1.lat = point1.findValuesAsText("latitude").get(0);
-		pointData1.lng = point1.findValuesAsText("longitude").get(0);
+		pointData1.id = originPointAsJson.id;
+		pointData1.type = originPointAsJson.type.name;
+		pointData1.name = originPointAsJson.name;
+		pointData1.lat = String.valueOf(originPointAsJson.latitude);
+		pointData1.lng = String.valueOf(originPointAsJson.longitude);
 		return pointData1;
 	}
 
@@ -128,5 +130,13 @@ public class Route extends Model {
 
 	private static String getDistanceText(int summaryDistanceInMeters) {
 		return summaryDistanceInMeters / 1000 + " km";
+	}
+
+	public static Route getById(long id) {
+		return find.byId(id);
+	}
+
+	public String toString1() {
+		return String.format("['id'->%d, 'name'->%s, 'start'->%s, 'transport'->%s, 'budget'->%f, 'points count'->%s]", this.id, this.name, this.startingTime, this.transportType.toString1(), this.budget, this.pointList.size());
 	}
 }

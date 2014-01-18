@@ -17,4 +17,8 @@ public class Groups extends Model {
 	@Column(name="group_name")
 	public String name;
 	
+	public String toString1() {
+		return String.format("['id'->%d, 'name'->%s]", this.id, this.name);
+	}
+	
 }

@@ -55,7 +55,7 @@ public class PointOrderManipulator {
 
 	private static float calculateDistance(PointData point1, PointData point2) {
 		float x = point1.longitude - point2.longitude;
-		float y = point1.latitudel - point2.latitudel;
+		float y = point1.latitude - point2.latitude;
 		return (float) Math.sqrt((x * x) + (y * y));
 	}
 

@@ -180,7 +180,6 @@ public class Point extends Model {
 
 	private static Point findWithinTreshold(double[] newDestination, double treshold, List<Point> hotels) {
 		for (Point point : hotels) {
-			System.out.println(newDestination[0] + "," + newDestination[1] + " " + treshold + " " + point.latitude + "," + point.longitude);
 			if(newDestination[0] + treshold > point.latitude && newDestination[0] - treshold < point.latitude 
 					&& newDestination[1] + treshold > point.longitude && newDestination[1] - treshold < point.longitude) {
 				return point;
