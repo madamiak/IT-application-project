@@ -20,7 +20,6 @@ public class PointType extends Model {
 	
 	public static PointType getByName(String name){
 		PointType pt = find.where().eq("type_category", name).findUnique();
-		System.out.println(pt==null ? "It's null\n\n\n\n\n\n\n\n\n\n\n\n\n" : pt.name+"\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 		return pt;
 	}
 }

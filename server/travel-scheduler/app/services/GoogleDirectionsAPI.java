@@ -30,7 +30,6 @@ public class GoogleDirectionsAPI {
 			query = URLDecoder.decode(query, "UTF-8");
 			URL url = new URL(query);
 			System.out.println(url);
-			System.out.println("Executing query " + url.getQuery());
 			URLConnection conn = url.openConnection();
 
 			// open the stream and put it into BufferedReader

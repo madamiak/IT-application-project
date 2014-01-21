@@ -6,10 +6,16 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+<<<<<<< HEAD
 import actions.CorsAction;
+=======
+import models.POI;
+import models.POIDetailed;
+>>>>>>> 0c790a7cf777176a1f9eccdeb277d6d2afa68317
 import models.Point;
 import models.Route;
 import models.domain.PointData;
+import models.dto.POIsDTO;
 import models.dto.PrefferencesDTO;
 import models.dto.RouteDTO;
 import play.libs.Json;
@@ -32,7 +38,24 @@ public class TripController extends Controller {
 	}
 
 	public static Result getPois(double lng, double lat, double radius, boolean withdetails) {
-		return ok(Point.getPOIs(lng, lat, radius, withdetails));
+		List<Point> pois = Point.getPOIs(lat, lng, radius, withdetails);
+		POIsDTO dto = new POIsDTO();
+		dto.pois = new ArrayList<POI>();
+		for (int i = 0; i < pois.size(); i++) {
+			if(withdetails) {
+				POIDetailed dest = new POIDetailed();
+				dest.id = pois.get(i).id;
+				dest.lat = pois.get(i).latitude;
+				dest.lng = pois.get(i).longitude;
+				dest.name = pois.get(i).name;
+				dto.pois.add(dest);
+			} else {
+				POI dest = new POI();
+				dest.id = pois.get(i).id;
+				dto.pois.add(dest);
+			}
+		}
+		return ok(Json.toJson(dto));
 	}
 
 	public static Result getPoiById(String id) {

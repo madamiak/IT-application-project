@@ -2,6 +2,7 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -19,6 +20,7 @@ import models.domain.PointsPairData;
 import models.domain.RouteData;
 import models.domain.RoutePointData;
 import models.domain.SummaryData;
+import models.dto.POIsDTO;
 import models.dto.PrefferencesDTO;
 import models.dto.RouteDTO;
 import play.db.ebean.Model;
@@ -71,28 +73,42 @@ public class Route extends Model {
 		routeDTO.summary.duration = new DurationData();
 		routeDTO.points = new ArrayList<RoutePointData>();
 		routeDTO.routes = new ArrayList<RouteData>();
+		routeDTO.pois = new HashSet<POI>();
+		
+		List<POI> pois;
 
-		Point originPointAsJson = points.get(0);
-		String origin = originPointAsJson.name;
+		Point originPoint = points.get(0);
+		String origin = originPoint.latitude+","+originPoint.longitude;
 
-		RoutePointData originRoutePoint = createRoutePointData(originPointAsJson);
+		RoutePointData originRoutePoint = createRoutePointData(originPoint);
 		routeDTO.points.add(originRoutePoint);
 
 		for (int i = 1; i < points.size(); i++) {
-			Point destinationPointAsJson = points.get(i);
-			String destination = destinationPointAsJson.name;
+			Point destinationPoint = points.get(i);
+			String destination = destinationPoint.latitude+","+destinationPoint.longitude;
+			pois = getPOIs(destinationPoint);
+			for (POI poi : pois) {
+				routeDTO.pois.add(poi);
+			}
 			
 			RouteData route = finder.getRoute(new PointsPairData(origin, destination));
 			
 			if(route.distance.value + summaryDistanceInMeters > prefferences.kmPerDay * 1000) {
 				Point waypoint = finder.getAlternativeWaypoint(new PointsPairData(origin, destination), prefferences.kmPerDay * 1000 - currentDistanceInMeters);
+				pois = getPOIs(waypoint);
+				for (POI poi : pois) {
+					routeDTO.pois.add(poi);
+				}
 				route = finder.getRoute(new PointsPairData(origin, waypoint.latitude+","+waypoint.longitude ));
 				routeDTO.points.add(createRoutePointData(Point.getById(waypoint.id)));
 				routeDTO.routes.add(route);
+				currentDistanceInMeters += route.duration.value;
+				summaryDurationInSeconds += route.duration.value;
+				summaryDistanceInMeters += route.distance.value;
 				route = finder.getRoute(new PointsPairData(waypoint.latitude+","+waypoint.longitude , destination ));
 			}
 			
-			RoutePointData destinationRoutePoint = createRoutePointData(destinationPointAsJson);
+			RoutePointData destinationRoutePoint = createRoutePointData(destinationPoint);
 			routeDTO.points.add(destinationRoutePoint);
 			
 			routeDTO.routes.add(route);
@@ -110,6 +126,17 @@ public class Route extends Model {
 		routeDTO.summary.duration.text = getDurationText(summaryDurationInSeconds);
 
 		return routeDTO;
+	}
+
+	private static List<POI> getPOIs(Point originPoint) {
+		List<Point> pois = Point.getPOIs(originPoint.latitude, originPoint.longitude, 20000, false);
+		List<POI> poiList = new ArrayList<>();
+		for (Point point : pois) {
+			POI poi = new POI();
+			poi.id = point.id;
+			poiList.add(poi);
+		}
+		return poiList;
 	}
 
 	private static RoutePointData createRoutePointData(Point originPointAsJson) {
