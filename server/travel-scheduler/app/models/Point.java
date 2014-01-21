@@ -82,39 +82,28 @@ public class Point extends Model {
 		return json;
 	}
 
-	public static JsonNode getPOIs(double lng, double lat, double radius, boolean withdetails) {
+	public static List<Point> getPOIs(double lat, double lng, double radius, boolean withdetails) {
 		PointType pt = PointType.getByName("POI");
 		List<Point> points = find.where().eq("point_type", pt.id).findList();
-		
-		for (int i = 0; i < points.size(); i++) {
-			if(radiusBiggerThan(lng, lat, radius, points.get(i))) {
+		for (int i = points.size()-1; i >= 0; i--) {
+			if(radiusBiggerThan(lat, lng, radius, points.get(i))) {
 				points.remove(i);
 			}
 		}
-
-		POIsDTO dto = new POIsDTO();
-		dto.pois = new ArrayList<POI>();
-		for (int i = 0; i < points.size(); i++) {
-			if(withdetails) {
-				POIDetailed dest = new POIDetailed();
-				dest.id = points.get(i).id;
-				dest.lat = points.get(i).latitude;
-				dest.lng = points.get(i).longitude;
-				dest.name = points.get(i).name;
-				dto.pois.add(dest);
-			} else {
-				POI dest = new POI();
-				dest.id = points.get(i).id;
-				dto.pois.add(dest);
-			}
-		}
-		JsonNode json = Json.toJson(dto);
-		return json;
+		return points;
 	}
 
 	private static boolean radiusBiggerThan(double lat, double lng, double radius, Point point) {
-		// http://janmatuschek.de/LatitudeLongitudeBoundingCoordinates
-		return (Math.acos(Math.sin(1.3963) * Math.sin(lat) + Math.cos(1.3963) * Math.cos(lat) * Math.cos(lng - (-0.6981))) * 6.371 > radius);
+		double earthRadius = 3958.75;
+	    double dLat = Math.toRadians(lat-point.latitude);
+	    double dLng = Math.toRadians(lng-point.longitude);
+	    double sindLat = Math.sin(dLat / 2);
+	    double sindLng = Math.sin(dLng / 2);
+	    double a = Math.pow(sindLat, 2) + Math.pow(sindLng, 2)
+	            * Math.cos(Math.toRadians(point.latitude)) * Math.cos(Math.toRadians(lat));
+	    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	    double dist = earthRadius * c;
+		return (dist > radius/1000);
 	}
 
 	public static JsonNode getDestinationById(int id) {
