@@ -1,6 +1,26 @@
 <div ng-controller="MainController" id="main-container">
 
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+  
+	    <div class="pull-right" id="top-form">
+			<form class="form-inline pull-right" ng-submit="tryLogin()">
+	    	<small><i class="icon-user"></i> {{loginStatus}}</small>
 
+		  <input type="text" ng-model="username" class="input-small" placeholder="Username">
+		  <input type="password" ng-model="password" class="input-small" placeholder="Password">
+		  <label class="checkbox">
+		    <input type="checkbox"> <small>Remember </small>
+		  </label>
+		  <button type="submit" class="btn btn-small btn-inverse" style="margin-top: 0; ">Sign in</button>
+		  <small>Don't have an account? <a href="#">register now!</a></small>
+		</form>
+
+	
+   </div>
+  </div>
+
+</div>
 		<div id="sidebar">
 			<h1 id="travel-scheduler-top">Travel scheduler</h1>
 			<tabset>

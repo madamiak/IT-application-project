@@ -3,8 +3,13 @@
 
 angular.module('uiApp').controller('MainController', function ($scope) {
 
-		$scope.explore = function($scope) {}
-
+		$scope.explore = function($scope) {};
+		$scope.loginStatus = "You are not logged in.";
+  		$scope.username="";
+  		$scope.password="";
+  		$scope.tryLogin = function() {
+  			console.log($scope.username+" "+$scope.password);
+  		};
 		
 	
 });

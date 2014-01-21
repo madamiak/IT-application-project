@@ -8,7 +8,7 @@
             <div class="controls">
               <div class="input-prepend">
                 <span class="add-on"><i class="icon-map-marker"/></span>
-                <input type="text" ng-change="updateAutosugestion(point.place)" ng-model="point.place" placeholder="{{point.placeholder}}" typeahead="place as place.value for place in places | limitTo:8" typeahead-loading="isLoading" value="{{point.place}}" required> 
+                <input type="text" ng-change="updateAutosugestion(point.place)" ng-model="point.place" placeholder="{{point.placeholder}}" typeahead="place as place.value for place in places | limitTo:15" typeahead-loading="isLoading" value="{{point.place}}" required> 
             </div>
           </div>
         </li>
