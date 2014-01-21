@@ -22,9 +22,11 @@ angular.module('uiApp').controller('SearchController', function ($scope,$http) {
 			var item = $scope.middlePoints[i].place;
 			$scope.detailedListToShow.push({id:item.id});
 		}
-
-		console.log($scope.endpoint+'/schedule?ids='+JSON.stringify({ids:$scope.detailedListToShow}));
-		$http({method: 'GET', url: $scope.endpoint+'/schedule?ids='+JSON.stringify({ids:$scope.detailedListToShow})}).success(function(data, status, headers, config) {
+		var additionalPrefferences = {numberOfPeople:3,startDate:"2013-12-111:10",endDate:"2013-12-1212:12",budget:123.0,kmPerDay:99990,suggest:"true"};
+		
+		var reqUrl=$scope.endpoint+'/schedule?ids='+JSON.stringify({ids:$scope.detailedListToShow})+'&prefs='+JSON.stringify(additionalPrefferences);
+		console.log(reqUrl);
+		$http({method: 'GET', url: reqUrl}).success(function(data, status, headers, config) {
 			$scope.$emit('showMap',data);
 			$scope.searchText = '';
 			$scope.isRouteCalculated=false;
@@ -75,7 +77,7 @@ angular.module('uiApp').controller('SearchController', function ($scope,$http) {
 	
 	$scope.updateAutosugestion = function(searchedPhrase) {
 
-		if(searchedPhrase != undefined && searchedPhrase.length<2);
+		if(searchedPhrase != undefined && searchedPhrase.length<0);
 		else
 		{
 		
