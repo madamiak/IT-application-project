@@ -16,4 +16,10 @@ angular.module('uiApp', [
       .otherwise({
         redirectTo: '/'
       });
+  })
+
+
+  .config(function($httpProvider) {
+    $httpProvider.defaults.useXDomain = true;
+
   });

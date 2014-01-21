@@ -5,8 +5,11 @@
 # Home page
 GET     /                                 controllers.Application.index()
 
+# Options handling
+OPTIONS /*all 								controllers.Application.enableCors(all)
+
 # User RESTful API
-POST       /user/authenticate             controllers.Application.authenticate(login, password)
+POST       /user/authenticate             controllers.Application.authenticate()
 PUT        /user/register                 controllers.Application.register()
 GET        /user/:id/preferences          controllers.PreferencesController.getById(id : Int)
 GET        /user/:id/trips                controllers.Application.getAllTripsByUserId(id : Int)
@@ -15,9 +18,7 @@ PUT        /user/trip                     controllers.Application.saveTrip()
 # Trip RESTful API
 # Destinations
 GET        /places/destinations/:name     controllers.TripController.getPlaceByPhrase(name : String)
-OPTIONS    /places/destinations/:name     controllers.TripController.getPlaceByPhrase(name : String)
 GET        /places/destination/:id        controllers.TripController.getPlaceById(id : String)
-OPTIONS    /places/destination/:id        controllers.TripController.getPlaceById(id : String)
 GET        /places/destination/:id/images controllers.TripController.getPlaceImageById(id : String)
 
 # Points of interest
@@ -26,7 +27,6 @@ GET        /places/poi/:id                controllers.TripController.getPoiById(
 
 # Trip
 GET        /schedule                      controllers.TripController.getScheduledTrip(ids : String, prefs : String)
-OPTIONS    /schedule                      controllers.TripController.getScheduledTrip(ids : String, prefs : String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file                  controllers.Assets.at(path="/public", file)

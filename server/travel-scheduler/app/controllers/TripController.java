@@ -6,6 +6,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import actions.CorsAction;
 import models.Point;
 import models.Route;
 import models.domain.PointData;
@@ -15,25 +16,14 @@ import play.libs.Json;
 import play.mvc.*;
 import services.PointOrderManipulator;
 
+@With(CorsAction.class)
 public class TripController extends Controller {
+
 	public static Result getPlaceByPhrase(String name) {
-
-		response().setHeader("Access-Control-Allow-Origin", "*");
-		response().setHeader("Access-Control-Allow-Methods", "POST");
-		response()
-				.setHeader("Access-Control-Allow-Headers",
-						"accept, origin, Content-type, x-json, x-prototype-version, x-requested-with");
-
-		return ok(Point.getDestinationsByName(name));
+		return ok(Point.getDestinationsByName(name)); 
 	}
 
 	public static Result getPlaceById(String id) {
-		response().setHeader("Access-Control-Allow-Origin", "*");
-		response().setHeader("Access-Control-Allow-Methods", "POST");
-		response()
-				.setHeader("Access-Control-Allow-Headers",
-						"accept, origin, Content-type, x-json, x-prototype-version, x-requested-with");
-
 		return ok(Point.getDestinationById(Integer.parseInt(id)));
 	}
 
@@ -50,15 +40,11 @@ public class TripController extends Controller {
 	}
 
 	public static Result getScheduledTrip(String ids, String prefs) throws JSONException {
-		response().setHeader("Access-Control-Allow-Origin", "*");
-		response().setHeader("Access-Control-Allow-Methods", "GET");
-		response()
-				.setHeader("Access-Control-Allow-Headers",
-						"accept, origin, Content-type, x-json, x-prototype-version, x-requested-with");
+
 		JSONArray idArray = new JSONArray(Json.parse(ids).findValue("ids")
 				.toString());
-		List<Point> points = new ArrayList<>();
-		List<PointData> pointList = new ArrayList<>();
+		List<Point> points = new ArrayList<Point>();
+		List<PointData> pointList = new ArrayList<PointData>();
 		long[] pointIds = new long[idArray.length()];
 		for (int i = 0; i < idArray.length(); i++) {
 			pointIds[i] = Long.parseLong(idArray.getJSONObject(i).get("id")
