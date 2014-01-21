@@ -6,12 +6,9 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-<<<<<<< HEAD
 import actions.CorsAction;
-=======
 import models.POI;
 import models.POIDetailed;
->>>>>>> 0c790a7cf777176a1f9eccdeb277d6d2afa68317
 import models.Point;
 import models.Route;
 import models.domain.PointData;
