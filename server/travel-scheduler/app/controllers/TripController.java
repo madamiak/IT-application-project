@@ -41,8 +41,8 @@ public class TripController extends Controller {
 		return TODO;
 	}
 
-	public static Result getPois() {
-		return ok(Point.getPOIs());
+	public static Result getPois(double lng, double lat, double radius, boolean withdetails) {
+		return ok(Point.getPOIs(lng, lat, radius, withdetails));
 	}
 
 	public static Result getPoiById(String id) {

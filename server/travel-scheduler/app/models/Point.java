@@ -82,19 +82,39 @@ public class Point extends Model {
 		return json;
 	}
 
-	public static JsonNode getPOIs() {
+	public static JsonNode getPOIs(double lng, double lat, double radius, boolean withdetails) {
 		PointType pt = PointType.getByName("POI");
 		List<Point> points = find.where().eq("point_type", pt.id).findList();
+		
+		for (int i = 0; i < points.size(); i++) {
+			if(radiusBiggerThan(lng, lat, radius, points.get(i))) {
+				points.remove(i);
+			}
+		}
 
 		POIsDTO dto = new POIsDTO();
 		dto.pois = new ArrayList<POI>();
 		for (int i = 0; i < points.size(); i++) {
-			POI dest = new POI();
-			dest.id = points.get(i).id;
-			dto.pois.add(dest);
+			if(withdetails) {
+				POIDetailed dest = new POIDetailed();
+				dest.id = points.get(i).id;
+				dest.lat = points.get(i).latitude;
+				dest.lng = points.get(i).longitude;
+				dest.name = points.get(i).name;
+				dto.pois.add(dest);
+			} else {
+				POI dest = new POI();
+				dest.id = points.get(i).id;
+				dto.pois.add(dest);
+			}
 		}
 		JsonNode json = Json.toJson(dto);
 		return json;
+	}
+
+	private static boolean radiusBiggerThan(double lat, double lng, double radius, Point point) {
+		// http://janmatuschek.de/LatitudeLongitudeBoundingCoordinates
+		return (Math.acos(Math.sin(1.3963) * Math.sin(lat) + Math.cos(1.3963) * Math.cos(lat) * Math.cos(lng - (-0.6981))) * 6.371 > radius);
 	}
 
 	public static JsonNode getDestinationById(int id) {
@@ -111,7 +131,8 @@ public class Point extends Model {
 	}
 
 	public static JsonNode getPOIById(int id) {
-		Point p = find.where().eq("idpoints", id).findUnique();
+		PointType pt = PointType.getByName("POI");
+		Point p = find.where().eq("idpoints", id).eq("point_type", pt.id).findUnique();
 
 		POIDTO dto = new POIDTO();
 		dto.id = p.id;
