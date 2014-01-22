@@ -47,6 +47,7 @@ public class Application extends Controller {
 		DynamicForm requestData = Form.form().bindFromRequest();
 		username = requestData.get("username");
 		password = requestData.get("password");
+		System.out.println(username+password);
 		return ok(User.authenticate(username, password).toJson());
 	}
 

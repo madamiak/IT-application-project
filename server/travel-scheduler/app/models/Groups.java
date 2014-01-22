@@ -5,11 +5,14 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import play.db.ebean.Model;
+import play.db.ebean.Model.Finder;
 
 @Entity
 public class Groups extends Model {
 
 	private static final long serialVersionUID = 1L;
+	public static final Finder<Long, Groups> find = new Finder<Long, Groups>(
+			Long.class, Groups.class);
 
 	@Id
 	@Column(name="id_groups")

@@ -37,7 +37,6 @@ public class User extends Model {
 	@Id
 	@Column(name = "id_user")
 	public long id;
-	@JsonIgnore
 	@Column(name = "user_password")
 	public String password;
 	@Column(name = "user_name")
@@ -46,7 +45,7 @@ public class User extends Model {
 	public String surname;
 	@Column(name = "user_email")
 	public String email;
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_group")
 	public Groups group;
 	@JsonIgnore
@@ -124,8 +123,11 @@ public class User extends Model {
 		((FailedResponseData) response.data).trialsLeft = 3;
 		return response;
 	}
-	
+
 	public String toString1() {
-		return String.format("['id'->%d, 'name'->%s, 'surname'->%s, 'email'->%s, 'password'->%s, 'group'->%s]", this.id, this.name, this.surname, this.email, this.password, this.group.toString1());
+		return String
+				.format("['id'->%d, 'name'->%s, 'surname'->%s, 'email'->%s, 'password'->%s, 'group'->%s]",
+						this.id, this.name, this.surname, this.email,
+						this.password, this.group.toString1());
 	}
 }

@@ -11,7 +11,7 @@ import play.test.Helpers;
 
 public class TripControllerTest {
 
-//	@Ignore
+	@Ignore
 	@Test
 	public void shouldReturnScheduledTrips() {
 		FakeApplication fakeApplication = Helpers.fakeApplication();

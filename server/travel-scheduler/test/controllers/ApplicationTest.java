@@ -4,7 +4,9 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import models.FavouriteRoute;
 import models.Groups;
@@ -29,6 +31,39 @@ public class ApplicationTest {
 
 	@Ignore
 	@Test
+	public void shouldAuthenticateUserAfterRegistering() throws Exception {
+		FakeApplication fakeApplication = Helpers.fakeApplication();
+		Helpers.running(fakeApplication, new Runnable() {
+			@Override
+			public void run() {
+				Ebean.beginTransaction();
+				FakeRequest fakeRequest = new FakeRequest();
+				fakeRequest.withHeader("Content-Type", "application/json");
+				User user = new User();
+				user.name = "D";
+				user.surname = "Z";
+				user.email = "D@Z.pl";
+				user.password = "DFGHJK";
+				user.group = Groups.find.byId(64L);
+				fakeRequest.withJsonBody(Json.toJson(user));
+				Helpers.callAction(controllers.routes.ref.Application.register(), fakeRequest);
+				
+				fakeRequest = new FakeRequest();
+				Map<String, String> params = new HashMap<String, String>();
+				params.put("username", user.email);
+				params.put("password", user.password);
+				fakeRequest.withFormUrlEncodedBody(params );
+				Result result = Helpers.callAction(controllers.routes.ref.Application.authenticate(), fakeRequest);
+				System.out.println(Helpers.contentAsString(result));
+				
+				Ebean.rollbackTransaction();
+			}
+		});
+		Helpers.stop(fakeApplication);
+	}
+
+	@Ignore
+	@Test
 	public void controllerShouldSaveTrip() {
 		FakeApplication fakeApplication = Helpers.fakeApplication();
 		Helpers.running(fakeApplication, new Runnable() {
@@ -47,7 +82,7 @@ public class ApplicationTest {
 		});
 		Helpers.stop(fakeApplication);
 	}
-	
+
 	@Ignore
 	@Test
 	public void controllerShouldReturnTripsForUser() {
@@ -57,8 +92,8 @@ public class ApplicationTest {
 			public void run() {
 				FakeRequest fakeRequest = new FakeRequest();
 				Result result = Helpers.callAction(
-						controllers.routes.ref.Application.getAllTripsByUserId(67),
-						fakeRequest);
+						controllers.routes.ref.Application
+								.getAllTripsByUserId(67), fakeRequest);
 				System.out.println(Helpers.contentAsString(result));
 			}
 		});
