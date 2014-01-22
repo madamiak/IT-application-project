@@ -20,7 +20,6 @@ import models.domain.PointsPairData;
 import models.domain.RouteData;
 import models.domain.RoutePointData;
 import models.domain.SummaryData;
-import models.dto.POIsDTO;
 import models.dto.PrefferencesDTO;
 import models.dto.RouteDTO;
 import play.db.ebean.Model;
@@ -130,7 +129,7 @@ public class Route extends Model {
 
 	private static List<POI> getPOIs(Point originPoint) {
 		List<Point> pois = Point.getPOIs(originPoint.latitude, originPoint.longitude, 20000, false);
-		List<POI> poiList = new ArrayList<>();
+		List<POI> poiList = new ArrayList<POI>();
 		for (Point point : pois) {
 			POI poi = new POI();
 			poi.id = point.id;

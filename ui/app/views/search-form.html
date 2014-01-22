@@ -31,4 +31,16 @@
      <div><progress percent="100" class="progress-striped active"> The route is being calculated...</progress></div>
     </div>
 
+  
+
+  <div collapse="!isCollapsed">
+   <table class="table adv-preffs-table"><td>
+  <input type="checkbox" id="inlineCheckbox1" value="option1">
+</td><td>Suggest POIs along the way</td></tr>
+     <tr><td><input type="checkbox" id="inlineCheckbox1" value="option1"></td><td>Optimize the route</td></tr>
+      <tr><td><input type="text" style="width: 20px;"></td><td>Number of people</td></tr>
+    <tr><td><input type="text" style="width: 35px;"></td><td>Number of kilometers per day</td></tr>
+   </table>
   </div>
+  </div>
+  <button class="btn btn-small advanced-button" style="display: block; margin: 0 auto 10px;" ng-click="isCollapsed = !isCollapsed">advanced options <i class="icon-list"></i></button>

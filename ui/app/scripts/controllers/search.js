@@ -22,7 +22,7 @@ angular.module('uiApp').controller('SearchController', function ($scope,$http) {
 			var item = $scope.middlePoints[i].place;
 			$scope.detailedListToShow.push({id:item.id});
 		}
-		var additionalPrefferences = {numberOfPeople:3,startDate:"2013-12-111:10",endDate:"2013-12-1212:12",budget:123.0,kmPerDay:99990,suggest:"true"};
+		var additionalPrefferences = {numberOfPeople:3,startDate:"2013-12-111:10",endDate:"2013-12-1212:12",budget:123.0,kmPerDay:9999,suggest:"true"};
 		
 		var reqUrl=$scope.endpoint+'/schedule?ids='+JSON.stringify({ids:$scope.detailedListToShow})+'&prefs='+JSON.stringify(additionalPrefferences);
 		console.log(reqUrl);
