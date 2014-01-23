@@ -1,0 +1,4 @@
+C:\Users\Kamil\Documents\Visual Studio 2010\Projects\PoiGatherer\PoiGatherer\bin\x64\Debug\PoiGatherer.exe
+C:\Users\Kamil\Documents\Visual Studio 2010\Projects\PoiGatherer\PoiGatherer\bin\x64\Debug\PoiGatherer.pdb
+C:\Users\Kamil\Documents\Visual Studio 2010\Projects\PoiGatherer\PoiGatherer\obj\x64\Debug\PoiGatherer.exe
+C:\Users\Kamil\Documents\Visual Studio 2010\Projects\PoiGatherer\PoiGatherer\obj\x64\Debug\PoiGatherer.pdb

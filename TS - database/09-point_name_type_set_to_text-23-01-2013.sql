@@ -1,0 +1,1 @@
+ALTER TABLE `point` CHANGE `point_name` `point_name` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL	--d³u¿sze nazwy siê nie mieœci³y.
