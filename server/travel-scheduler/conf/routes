@@ -20,6 +20,7 @@ PUT        /user/trip                     controllers.Application.saveTrip()
 GET        /places/destinations/:name     controllers.TripController.getPlaceByPhrase(name : String)
 GET        /places/destination/:id        controllers.TripController.getPlaceById(id : String)
 GET        /places/destination/:id/images controllers.TripController.getPlaceImageById(id : String)
+GET        /places/hotel/:id              controllers.TripController.getHotelById(id : Long)
 
 # Points of interest
 GET        /places/pois                   controllers.TripController.getPois(long : Double, latt : Double, radius : Double, withdetails : Boolean)

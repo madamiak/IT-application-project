@@ -27,7 +27,20 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public class ApplicationTest {
 
-//	@Ignore
+	@Test
+	public void shouldReturnHotels() throws Exception {
+		FakeApplication fakeApplication = Helpers.fakeApplication();
+		Helpers.running(fakeApplication, new Runnable() {
+			@Override
+			public void run() {
+				Result result = Helpers.callAction(controllers.routes.ref.TripController.getHotelById(1));
+				System.out.println(Helpers.contentAsString(result));
+			}
+		});
+		Helpers.stop(fakeApplication);
+	}
+	
+	@Ignore
 	@Test
 	public void shouldReturnAllUserTrips() throws Exception {
 		FakeApplication fakeApplication = Helpers.fakeApplication();
