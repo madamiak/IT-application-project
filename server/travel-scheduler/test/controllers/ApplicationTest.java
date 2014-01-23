@@ -29,7 +29,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public class ApplicationTest {
 
-	@Ignore
+//	@Ignore
 	@Test
 	public void shouldReturnAllUserTrips() throws Exception {
 		FakeApplication fakeApplication = Helpers.fakeApplication();

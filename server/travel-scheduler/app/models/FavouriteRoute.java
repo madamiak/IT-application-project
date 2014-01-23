@@ -20,6 +20,7 @@ import models.dto.FavouriteRoutesDTO;
 import play.db.ebean.Model;
 import play.libs.Json;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 
 @Entity
@@ -30,6 +31,7 @@ public class FavouriteRoute extends Model {
 	@Id
 	@Column(name = "idfavourite_route")
 	public long id;
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_ID")
 	public User user;
