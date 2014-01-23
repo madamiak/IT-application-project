@@ -1,57 +1,29 @@
 <div ng-controller="MainController" id="main-container">
 
-<div class="navbar navbar-fixed-top">
-  <div class="navbar-inner">
-  		<div ng-class="{hide : !loggedIn}">
-	  		<div class="pull-right">
-		  		<form class="form-inline pull-right" style="margin-bottom: 0;" ng-submit="tryLogout()">
-		  			<i class="icon-user"></i>{{loggedMessage}}<strong>{{username}}</strong>
-		  			<button type="submit" class="btn btn-small btn-inverse">Sign out</button>
-		  		</form>
-	  		</div>
-  		</div>
+	<div login-panel></div>
 
-  		<div ng-class="{hide: loggedIn}">
+	<div id="sidebar">
+		<h1 id="travel-scheduler-top">Travel scheduler</h1>
+		<tabset>
+			<tab heading="Plan" class="tab-plan">
+				<p class="lead">{{searchMessage}}</p>
+				<div search-form></div>
+			</tab>
 
-		    <div class="pull-right" id="top-form">
-				<form class="form-inline pull-right" ng-submit="tryLogin()">
-		    	<small><i class="icon-user"></i> {{loginStatus}}</small>
+			<tab heading="Explore"  class="tab-explore" select="explore()">
+				Explore trips!
+			</tab>
 
-			  <input type="text" ng-model="username" class="input-small" placeholder="Username">
-			  <input type="password" ng-model="password" class="input-small" placeholder="Password">
-			  <label class="checkbox">
-			    <input type="checkbox"> <small>Remember </small>
-			  </label>
-			  <button type="submit" class="btn btn-small btn-inverse" style="margin-top: 0; ">Sign in</button>
-			  <small>Don't have an account? <a href="#">register now!</a></small>
-			</form>
-	   	</div>
-	   </div>
-  </div>
+			<tab heading="Share"  class="tab-share" select="share()">
+				Share.
+			</tab>
+		</tabset>
 
-</div>
-		<div id="sidebar">
-			<h1 id="travel-scheduler-top">Travel scheduler</h1>
-			<tabset>
-				<tab heading="Plan" class="tab-plan">
-					<p class="lead">{{searchMessage}}</p>
-					<div search-form></div>
-				</tab>
+	</div>
 
-				<tab heading="Explore"  class="tab-explore" select="explore()">
-					Explore trips!
-				</tab>
-
-				<tab heading="Share"  class="tab-share" select="share()">
-					Share.
-				</tab>
-			</tabset>
-
-		</div>
-
-		<div id="content">
-			<div trip-preview></div>
-		</div>
+	<div id="content">
+		<div trip-preview></div>
+	</div>
 
 </div>
 

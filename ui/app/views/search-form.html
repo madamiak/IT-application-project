@@ -5,16 +5,16 @@
 
       <ul class="unstyled">
         <li ng-repeat="point in middlePoints">
-            <div class="controls">
-              <div class="input-prepend">
-                <span class="add-on"><i class="icon-map-marker"/></span>
-                <input type="text" ng-change="updateAutosugestion(point.place)" ng-model="point.place" placeholder="{{point.placeholder}}" typeahead="place as place.value for place in places | limitTo:15" typeahead-loading="isLoading" value="{{point.place}}" required> 
+          <div class="controls">
+            <div class="input-prepend">
+              <span class="add-on"><i class="icon-map-marker"/></span>
+              <input type="text" ng-change="updateAutosugestion(point.place)" ng-model="point.place" placeholder="{{point.placeholder}}" typeahead="place as place.value for place in places | limitTo:15" typeahead-loading="isLoading" value="{{point.place}}" required> 
             </div>
           </div>
         </li>
       </ul>
       <div ng:show="!!isLoading">loading...</div>
-    
+
       <button type="button" class="btn btn-mini btn-success" ng-class="{disabled: !directionCanBeAdded()}" ng-click="addDirection()" popover="{{getAddDirectionMessage()}}" popover-trigger="mouseenter" popover-placement="bottom"><i class="icon-plus icon-white"/></button>
 
       <button type="button" id="button-small-remove" class="btn btn-mini btn-danger" ng-class="{disabled: !directionCanBeRemoved()}" ng-click="removeDirection()" popover="{{getRemoveDirectionMessage()}}" popover-trigger="mouseenter" popover-placement="bottom"><i class="icon-remove icon-white"/></button>
@@ -22,25 +22,30 @@
       <button class="btn btn-primary" id="schedule-trip-submit" type="submit"><i class="icon-search icon-white"/> search</button>
     </form>
 
-    <div id="search-summary">
-      {{searchText}}
-    </div>
+
 
     <div id="loading-route" ng-class="{hide: !showLoading()}">
       The route is being calculated...
-     <div><progress percent="100" class="progress-striped active"> The route is being calculated...</progress></div>
+      <div>
+        <progress percent="100" class="progress-striped active"> The route is being calculated...</progress>
+      </div>
     </div>
 
-  
+    <div id="search-summary" style="margin-bottom: 15px;">
+        <strong>{{searchText}}</strong>
+    </div>
 
-  <div collapse="!isCollapsed">
-   <table class="table adv-preffs-table"><td>
-  <input type="checkbox" id="inlineCheckbox1" value="option1">
-</td><td>Suggest POIs along the way</td></tr>
-     <tr><td><input type="checkbox" id="inlineCheckbox1" value="option1"></td><td>Optimize the route</td></tr>
-      <tr><td><input type="text" style="width: 20px;"></td><td>Number of people</td></tr>
-    <tr><td><input type="text" style="width: 35px;"></td><td>Number of kilometers per day</td></tr>
-   </table>
-  </div>
-  </div>
+    <div collapse="!isCollapsed">
+     <table class="table adv-preffs-table">
+      <td>
+        <input type="checkbox" ng-model="additionalPrefferences.suggest">
+        </td><td>Suggest me POI</td></tr>
+        <tr><td><input type="checkbox" ></td><td>Suggest me POIs along the way</td></tr>
+        <tr><td><input type="text" ng-model="additionalPrefferences.numberOfPeople" style="width: 20px;"></td><td>Number of people</td></tr>
+        <tr><td><input type="text"  ng-model="additionalPrefferences.kmPerDay" style="width: 35px;"></td><td>Number of kilometers per day</td></tr>
+     </table>
+    </div>
+
   <button class="btn btn-small advanced-button" style="display: block; margin: 0 auto 10px;" ng-click="isCollapsed = !isCollapsed">advanced options <i class="icon-list"></i></button>
+  </div>
+

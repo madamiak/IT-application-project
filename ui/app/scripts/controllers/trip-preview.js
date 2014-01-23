@@ -1,6 +1,6 @@
 
 
-angular.module('uiApp').controller('TripPreviewController', function ($scope) {
+angular.module('uiApp').controller('TripPreviewController', function ($scope,authService) {
 	
 	$scope.mapIsVisible = false;
 	$scope.routeData=[];
@@ -72,4 +72,8 @@ angular.module('uiApp').controller('TripPreviewController', function ($scope) {
 	};
 
 	$scope.$on('showMap', $scope.mapShownEvent);
+
+	$scope.saveRoute = function() {
+		console.log(authService.isAuthorized()?"Authorized to save":"Not authorized to save");
+	}
 });
