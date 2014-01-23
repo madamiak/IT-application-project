@@ -17,7 +17,7 @@
  			<button class="btn btn-big btn-warning" ng-click="saveRoute()"><strong>Save the route</strong></button>
  			<button class="btn btn-big btn-primary"ng-click="shareRoute()"><strong>Share...</strong></button>
  		</div>
- 		<table class="table table-hover table-bordered table-striped">
+ 		<table class="table table-hover table-bordered">
 	 		<thead>
 		 		<tr>
 		 			<th>Step</th><th>Instructions</th>
@@ -26,7 +26,18 @@
 	 		<tbody>
 	 			<tr ng-repeat="step in directions">
 	 				<td><span class="badge">{{step.step}}</span></td>
-					<td ng-show="step.type=='Hotel'">Stay overnight in <strong>{{step.name}}</strong>  <i class="icon-home"></i></td>
+
+					<td ng-show="step.type=='Hotel'">Stay overnight in <strong>{{step.name}}</strong>  <i class="icon-home"></i><button class="btn btn-mini btn-warning" type="button" style="margin-left: 10px;" ng-click="toggleDetails(step)">show details <i class="icon-chevron-down"></i></button>
+						<div collapse="step.detailsVisible">
+							<div class="alert alert-success" style="margin: 10px;"><ul>
+								<li><strong>Address</strong> {{step.details.contact}}</li>
+								<li><strong>Telephone</strong> {{step.details.phone}}</li>
+								<li><strong>Description:</strong> <small>{{step.details.description}}</small></li>
+							</ul>
+							</div>
+						</div>
+					</td>
+
 					<td ng-show="step.type=='Destination'">Drive from <strong>{{step.from}}</strong> to <strong>{{step.to}}</strong> for <i class="icon-road"></i> {{step.distance}} (<i class="icon-time"></i> <small>{{step.duration}}</small>)</td>
 	 			</tr>
 	 		</tbody>

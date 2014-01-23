@@ -29,24 +29,5 @@ angular.module('uiApp').controller('LoginPanelController', function ($scope,$htt
 
 			$scope.loggedIn=authService.isAuthorized();
 		});
-		
-		// console.log($scope.username+" "+$scope.password);
-		// var reqUrl = endpoints.be+"/user/authenticate";
-		// $http({method: 'POST', url: reqUrl,data: {username: $scope.username,password: $scope.password}}).
-		// success(function(data, status, headers, config) {
-		// 	console.log(data);
-		// 	if(data.code=="UNAUTHORIZED") {
-		// 		$scope.showMessage("User "+$scope.username+" was not authorized.");
-		// 		$scope.loggedIn=false;
-		// 	}
-		// 	else if(data.code=="OK") {
-		// 		$scope.showMessage("Welcome back "+$scope.username+"!");
-		// 		$scope.loggedIn=true;
-
-		// 	}
-		// }).
-		// error(function(data, status, headers, config) {
-		// 	console.log(data);
-		// });
 	};
 });
