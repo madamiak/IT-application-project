@@ -94,14 +94,23 @@ angular.module('uiApp').controller('TripPreviewController', function ($scope,$ht
 		console.log(authService.isAuthorized()?"Authorized to save":"Not authorized to save");
 	}
 
-	$scope.toggleDetails = function(step) {
-		step.detailsVisible=!(step.detailsVisible);
+	$scope.getHotelDetails = function(step) {
 		$http.get(endpoints.be+"/places/hotel/"+step.id).success(function(data, status, headers, config) {
 			step.details=data;
-			console.log(data);
 		}).
 		error(function(data, status, headers, config) {
 			console.log("There was an error connecting to the endpoint. is the backend server running on port :9000?");
 		});
+	}
+
+	$scope.toggleDetails = function(step) {
+		step.detailsVisible=!(step.detailsVisible);
+		$scope.getHotelDetails(step);
+		
+	}
+
+	$scope.humanize = function(text) {
+		if(text)
+		return text.split("|");
 	}
 });
