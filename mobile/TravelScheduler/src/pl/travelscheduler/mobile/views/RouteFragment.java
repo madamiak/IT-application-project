@@ -9,7 +9,9 @@ import pl.travelscheduler.mobile.listeners.LocationUpdatesListener;
 import pl.travelscheduler.mobile.model.Point;
 import pl.travelscheduler.mobile.model.Travel;
 import android.app.Activity;
+import android.content.Intent;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -114,6 +116,9 @@ public class RouteFragment extends Fragment {
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
 				.getMenuInfo();
 		travel.getPoints().get(info.position);
+		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" +travel.getPoints().get(info.position).getLatitude()+","+travel.getPoints().get(info.position).getLongitude()));
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);		
 		return true;
 	}
 
