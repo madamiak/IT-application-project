@@ -34,6 +34,7 @@ body>div {
 	height: 100%;
 	width: 400px;
 	float: left;
+	position: fixed;
 }
 
 #sidebar .tabbable ul.nav {
@@ -126,4 +127,17 @@ ul.typeahead {
 
 .label {
 	margin-right: 3px;
+}
+
+#trip-preview {
+	padding-bottom: 20px;
+}
+
+#messages {
+	position: fixed;
+	z-index: 99999;
+	width: 50%;
+	top: 0;
+	bottom: 0;
+	padding: 20px; 
 }

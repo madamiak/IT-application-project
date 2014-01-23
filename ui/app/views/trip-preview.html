@@ -1,58 +1,64 @@
 <div ng-controller="TripPreviewController" id="trip-preview">
- 	<div ng-show="mapIsVisible">
- 	
- 		<div id="test-map" class="google-maps" style="height:400px;">
- 		</div>
- 		
- 		<div style="margin: 12px;">
-  			<div class="pull-left"><h2>Distance <small>{{routeData.summary.distance.text}}</small></h2>
-  				<h2>Duration <small>{{routeData.summary.duration.text}}</small></h2>
-  				<h2>POIs <small><span class="badge">{{poiNumber}}</span> places of interest found</small> 
-	  				<button type="button" class="btn btn-small" ng-click="togglePois()">show POIs
-	  				</button>
-  				</h2>
+	<div ng-show="mapIsVisible">
+
+		<div id="test-map" class="google-maps" style="height:500px; margin-bottom: 20px;">
+		</div>
+
+		<div style="margin: 10px 20px;">
+
+			<alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+
+			<div style="margin: 12px;">
+				<div class="pull-left"><h2>Distance <small>{{routeData.summary.distance.text}}</small></h2>
+					<h2>Duration <small>{{routeData.summary.duration.text}}</small></h2>
+					<h2>POIs <small><span class="badge">{{poiNumber}}</span> places of interest found</small> 
+						<button type="button" class="btn btn-small" ng-click="togglePois()">show POIs
+						</button>
+					</h2>
+					<h2>Cost <small>{{getOverallCost(routeData.summary.distance.value)}} PLN / {{getOverallCostPerPerson(routeData.summary.distance.value,4)}} per person</small></h2>
+				</div>
+
+				<div class="pull-right" style="padding: 20px;">
+					<button class="btn btn-big btn-warning" ng-click="saveRoute()"><strong>Save the route</strong></button>
+					<button class="btn btn-big btn-primary"ng-click="shareRoute()"><strong>Share...</strong></button>
+				</div>
+				<table class="table table-hover table-bordered" style="margin-bottom: 50px;">
+					<thead>
+						<tr>
+							<th>Step</th><th>Instructions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="step in directions">
+							<td><span class="badge">{{step.step}}</span></td>
+
+							<td ng-show="step.type=='Hotel'">Stay overnight in <strong>{{step.name}}</strong>  <i class="icon-home"></i><button class="btn btn-mini btn-warning" type="button" style="margin-left: 10px;" ng-click="toggleDetails(step)">show details <i class="icon-chevron-down"></i></button>
+								<div collapse="step.detailsVisible">
+									<div class="alert alert-success" style="margin: 10px;">
+										<table class="table">
+											<tr><td><strong>Address</strong></td><td> {{step.details.contact}}</td></tr>
+											<tr><td><strong>Telephone</strong></td><td> {{step.details.phone}}</td></tr>
+											<tr><td><strong>Description</strong></td><td> <div style="overflow: auto; display: block; height: 70px;"><small>{{step.details.description}}</small></div></td></tr>
+											<tr><td><strong>Comforts</strong></td><td><span ng-repeat="item in humanize(step.details.comforts)" class="label">{{item}}</span></td></tr>
+											<tr><td><strong>Equipment</strong></td><td> 
+												<span ng-repeat="item in humanize(step.details.equipment)" class="label">{{item}}</span>
+											</td></tr>
+											<tr><td><strong>Payment type</strong></td><td> <span ng-repeat="item in humanize(step.details.payment)" class="label">{{item}}</span></td></tr>
+											<tr><td><strong>Available rooms</strong></td><td> {{step.details.rooms}}</small></td></tr>
+											<tr><td><strong>Sports</strong></td><td><span ng-repeat="item in humanize(step.details.sports)" class="label">{{item}}</span></td></tr>
+											<tr><td><strong>Rating</strong></td><td> <div class="progress progress-success pull-left" style="width: 100px; margin-left: 10px">
+												<div class="bar" style="width: {{step.details.stars*20}}%"></div>
+											</div><strong>{{step.details.stars}}</strong> ({{step.details.ratings}} votes)</small></td></tr>
+											<tr><td><strong>Target</strong></td><td> dla {{step.details.target}}</small></td></tr>
+										</table>
+									</div>
+								</div>
+							</td>
+
+							<td ng-show="step.type=='Destination'">Drive from <strong>{{step.from}}</strong> to <strong>{{step.to}}</strong> for <i class="icon-road"></i> {{step.distance}} (<i class="icon-time"></i> <small>{{step.duration}}</small>)</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
-
- 		<div class="pull-right" style="padding: 20px;">
- 			<button class="btn btn-big btn-warning" ng-click="saveRoute()"><strong>Save the route</strong></button>
- 			<button class="btn btn-big btn-primary"ng-click="shareRoute()"><strong>Share...</strong></button>
- 		</div>
- 		<table class="table table-hover table-bordered">
-	 		<thead>
-		 		<tr>
-		 			<th>Step</th><th>Instructions</th>
-		 		</tr>
-	 		</thead>
-	 		<tbody>
-	 			<tr ng-repeat="step in directions">
-	 				<td><span class="badge">{{step.step}}</span></td>
-
-					<td ng-show="step.type=='Hotel'">Stay overnight in <strong>{{step.name}}</strong>  <i class="icon-home"></i><button class="btn btn-mini btn-warning" type="button" style="margin-left: 10px;" ng-click="toggleDetails(step)">show details <i class="icon-chevron-down"></i></button>
-						<div collapse="step.detailsVisible">
-							<div class="alert alert-success" style="margin: 10px;">
-							<table class="table">
-								<tr><td><strong>Address</strong></td><td> {{step.details.contact}}</td></tr>
-								<tr><td><strong>Telephone</strong></td><td> {{step.details.phone}}</td></tr>
-								<tr><td><strong>Description</strong></td><td> <div style="overflow: auto; display: block; height: 70px;"><small>{{step.details.description}}</small></div></td></tr>
-								<tr><td><strong>Comforts</strong></td><td><span ng-repeat="item in humanize(step.details.comforts)" class="label">{{item}}</span></td></tr>
-								<tr><td><strong>Equipment</strong></td><td> 
-								<span ng-repeat="item in humanize(step.details.equipment)" class="label">{{item}}</span>
-								</td></tr>
-								<tr><td><strong>Payment type</strong></td><td> <span ng-repeat="item in humanize(step.details.payment)" class="label">{{item}}</span></td></tr>
-								<tr><td><strong>Available rooms</strong></td><td> {{step.details.rooms}}</small></td></tr>
-								<tr><td><strong>Sports</strong></td><td><span ng-repeat="item in humanize(step.details.sports)" class="label">{{item}}</span></td></tr>
-								<tr><td><strong>Rating</strong></td><td> <div class="progress progress-success pull-left" style="width: 100px; margin-left: 10px">
-  <div class="bar" style="width: {{step.details.stars*20}}%"></div>
-</div><strong>{{step.details.stars}}</strong> ({{step.details.ratings}} votes)</small></td></tr>
-								<tr><td><strong>Target</strong></td><td> dla {{step.details.target}}</small></td></tr>
-							</table>
-							</div>
-						</div>
-					</td>
-
-					<td ng-show="step.type=='Destination'">Drive from <strong>{{step.from}}</strong> to <strong>{{step.to}}</strong> for <i class="icon-road"></i> {{step.distance}} (<i class="icon-time"></i> <small>{{step.duration}}</small>)</td>
-	 			</tr>
-	 		</tbody>
- 		</table>
- 	</div>
-</div>
+		</div>
+	</div>

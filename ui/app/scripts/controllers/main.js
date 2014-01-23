@@ -29,7 +29,7 @@ angular.module('uiApp').directive('tripPreview', function() {
 
 angular.module('uiApp').factory('authService',['$http','endpoints',function($http,endpoints) {
 	var _isAuthorized = false;
-
+	var _userName=undefined;
 	return {
 		isAuthorized: function() {
 			return _isAuthorized;
@@ -39,6 +39,8 @@ angular.module('uiApp').factory('authService',['$http','endpoints',function($htt
 			$http.post(reqUrl,{username: user,password: pass}).
 			success(function(response, status, headers, config) {
 				_isAuthorized=response.code=="OK";
+				if(_isAuthorized) _userName=response.data.login;
+				else _userName=undefined;
 				callback(response);
 			}).
 			error(function(data, status, headers, config) {
@@ -48,7 +50,11 @@ angular.module('uiApp').factory('authService',['$http','endpoints',function($htt
 		},
 		logout: function() {
 			_isAuthorized=false;
+		},
+		getUserName: function() {
+			return _userName;
 		}
+
 	}
 }]);
 
