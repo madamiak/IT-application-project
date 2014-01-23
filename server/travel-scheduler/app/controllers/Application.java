@@ -82,7 +82,7 @@ public class Application extends Controller {
 		return ok(favouriteRoute.asJson());
 	}
 
-	public static Result getAllTripsByUserId(int userId) {
-		return ok(Json.toJson(FavouriteRoute.toDTO(FavouriteRoute.getAllByUserId(userId))));
+	public static Result getAllTripsByUserId(long userId) {
+		return ok(Json.toJson(FavouriteRoute.getAllByUserId(userId)));
 	}
 }

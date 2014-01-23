@@ -31,6 +31,68 @@ public class ApplicationTest {
 
 	@Ignore
 	@Test
+	public void shouldReturnAllUserTrips() throws Exception {
+		FakeApplication fakeApplication = Helpers.fakeApplication();
+		Helpers.running(fakeApplication, new Runnable() {
+			@Override
+			public void run() {
+				Ebean.beginTransaction();
+				
+				FakeRequest fakeReq = Helpers.fakeRequest();
+				fakeReq.withHeader("Content-Type", "application/json");
+				String tripAsJson = "{"
+						+ "    \"login\" : \"maciej@gmail.com\","
+						+ "    \"route\" : {"
+						+ "        \"name\" : \"first trip\","
+						+ "        \"start_at\": \"2013-12-19 20:00\","
+						+ "        \"budget\" : \"250.00\","
+						+ "        \"points\" : ["
+						+ "            {"
+						+ "                \"id\" : \"11975\""
+						+ "            },"
+						+ "            {"
+						+ "                \"id\" : \"11978\""
+						+ "            }"
+						+ "        ]"
+						+ "    }"
+						+ "}";
+				fakeReq.withJsonBody(Json.parse(tripAsJson ));
+				Result result = Helpers.callAction(controllers.routes.ref.Application.saveTrip(), fakeReq );
+				System.out.println(Helpers.contentAsString(result));
+				
+				fakeReq = Helpers.fakeRequest();
+				fakeReq.withHeader("Content-Type", "application/json");
+				tripAsJson = "{"
+						+ "    \"login\" : \"maciej@gmail.com\","
+						+ "    \"route\" : {"
+						+ "        \"name\" : \"first trip\","
+						+ "        \"start_at\": \"2013-12-19 20:00\","
+						+ "        \"budget\" : \"250.00\","
+						+ "        \"points\" : ["
+						+ "            {"
+						+ "                \"id\" : \"11979\""
+						+ "            },"
+						+ "            {"
+						+ "                \"id\" : \"11980\""
+						+ "            }"
+						+ "        ]"
+						+ "    }"
+						+ "}";
+				fakeReq.withJsonBody(Json.parse(tripAsJson ));
+				result = Helpers.callAction(controllers.routes.ref.Application.saveTrip(), fakeReq );
+				System.out.println(Helpers.contentAsString(result));
+				
+				result = Helpers.callAction(controllers.routes.ref.Application.getAllTripsByUserId(User.getByLogin("maciej@gmail.com").id));
+				System.out.println(Helpers.contentAsString(result));
+				
+				Ebean.rollbackTransaction();
+			}
+		});
+		Helpers.stop(fakeApplication);
+	}
+	
+	@Ignore
+	@Test
 	public void shouldAuthenticateUserAfterRegistering() throws Exception {
 		FakeApplication fakeApplication = Helpers.fakeApplication();
 		Helpers.running(fakeApplication, new Runnable() {

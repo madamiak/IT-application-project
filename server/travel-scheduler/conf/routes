@@ -12,7 +12,7 @@ OPTIONS /*all 								controllers.Application.enableCors(all)
 POST       /user/authenticate             controllers.Application.authenticate()
 PUT        /user/register                 controllers.Application.register()
 GET        /user/:id/preferences          controllers.PreferencesController.getById(id : Int)
-GET        /user/:id/trips                controllers.Application.getAllTripsByUserId(id : Int)
+GET        /user/:id/trips                controllers.Application.getAllTripsByUserId(id : Long)
 PUT        /user/trip                     controllers.Application.saveTrip()
 
 # Trip RESTful API
