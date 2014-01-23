@@ -24,6 +24,7 @@ import models.user.Response;
 import models.user.ResponseCode;
 import play.db.ebean.Model;
 import play.libs.Json;
+import play.mvc.Content;
 import services.PointOrderManipulator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -194,6 +195,15 @@ public class Point extends Model {
 					&& newDestination[1] + treshold > point.longitude && newDestination[1] - treshold < point.longitude) {
 				return point;
 			}
+		}
+		return null;
+	}
+
+	public static HotelParameters getHotelById(long id) {
+		List<HotelParameters> list = HotelParameters.find.all();
+		for (HotelParameters hotelParameters : list) {
+			if(hotelParameters.point.id == id)
+				return hotelParameters;
 		}
 		return null;
 	}

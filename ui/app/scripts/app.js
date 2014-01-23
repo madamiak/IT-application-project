@@ -19,7 +19,6 @@ angular.module('uiApp', [
   })
 
 
-  .config(function($httpProvider) {
+  .config(function ($httpProvider) {
     $httpProvider.defaults.useXDomain = true;
-
   });

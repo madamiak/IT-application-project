@@ -1,25 +1,21 @@
 package services;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.fasterxml.jackson.databind.JsonNode;
-
 import models.Point;
 import models.domain.DistanceData;
 import models.domain.DurationData;
 import models.domain.PointsPairData;
 import models.domain.RouteData;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
 public class GoogleRouteFinder implements RouteFinder {
 
 	@Override
 	public RouteData getRoute(PointsPairData points) {
-		JsonNode routeJson = GoogleDirectionsAPI.getRoute(points.origin, points.destination);
+		JsonNode routeJson = askGoogle(points);
 		RouteData routeDTO = new RouteData();
 		routeDTO.duration = new DurationData();
 		routeDTO.distance = new DistanceData();
@@ -31,11 +27,15 @@ public class GoogleRouteFinder implements RouteFinder {
 		return routeDTO;
 	}
 
+	private JsonNode askGoogle(PointsPairData points) {
+		return GoogleDirectionsAPI.getRoute(points.origin, points.destination);
+	}
+
 	@Override
 	public Point getAlternativeWaypoint(PointsPairData points, int meters) {
 		int currentMeters = 0;
 		double[] newDestination = new double[2];
-		JsonNode routeJson = GoogleDirectionsAPI.getRoute(points.origin, points.destination);
+		JsonNode routeJson = askGoogle(points);
 		try {
 			JSONArray array = new JSONArray(routeJson.findValue("steps").toString());
 			for(int i = 0; i < array.length(); i++) {

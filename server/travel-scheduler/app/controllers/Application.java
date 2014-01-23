@@ -47,7 +47,6 @@ public class Application extends Controller {
 		DynamicForm requestData = Form.form().bindFromRequest();
 		username = requestData.get("username");
 		password = requestData.get("password");
-		System.out.println(username+password);
 		return ok(User.authenticate(username, password).toJson());
 	}
 
@@ -82,7 +81,7 @@ public class Application extends Controller {
 		return ok(favouriteRoute.asJson());
 	}
 
-	public static Result getAllTripsByUserId(int userId) {
+	public static Result getAllTripsByUserId(long userId) {
 		return ok(Json.toJson(FavouriteRoute.toDTO(FavouriteRoute.getAllByUserId(userId))));
 	}
 }

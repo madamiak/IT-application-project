@@ -58,6 +58,10 @@ public class TripController extends Controller {
 	public static Result getPoiById(String id) {
 		return ok(Point.getPOIById(Integer.parseInt(id)));
 	}
+	
+	public static Result getHotelById(long id) {
+		return ok(Json.toJson(Point.getHotelById(id)));
+	}
 
 	public static Result getScheduledTrip(String ids, String prefs) throws JSONException {
 

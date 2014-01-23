@@ -3,44 +3,15 @@
 
 angular.module('uiApp').controller('MainController', function ($scope,$http) {
 
-  		$scope.endpoint='http://localhost:9000';
-		
-		//add to local storage if needed
-		$scope.loggedIn = false;
-		$scope.notLoggedMessage = "You are not logged in.";
-		$scope.loggedMessage = "Hello, ";
-
-  		$scope.username;
-  		$scope.password;
-  		
-  		$scope.showMessage = function(message) {alert(message);}
-
-  		$scope.tryLogout = function() {
-  			$scope.loggedIn=false;
-  		}
-  		$scope.tryLogin = function() {
-  			console.log($scope.username+" "+$scope.password);
-  			var reqUrl = $scope.endpoint+"/user/authenticate";
-  			$http({method: 'POST', url: reqUrl,data: {username: $scope.username,password: $scope.password}}).
-			  success(function(data, status, headers, config) {
-			  	console.log(data);
-			  	if(data.code=="UNAUTHORIZED") {
-			  		$scope.showMessage("User "+$scope.username+" was not authorized.");
-			  		$scope.loggedIn=false;
-			  	}
-			  	else if(data.code=="OK") {
-			  		$scope.showMessage("Welcome back "+$scope.username+"!");
-			  		$scope.loggedIn=true;
-			  		
-			  	}
-			  }).
-			  error(function(data, status, headers, config) {
-			   console.log(data);
-			   });
-  		};
-		
-	
 });
+
+angular.module('uiApp').directive('loginPanel', function() {
+	return {
+		templateUrl: 'views/login-panel.html',
+		controller: 'LoginPanelController'
+	};
+});
+
 
 angular.module('uiApp').directive('searchForm', function() {
 	return {
@@ -54,4 +25,35 @@ angular.module('uiApp').directive('tripPreview', function() {
 		templateUrl: 'views/trip-preview.html',
 		controller: 'TripPreviewController'
 	};
+});
+
+angular.module('uiApp').factory('authService',['$http','endpoints',function($http,endpoints) {
+	var _isAuthorized = false;
+
+	return {
+		isAuthorized: function() {
+			return _isAuthorized;
+		},
+		authorize: function(user,pass,callback) {
+			var reqUrl = endpoints.be+"/user/authenticate";
+			$http.post(reqUrl,{username: user,password: pass}).
+			success(function(response, status, headers, config) {
+				_isAuthorized=response.code=="OK";
+				callback(response);
+			}).
+			error(function(data, status, headers, config) {
+				console.log("There was an error authorising user "+user);
+				console.log(data+status+headers+config);
+			});
+		},
+		logout: function() {
+			_isAuthorized=false;
+		}
+	}
+}]);
+
+angular.module('uiApp').factory('endpoints',function() {
+	return {
+		be: 'http://localhost:9000'
+	}
 });
