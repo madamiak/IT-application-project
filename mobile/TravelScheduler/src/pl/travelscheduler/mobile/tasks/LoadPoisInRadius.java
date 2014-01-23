@@ -43,7 +43,8 @@ public class LoadPoisInRadius extends AsyncTask<String, Void, Void>
 		{
 			String parameters = "?long="+location.getLongitude()+
 								"&latt="+location.getLatitude()+
-								"&radius="+AppParameters.POIS_RADIUS;
+								"&radius="+AppParameters.POIS_RADIUS+
+								"&withdetails=false";
 			HttpResponse response = HttpHelper.get(AppParameters.SERVER_URL + 
 					AppParameters.POIS_SERVICE +  parameters);
 			if(response != null)

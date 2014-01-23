@@ -76,7 +76,7 @@ public class PointAdapter extends ArrayAdapter<Point>
 	private void showImage(View rowView, Point currentItem)
 	{
         ImageView imgVImage = (ImageView) rowView.findViewById(R.id.pointItemImg);
-        if(!currentItem.getImages().isEmpty())
+        if(currentItem.getImages() != null && !currentItem.getImages().isEmpty())
         {
         	//TODO obsluga URL'i z pierwszym zdjeciem
         	imgVImage.setVisibility(View.VISIBLE);

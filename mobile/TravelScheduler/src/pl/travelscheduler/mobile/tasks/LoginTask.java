@@ -17,7 +17,7 @@ public class LoginTask extends AsyncTask<String, Void, Integer>
 	{
 		try
 		{
-			String parameters = "?login="+args[0]+"&password="+args[1];
+			String parameters = "?username="+args[0]+"&password="+args[1];
 			HttpResponse response = HttpHelper.post(AppParameters.SERVER_URL + 
 					AppParameters.AUTHENTICATE_SERVICE +  parameters, null);
 			if(response != null)

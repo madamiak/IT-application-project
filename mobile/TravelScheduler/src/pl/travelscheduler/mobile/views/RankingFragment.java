@@ -174,7 +174,7 @@ public class RankingFragment extends Fragment
 			case R.id.ranking_action_refresh:
 		        if(ServicesHelper.isInternetEnabled(getActivity()))
 		        {
-		        	LoadOnlineTravelsTask task = new LoadOnlineTravelsTask(getActivity(), SOURCE.RANKING);
+		        	LoadOnlineTravelsTask task = new LoadOnlineTravelsTask(getActivity(), SOURCE.RANKING, true, null);
 		        	task.execute((String)null);
 		        }
 		        else

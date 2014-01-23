@@ -29,5 +29,5 @@
     <string name="trip_online_context_item_download">Download</string>
 	<string name="route_header">Route</string>
 	<string name="route_no_route_alert">There is no route selected. \nPlease go back and select a route.</string>
-	<string name="poi_show_on_map">Show on map</string>
+	<string name="poi_show_on_map">Navigate...</string>
 </resources>

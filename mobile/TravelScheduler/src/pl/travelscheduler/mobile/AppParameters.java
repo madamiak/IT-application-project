@@ -6,7 +6,7 @@ public class AppParameters
 	public static String AUTHENTICATE_SERVICE = "/user/authenticate";	
 	public static String POIS_SERVICE = "/places/pois";	
 	public static String POI_DATA_SERVICE = "/places/poi";
-	public static int POIS_RADIUS = 5000;
+	public static int POIS_RADIUS = 500000;
 	
 	public static String FOLDER_CACHE = "ts_cache";
 	public static String FILE_LAST_LOGIN = "last_login.tsc";

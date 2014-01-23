@@ -103,9 +103,21 @@ public class Travel implements Serializable
 
 	public boolean hasPois() 
 	{
-		return points.size()>2;
+		return points.size()>2 && poiTypePois();
 	}
 	
+	private boolean poiTypePois()
+	{
+		for(Point p : points)
+		{
+			if(p.getType() == PointType.POI)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public List<Point> getPoints()
 	{
 		return points;

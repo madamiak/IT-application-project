@@ -4,6 +4,8 @@ import pl.travelscheduler.mobile.R;
 import pl.travelscheduler.mobile.helpers.ServicesHelper;
 import pl.travelscheduler.mobile.helpers.SessionHelper;
 import pl.travelscheduler.mobile.model.DataContainer;
+import pl.travelscheduler.mobile.model.DataContainer.SOURCE;
+import pl.travelscheduler.mobile.tasks.LoadOnlineTravelsTask;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,7 +31,8 @@ public class SplashScreenActivity extends Activity
         	DataContainer.LoadRankingOnlineTravels();
         	if(SessionHelper.isUserLoggedIn())
         	{
-        		DataContainer.LoadOnlineTravels();
+        		LoadOnlineTravelsTask task = new LoadOnlineTravelsTask(this, SOURCE.MY_TRAVELS, false, null);
+				task.execute();
         	}
         }
         

@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
 
 public class LocalTravelOnItemClickListener implements OnItemClickListener
 {	
@@ -45,9 +44,6 @@ public class LocalTravelOnItemClickListener implements OnItemClickListener
 		Intent intent = new Intent(activity, DetailsActivity.class);
 		intent.putExtra("Route", clickedTravel);
 		activity.startActivity(intent);
-		
-		Toast.makeText(activity, "Selected travel: " + clickedTravel.getSource() +
-				" - " + clickedTravel.getDestination(), Toast.LENGTH_SHORT).show();
 	}
 
 }

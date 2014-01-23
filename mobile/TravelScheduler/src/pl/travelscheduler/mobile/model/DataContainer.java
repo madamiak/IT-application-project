@@ -97,6 +97,11 @@ public class DataContainer
 		Travel t4 = new Travel(4, pointList,
 				Rating.MEDIUM, firstStartingDate, TransportType.CAR, 280, 333.12, "Wro-Kato-Krk");
 		addOnlineTravel(t4);
+		
+		/*
+		 * 
+		 */
+		
 	}
 	
 	public static void LoadRankingTravels(Activity activity)
@@ -224,8 +229,16 @@ public class DataContainer
 		return pois;
 	}
 	
-	private static void addOnlineTravel(Travel t)
+	public static void addOnlineTravel(Travel t)
 	{
+		if(onlineTravels == null)
+		{
+			onlineTravels = new ArrayList<Travel>();
+		}
+		if(localTravels == null)
+		{
+			localTravels = new ArrayList<Travel>();
+		}
 		if(!localTravels.contains(t) && !onlineTravels.contains(t))
 		{
 			onlineTravels.add(t);

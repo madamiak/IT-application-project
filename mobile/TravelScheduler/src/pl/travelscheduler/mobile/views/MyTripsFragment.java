@@ -1,7 +1,6 @@
 package pl.travelscheduler.mobile.views;
 
 import java.util.List;
-
 import pl.travelscheduler.mobile.R;
 import pl.travelscheduler.mobile.adapters.TravelAdapter;
 import pl.travelscheduler.mobile.dialogs.LoginDialog;
@@ -128,7 +127,7 @@ public class MyTripsFragment extends Fragment
 		}
 	}
 
-	private void displayOnlineTravels()
+	public void displayOnlineTravels()
 	{
 		List<Travel> onlineTravels = DataContainer.getOnlineTravels();		
 		if(onlineTravels != null && onlineTravels.size() > 0)
@@ -194,8 +193,8 @@ public class MyTripsFragment extends Fragment
 		        {
 		        	if(SessionHelper.isUserLoggedIn())
 		        	{
-		        		LoadOnlineTravelsTask task = new LoadOnlineTravelsTask(getActivity(), SOURCE.MY_TRAVELS);
-		        		task.execute((String)null);
+		        		LoadOnlineTravelsTask task = new LoadOnlineTravelsTask(getActivity(), SOURCE.MY_TRAVELS, true, this);
+						task.execute();
 		        	}
 		        	else
 		        	{
