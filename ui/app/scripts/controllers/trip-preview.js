@@ -1,6 +1,6 @@
 
 
-angular.module('uiApp').controller('TripPreviewController', function ($scope,authService) {
+angular.module('uiApp').controller('TripPreviewController', function ($scope,$http,endpoints,authService) {
 	
 	$scope.mapIsVisible = false;
 	$scope.routeData=[];
@@ -74,9 +74,11 @@ angular.module('uiApp').controller('TripPreviewController', function ($scope,aut
        		});
        		if(scope.routeData.points[i+1].type=="Hotel") {
        			scope.directions.push({
+       			"id": scope.routeData.points[i+1].id,
        			"type": scope.routeData.points[i+1].type,
        		    "step": (iterator++),
-       		    "name": scope.routeData.points[i+1].name
+       		    "name": scope.routeData.points[i+1].name,
+       		    "detailsVisible": true
        			});
        		}
        	}
@@ -90,5 +92,16 @@ angular.module('uiApp').controller('TripPreviewController', function ($scope,aut
 
 	$scope.saveRoute = function() {
 		console.log(authService.isAuthorized()?"Authorized to save":"Not authorized to save");
+	}
+
+	$scope.toggleDetails = function(step) {
+		step.detailsVisible=!(step.detailsVisible);
+		$http.get(endpoints.be+"/places/hotel/"+step.id).success(function(data, status, headers, config) {
+			step.details=data;
+			console.log(data);
+		}).
+		error(function(data, status, headers, config) {
+			console.log("There was an error connecting to the endpoint. is the backend server running on port :9000?");
+		});
 	}
 });
