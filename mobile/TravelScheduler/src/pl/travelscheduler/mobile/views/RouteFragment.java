@@ -114,6 +114,9 @@ public class RouteFragment extends Fragment {
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
 				.getMenuInfo();
 		travel.getPoints().get(info.position);
+		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" +travel.getPoints().get(info.position).getLatitude()+","+travel.getPoints().get(info.position).getLongitude()));
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);		
 		return true;
 	}
 
