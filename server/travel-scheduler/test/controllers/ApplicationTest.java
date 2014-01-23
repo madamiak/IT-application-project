@@ -4,9 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import models.FavouriteRoute;
 import models.Groups;
@@ -36,94 +34,13 @@ public class ApplicationTest {
 		Helpers.running(fakeApplication, new Runnable() {
 			@Override
 			public void run() {
-				Ebean.beginTransaction();
-				
-				FakeRequest fakeReq = Helpers.fakeRequest();
-				fakeReq.withHeader("Content-Type", "application/json");
-				String tripAsJson = "{"
-						+ "    \"login\" : \"maciej@gmail.com\","
-						+ "    \"route\" : {"
-						+ "        \"name\" : \"first trip\","
-						+ "        \"start_at\": \"2013-12-19 20:00\","
-						+ "        \"budget\" : \"250.00\","
-						+ "        \"points\" : ["
-						+ "            {"
-						+ "                \"id\" : \"11975\""
-						+ "            },"
-						+ "            {"
-						+ "                \"id\" : \"11978\""
-						+ "            }"
-						+ "        ]"
-						+ "    }"
-						+ "}";
-				fakeReq.withJsonBody(Json.parse(tripAsJson ));
-				Result result = Helpers.callAction(controllers.routes.ref.Application.saveTrip(), fakeReq );
+				Result result = Helpers.callAction(controllers.routes.ref.Application.getAllTripsByUserId(User.getByLogin("maciej@gmail.com").id));
 				System.out.println(Helpers.contentAsString(result));
-				
-				fakeReq = Helpers.fakeRequest();
-				fakeReq.withHeader("Content-Type", "application/json");
-				tripAsJson = "{"
-						+ "    \"login\" : \"maciej@gmail.com\","
-						+ "    \"route\" : {"
-						+ "        \"name\" : \"first trip\","
-						+ "        \"start_at\": \"2013-12-19 20:00\","
-						+ "        \"budget\" : \"250.00\","
-						+ "        \"points\" : ["
-						+ "            {"
-						+ "                \"id\" : \"11979\""
-						+ "            },"
-						+ "            {"
-						+ "                \"id\" : \"11980\""
-						+ "            }"
-						+ "        ]"
-						+ "    }"
-						+ "}";
-				fakeReq.withJsonBody(Json.parse(tripAsJson ));
-				result = Helpers.callAction(controllers.routes.ref.Application.saveTrip(), fakeReq );
-				System.out.println(Helpers.contentAsString(result));
-				
-				result = Helpers.callAction(controllers.routes.ref.Application.getAllTripsByUserId(User.getByLogin("maciej@gmail.com").id));
-				System.out.println(Helpers.contentAsString(result));
-				
-				Ebean.rollbackTransaction();
 			}
 		});
 		Helpers.stop(fakeApplication);
 	}
 	
-	@Ignore
-	@Test
-	public void shouldAuthenticateUserAfterRegistering() throws Exception {
-		FakeApplication fakeApplication = Helpers.fakeApplication();
-		Helpers.running(fakeApplication, new Runnable() {
-			@Override
-			public void run() {
-				Ebean.beginTransaction();
-				FakeRequest fakeRequest = new FakeRequest();
-				fakeRequest.withHeader("Content-Type", "application/json");
-				User user = new User();
-				user.name = "D";
-				user.surname = "Z";
-				user.email = "D@Z.pl";
-				user.password = "DFGHJK";
-				user.group = Groups.find.byId(64L);
-				fakeRequest.withJsonBody(Json.toJson(user));
-				Helpers.callAction(controllers.routes.ref.Application.register(), fakeRequest);
-				
-				fakeRequest = new FakeRequest();
-				Map<String, String> params = new HashMap<String, String>();
-				params.put("username", user.email);
-				params.put("password", user.password);
-				fakeRequest.withFormUrlEncodedBody(params );
-				Result result = Helpers.callAction(controllers.routes.ref.Application.authenticate(), fakeRequest);
-				System.out.println(Helpers.contentAsString(result));
-				
-				Ebean.rollbackTransaction();
-			}
-		});
-		Helpers.stop(fakeApplication);
-	}
-
 	@Ignore
 	@Test
 	public void controllerShouldSaveTrip() {
@@ -144,7 +61,7 @@ public class ApplicationTest {
 		});
 		Helpers.stop(fakeApplication);
 	}
-
+	
 	@Ignore
 	@Test
 	public void controllerShouldReturnTripsForUser() {
@@ -154,8 +71,8 @@ public class ApplicationTest {
 			public void run() {
 				FakeRequest fakeRequest = new FakeRequest();
 				Result result = Helpers.callAction(
-						controllers.routes.ref.Application
-								.getAllTripsByUserId(67), fakeRequest);
+						controllers.routes.ref.Application.getAllTripsByUserId(67),
+						fakeRequest);
 				System.out.println(Helpers.contentAsString(result));
 			}
 		});
