@@ -7,6 +7,10 @@
  		<div style="margin: 12px;">
   			<div class="pull-left"><h2>Distance <small>{{routeData.summary.distance.text}}</small></h2>
   				<h2>Duration <small>{{routeData.summary.duration.text}}</small></h2>
+  				<h2>POIs <small><span class="badge">{{poiNumber}}</span> places of interest found</small> 
+	  				<button type="button" class="btn btn-small" ng-model="singleModel" btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">show POIs
+	  				</button>
+  				</h2>
 			</div>
 
  		<div class="pull-right" style="padding: 20px;">
@@ -22,7 +26,8 @@
 	 		<tbody>
 	 			<tr ng-repeat="step in directions">
 	 				<td><span class="badge">{{step.step}}</span></td>
-					<td>Drive from <strong>{{step.from}}</strong> to <strong>{{step.to}}</strong> for <i class="icon-road"></i> {{step.distance}} (<i class="icon-time"></i> <small>{{step.duration}}</small>)</td>
+					<td ng-show="step.type=='Hotel'">Stay overnight in <strong>{{step.name}}</strong>  <i class="icon-home"></i></td>
+					<td ng-show="step.type=='Destination'">Drive from <strong>{{step.from}}</strong> to <strong>{{step.to}}</strong> for <i class="icon-road"></i> {{step.distance}} (<i class="icon-time"></i> <small>{{step.duration}}</small>)</td>
 	 			</tr>
 	 		</tbody>
  		</table>

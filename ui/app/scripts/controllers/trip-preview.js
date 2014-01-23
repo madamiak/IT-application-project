@@ -7,6 +7,7 @@ angular.module('uiApp').controller('TripPreviewController', function ($scope,aut
 	$scope.map=null;
 	$scope.markers=[];
 	$scope.directions=[];
+	$scope.poiNumber=0;
 
 	var mapOptions = {
           center: new google.maps.LatLng(50.,20.),
@@ -59,16 +60,30 @@ angular.module('uiApp').controller('TripPreviewController', function ($scope,aut
         }      
        
        // prepare directions information
-
+       var iterator=1;
        for(var i=0;i<scope.routeData.points.length-1;i++) {
+
        		scope.directions.push({
-       			"step": (i+1),
+       			"type": "Destination",
+       			"step": (iterator++),
        			"from": scope.routeData.points[i].name,
        			"to": scope.routeData.points[i+1].name,
        			"distance": scope.routeData.routes[i].distance.text,
-       			"duration": scope.routeData.routes[i].duration.text
+       			"duration": scope.routeData.routes[i].duration.text,
+
        		});
+       		if(scope.routeData.points[i+1].type=="Hotel") {
+       			scope.directions.push({
+       			"type": scope.routeData.points[i+1].type,
+       		    "step": (iterator++),
+       		    "name": scope.routeData.points[i+1].name
+       			});
+       		}
        	}
+
+       	// update POI information and display
+       	scope.poiNumber=scope.routeData.pois.length;
+       	console.log(scope.directions);
 	};
 
 	$scope.$on('showMap', $scope.mapShownEvent);
