@@ -27,9 +27,17 @@ angular.module('uiApp').directive('tripPreview', function() {
 	};
 });
 
+angular.module('uiApp').directive('exploreTrips', function() {
+	return {
+		templateUrl: 'views/explore-trips.html',
+		controller: 'ExploreTripsController'
+	};
+});
+
 angular.module('uiApp').factory('authService',['$http','endpoints',function($http,endpoints) {
 	var _isAuthorized = false;
 	var _userName=undefined;
+	var _userId=undefined;
 	return {
 		isAuthorized: function() {
 			return _isAuthorized;
@@ -39,13 +47,17 @@ angular.module('uiApp').factory('authService',['$http','endpoints',function($htt
 			$http.post(reqUrl,{username: user,password: pass}).
 			success(function(response, status, headers, config) {
 				_isAuthorized=response.code=="OK";
-				if(_isAuthorized) _userName=response.data.login;
-				else _userName=undefined;
+				if(_isAuthorized) {
+				
+					_userName=response.data.login;
+					_userId=response.data.userId;
+				}
+				else { _userName=undefined; _userId=undefined;}
 				callback(response);
 			}).
 			error(function(data, status, headers, config) {
 				console.log("There was an error authorising user "+user);
-				console.log(data+status+headers+config);
+
 			});
 		},
 		logout: function() {
@@ -53,6 +65,9 @@ angular.module('uiApp').factory('authService',['$http','endpoints',function($htt
 		},
 		getUserName: function() {
 			return _userName;
+		},
+		getUserId: function() {
+			return _userId;
 		}
 
 	}

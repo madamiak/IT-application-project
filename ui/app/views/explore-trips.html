@@ -1,0 +1,43 @@
+	 <div ng-controller="ExploreTripsController" id="explore-trips">
+    <div>
+      <button class="btn" ng-click="refreshTrips()" style="margin: 10px auto; display: block;"><i class="icon-refresh"></i> refresh</button>
+      <div class="progress progress-striped progress-success active" ng-show="tripLoading">
+       <div class="bar" style="width: 100%;"></div>
+     </div>
+     <div class="page-header">
+       <i class="icon-star"> </i> <strong>  My trips <small style="color: #999;">Your saved trips</small></strong>
+       <div class="alert alert-error" style="margin: 10px auto;"s ng-show="!auth.isAuthorized()"> <i class="icon-exclamation-sign"></i> {{errorMessage}}</div>
+
+       <div id="user-trips" collapse="!auth.isAuthorized()">
+         <table class="table">
+           <tr ng-repeat="trip in trips" style="padding: 5px 0;">
+             <td>
+             <ul class="unstyled">
+                 <li ng-repeat="point in trip.points">
+                  <span style="margin-right: 3px;" class="label" >
+                    {{point.name}}
+                  </span>
+                </li>
+              </ul>
+            </td>
+            <td>
+             <ul class="unstyled">
+             <li><i class="icon-tag"></i> <strong>budget</strong> <small>{{trip.prefferences.budget}}</small></li>
+             <li><i class="icon-road"></i> <strong>distance</strong> <small>{{trip.summary.distance.text}}</small></li>
+             <li><i class="icon-time"></i> <strong>duration</strong> <small>{{trip.summary.duration.text}}</small></li>
+           </ul>
+           <button class="pull-right btn btn-inverse btn-small" ng-click="previewTrip(trip)">preview <i class="icon-chevron-right"></i></button>
+          </td>
+      
+        
+        </tr>
+      </table>
+    </div>
+
+    
+
+  </div> 
+
+</div>
+
+
